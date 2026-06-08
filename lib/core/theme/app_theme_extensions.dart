@@ -87,33 +87,4 @@ class GlowExtension extends ThemeExtension<GlowExtension> {
   }
 }
 
-// Global static instances
-final darkGlassmorphism = GlassmorphismExtension(
-  cardColor: AppColors.glassDark,
-  borderColor: AppColors.glassBorderDark,
-  inputColor: Colors.white.withOpacity(0.04),
-  inputBorderColor: Colors.white.withOpacity(0.08),
-  inputFocusedColor: Colors.white.withOpacity(0.06),
-  inputFocusedBorderColor: AppColors.primary.withOpacity(0.6),
-);
 
-final lightGlassmorphism = GlassmorphismExtension(
-  cardColor: AppColors.glassLight,
-  borderColor: AppColors.glassBorderLight,
-  inputColor: Colors.black.withOpacity(0.03),
-  inputBorderColor: Colors.black.withOpacity(0.06),
-  inputFocusedColor: Colors.white,
-  inputFocusedBorderColor: AppColors.primary.withOpacity(0.6),
-);
-
-final darkGlow = GlowExtension(
-  redGlow: AppColors.redGlow,
-  redGlowSubtle: AppColors.redGlowSubtle,
-  redGlowIntense: AppColors.redGlowIntense,
-);
-
-final lightGlow = GlowExtension(
-  redGlow: AppColors.redGlow.withOpacity(0.15),
-  redGlowSubtle: AppColors.redGlowSubtle.withOpacity(0.05),
-  redGlowIntense: AppColors.redGlowIntense.withOpacity(0.3),
-);

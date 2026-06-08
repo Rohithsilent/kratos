@@ -1,6 +1,7 @@
 // lib/features/daily_planner/presentation/widgets/mission_card.dart
 
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -101,14 +102,14 @@ class MissionCard extends ConsumerWidget {
                               Text(
                                 '${workout.split.toUpperCase()} DAY',
                                 style: TextStyle(
-                                  color: AppColors.primary,
+                                  color: context.colors.primary,
                                   fontSize: 10,
                                   fontWeight: FontWeight.w900,
                                   letterSpacing: 1.0,
                                 ),
                               ),
                               if (isCompleted)
-                                Icon(Icons.verified_rounded, color: AppColors.success, size: 16)
+                                Icon(Icons.verified_rounded, color: context.customColors.success, size: 16)
                             ],
                           ),
                           SizedBox(height: 6),
@@ -157,7 +158,7 @@ class MissionCard extends ConsumerWidget {
                     Text(
                       isCompleted ? '100% COMPLETED' : '0% COMPLETED',
                       style: TextStyle(
-                        color: isCompleted ? AppColors.success : AppColors.primary,
+                        color: isCompleted ? context.customColors.success : context.colors.primary,
                         fontSize: 9,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 0.8,
@@ -165,7 +166,7 @@ class MissionCard extends ConsumerWidget {
                     ),
                     Row(
                       children: [
-                        Icon(Icons.local_fire_department_rounded, color: AppColors.primary, size: 12),
+                        Icon(Icons.local_fire_department_rounded, color: context.colors.primary, size: 12),
                         SizedBox(width: 4),
                         Text(
                           '$estCalories kcal est.',
@@ -183,7 +184,7 @@ class MissionCard extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(4),
                   child: LinearProgressIndicator(
                     value: isCompleted ? 1.0 : 0.0,
-                    color: isCompleted ? AppColors.success : AppColors.primary,
+                    color: isCompleted ? context.customColors.success : context.colors.primary,
                     backgroundColor: Colors.white.withOpacity(0.04),
                     minHeight: 4,
                   ),
@@ -209,11 +210,11 @@ class MissionCard extends ConsumerWidget {
                           ? LinearGradient(
                               colors: [Color(0xFF142416), Color(0xFF0F1A10)],
                             )
-                          : AppColors.primaryGradient,
+                          : context.customColors.primaryGradient,
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(
                         color: isCompleted 
-                            ? AppColors.success.withOpacity(0.3) 
+                            ? context.customColors.success.withOpacity(0.3) 
                             : Colors.white.withOpacity(0.08),
                         width: 0.8,
                       ),
@@ -221,7 +222,7 @@ class MissionCard extends ConsumerWidget {
                           ? null
                           : [
                               BoxShadow(
-                                color: AppColors.primary.withOpacity(0.2),
+                                color: context.colors.primary.withOpacity(0.2),
                                 blurRadius: 12,
                                 offset: Offset(0, 4),
                               ),
@@ -233,14 +234,14 @@ class MissionCard extends ConsumerWidget {
                         children: [
                           Icon(
                             isCompleted ? Icons.check_circle_outline_rounded : Icons.play_arrow_rounded,
-                            color: isCompleted ? AppColors.success : Colors.white,
+                            color: isCompleted ? context.customColors.success : Colors.white,
                             size: 18,
                           ),
                           SizedBox(width: 8),
                           Text(
                             isCompleted ? 'MISSION ACCOMPLISHED' : 'START WORKOUT ROUTINE',
                             style: TextStyle(
-                              color: isCompleted ? AppColors.success : Colors.white,
+                              color: isCompleted ? context.customColors.success : Colors.white,
                               fontSize: 12,
                               fontWeight: FontWeight.w900,
                               letterSpacing: 1.0,

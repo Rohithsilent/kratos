@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../core/theme/app_colors.dart';
 
 class StepProgressBar extends StatelessWidget {
@@ -23,7 +24,7 @@ class StepProgressBar extends StatelessWidget {
             Text(
               'Step $currentStep of $totalSteps',
               style: TextStyle(
-                color: isDark ? AppColors.grey400 : AppColors.grey500,
+                color: isDark ? context.customColors.grey400 : context.customColors.grey500,
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 0.5,
@@ -32,7 +33,7 @@ class StepProgressBar extends StatelessWidget {
             Text(
               '${((currentStep / totalSteps) * 100).round()}%',
               style: TextStyle(
-                color: AppColors.primary,
+                color: context.colors.primary,
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
               ),
@@ -60,11 +61,11 @@ class StepProgressBar extends StatelessWidget {
                   widthFactor: currentStep / totalSteps,
                   child: Container(
                     decoration: BoxDecoration(
-                      gradient: AppColors.primaryGradient,
+                      gradient: context.customColors.primaryGradient,
                       borderRadius: BorderRadius.circular(2),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primary.withOpacity(0.5),
+                          color: context.colors.primary.withOpacity(0.5),
                           blurRadius: 8,
                           offset: Offset(0, 0),
                         ),

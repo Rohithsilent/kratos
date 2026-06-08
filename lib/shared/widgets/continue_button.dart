@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 
@@ -58,15 +59,15 @@ class _ContinueButtonState extends State<ContinueButton>
             height: 58,
             decoration: BoxDecoration(
               gradient: widget.isEnabled
-                  ? AppColors.primaryGradient
+                  ? context.customColors.primaryGradient
                   : LinearGradient(
-                      colors: [AppColors.grey700, AppColors.grey800],
+                      colors: [context.customColors.grey700, context.customColors.grey800],
                     ),
               borderRadius: BorderRadius.circular(16),
               boxShadow: widget.isEnabled
                   ? [
                       BoxShadow(
-                        color: AppColors.primaryContainer.withOpacity(glowOpacity),
+                        color: context.colors.primary.withOpacity(glowOpacity),
                         blurRadius: 28,
                         offset: Offset(0, 8),
                         spreadRadius: -2,
@@ -88,7 +89,7 @@ class _ContinueButtonState extends State<ContinueButton>
                           width: 24,
                           height: 24,
                           child: CircularProgressIndicator(
-                            color: AppColors.white,
+                            color: Colors.white,
                             strokeWidth: 2.5,
                           ),
                         )
@@ -98,12 +99,12 @@ class _ContinueButtonState extends State<ContinueButton>
                             Text(
                               widget.text,
                               style: AppTypography.button.copyWith(
-                                color: AppColors.white,
+                                color: Colors.white,
                               ),
                             ),
                             if (widget.icon != null) ...[
                               SizedBox(width: 8),
-                              Icon(widget.icon, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900, size: 20),
+                              Icon(widget.icon, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, size: 20),
                             ],
                           ],
                         ),

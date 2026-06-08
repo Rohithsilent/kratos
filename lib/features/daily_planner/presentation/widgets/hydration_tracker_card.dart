@@ -2,6 +2,7 @@ import '../../../../core/theme/app_colors.dart';
 // lib/features/daily_planner/presentation/widgets/hydration_tracker_card.dart
 
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../controllers/hydration_controller.dart';
@@ -77,7 +78,7 @@ class HydrationTrackerCard extends ConsumerWidget {
                               children: [
                                 TextSpan(
                                   text: hydration.litersConsumed.toStringAsFixed(1),
-                                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900,
+                                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
                                     fontSize: 22,
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: -0.5,
@@ -85,7 +86,7 @@ class HydrationTrackerCard extends ConsumerWidget {
                                 ),
                                 TextSpan(
                                   text: ' / ${hydration.litersTarget.toStringAsFixed(1)} L',
-                                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.3),
+                                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.3),
                                     fontSize: 13,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -96,7 +97,7 @@ class HydrationTrackerCard extends ConsumerWidget {
                           SizedBox(height: 2),
                           Text(
                             '${hydration.glassesConsumed} of ${hydration.glassesTarget} glasses',
-                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.2),
+                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.2),
                               fontSize: 9,
                               fontWeight: FontWeight.w600,
                             ),

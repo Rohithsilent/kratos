@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../core/theme/app_colors.dart';
 
 class DateWheelPicker extends StatefulWidget {
@@ -98,7 +99,7 @@ class _DateWheelPickerState extends State<DateWheelPicker> {
                   style: TextStyle(
                     fontSize: 48,
                     fontWeight: FontWeight.w900,
-                    color: AppColors.primary,
+                    color: context.colors.primary,
                     fontFamily: 'BarlowCondensed',
                   ),
                 ),
@@ -107,7 +108,7 @@ class _DateWheelPickerState extends State<DateWheelPicker> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
-                    color: isDark ? AppColors.grey400 : AppColors.grey500,
+                    color: isDark ? context.customColors.grey400 : context.customColors.grey500,
                   ),
                 ),
               ],
@@ -127,10 +128,10 @@ class _DateWheelPickerState extends State<DateWheelPicker> {
                 height: 44,
                 margin: EdgeInsets.symmetric(horizontal: 16),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.06),
+                  color: context.colors.primary.withOpacity(0.06),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: AppColors.primary.withOpacity(0.15),
+                    color: context.colors.primary.withOpacity(0.15),
                   ),
                 ),
               ),
@@ -216,7 +217,7 @@ class _DateWheelPickerState extends State<DateWheelPicker> {
                 fontSize: isSelected ? 20 : 15,
                 fontWeight: isSelected ? FontWeight.w700 : FontWeight.w400,
                 color: isSelected
-                    ? (isDark ? AppColors.white : AppColors.grey900)
+                    ? (isDark ? Colors.white : context.customColors.grey900)
                     : (isDark
                         ? Colors.white.withOpacity(0.3)
                         : Colors.black.withOpacity(0.3)),

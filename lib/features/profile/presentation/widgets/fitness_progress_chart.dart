@@ -1,8 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_decorations.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../../core/theme/app_custom_colors.dart';
 
 class FitnessProgressChart extends StatelessWidget {
   final List<double> dailyCalories;
@@ -32,7 +34,7 @@ class FitnessProgressChart extends StatelessWidget {
               Text(
                 '7-DAY ACTIVITY',
                 style: AppTypography.labelBold.copyWith(
-                  color: isDark ? AppColors.grey400 : AppColors.grey600,
+                  color: isDark ? context.customColors.grey400 : context.customColors.grey600,
                   fontSize: 10,
                   letterSpacing: 1.0,
                 ),
@@ -40,13 +42,13 @@ class FitnessProgressChart extends StatelessWidget {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
+                  color: context.colors.primary.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
                   'CALORIES',
                   style: TextStyle(
-                    color: AppColors.primary,
+                    color: context.colors.primary,
                     fontSize: 8,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 0.5,
@@ -63,6 +65,8 @@ class FitnessProgressChart extends StatelessWidget {
                 values: dailyCalories,
                 labels: labels,
                 isDark: isDark,
+                colors: context.colors,
+                customColors: context.customColors,
               ),
             ),
           ),
@@ -76,11 +80,15 @@ class _ChartPainter extends CustomPainter {
   final List<double> values;
   final List<String> labels;
   final bool isDark;
+  final ColorScheme colors;
+  final AppCustomColors customColors;
 
   _ChartPainter({
     required this.values,
     required this.labels,
     required this.isDark,
+    required this.colors,
+    required this.customColors,
   });
 
   @override
@@ -105,7 +113,7 @@ class _ChartPainter extends CustomPainter {
         text: TextSpan(
           text: valLabel,
           style: TextStyle(
-            color: isDark ? AppColors.grey500.withOpacity(0.7) : AppColors.grey600.withOpacity(0.7),
+            color: isDark ? customColors.grey500.withOpacity(0.7) : customColors.grey600.withOpacity(0.7),
             fontSize: 8,
             fontFamily: 'Montserrat',
             fontWeight: FontWeight.bold,
@@ -134,7 +142,7 @@ class _ChartPainter extends CustomPainter {
         text: TextSpan(
           text: labels[i],
           style: TextStyle(
-            color: isDark ? AppColors.grey400 : AppColors.grey600,
+            color: isDark ? customColors.grey400 : customColors.grey600,
             fontSize: 9,
             fontWeight: FontWeight.bold,
             letterSpacing: 0.5,
@@ -155,13 +163,13 @@ class _ChartPainter extends CustomPainter {
 
     // Paint curve path
     final paint = Paint()
-      ..color = AppColors.primary
+      ..color = colors.primary
       ..strokeWidth = 3.5
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
     final shadowPaint = Paint()
-      ..color = AppColors.primary.withOpacity(0.3)
+      ..color = colors.primary.withOpacity(0.3)
       ..strokeWidth = 6.0
       ..strokeCap = StrokeCap.round
       ..maskFilter = MaskFilter.blur(BlurStyle.normal, 6)
@@ -192,8 +200,8 @@ class _ChartPainter extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          AppColors.primary.withOpacity(isDark ? 0.16 : 0.08),
-          AppColors.primary.withOpacity(0.0),
+          colors.primary.withOpacity(isDark ? 0.16 : 0.08),
+          colors.primary.withOpacity(0.0),
         ],
       ).createShader(Rect.fromLTWH(0, 0, size.width, chartHeight));
 
@@ -204,7 +212,7 @@ class _ChartPainter extends CustomPainter {
       ..color = Colors.white
       ..style = PaintingStyle.fill;
     final nodeBorder = Paint()
-      ..color = AppColors.primary
+      ..color = colors.primary
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
 

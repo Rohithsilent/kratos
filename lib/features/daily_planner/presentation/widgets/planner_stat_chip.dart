@@ -1,6 +1,7 @@
 // lib/features/daily_planner/presentation/widgets/planner_stat_chip.dart
 
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/glass_card.dart';
 
@@ -8,18 +9,19 @@ class PlannerStatChip extends StatelessWidget {
   final IconData icon;
   final String value;
   final String label;
-  final Color glowColor;
+  final Color? glowColor;
 
   const PlannerStatChip({
     super.key,
     required this.icon,
     required this.value,
     required this.label,
-    this.glowColor = AppColors.primary,
+    this.glowColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final effectiveGlowColor = glowColor ?? context.colors.primary;
     return Expanded(
       child: GlassCard(
         borderRadius: 16,
@@ -32,12 +34,12 @@ class PlannerStatChip extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: glowColor.withOpacity(0.08),
+                color: effectiveGlowColor.withOpacity(0.08),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 icon,
-                color: glowColor,
+                color: effectiveGlowColor,
                 size: 16,
               ),
             ),
@@ -47,7 +49,7 @@ class PlannerStatChip extends StatelessWidget {
               fit: BoxFit.scaleDown,
               child: Text(
                 value,
-                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900,
+                style: TextStyle(color: context.colors.onSurface,
                   fontSize: 16,
                   fontWeight: FontWeight.w900,
                   letterSpacing: -0.2,
@@ -60,7 +62,7 @@ class PlannerStatChip extends StatelessWidget {
               fit: BoxFit.scaleDown,
               child: Text(
                 label.toUpperCase(),
-                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.38),
+                style: TextStyle(color: context.colors.onSurface.withOpacity(0.38),
                   fontSize: 8,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 0.5,

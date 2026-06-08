@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../core/theme/app_colors.dart';
 
 class GlassCard extends StatelessWidget {
@@ -31,11 +32,11 @@ class GlassCard extends StatelessWidget {
           padding: padding ?? EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: backgroundColor ??
-                (isDark ? AppColors.glassDark : AppColors.glassLight),
+                (isDark ? context.glassmorphism.cardColor : context.glassmorphism.cardColor),
             borderRadius: BorderRadius.circular(borderRadius),
             border: Border.all(
               color: borderColor ??
-                  (isDark ? AppColors.glassBorderDark : AppColors.glassBorderLight),
+                  (isDark ? context.glassmorphism.borderColor : context.glassmorphism.borderColor),
               width: 1,
             ),
           ),

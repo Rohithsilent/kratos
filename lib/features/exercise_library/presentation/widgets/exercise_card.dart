@@ -1,6 +1,7 @@
 // lib/features/exercise_library/presentation/widgets/exercise_card.dart
 
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/glass_card.dart';
@@ -52,11 +53,11 @@ class ExerciseCard extends ConsumerWidget {
                       fit: BoxFit.cover,
                       filterQuality: FilterQuality.medium,
                       errorBuilder: (context, error, stackTrace) => Container(
-                        color: AppColors.darkSurface,
+                        color: context.colors.surface,
                         child: Center(
                           child: Icon(
                             Icons.fitness_center,
-                            color: AppColors.grey600,
+                            color: context.customColors.grey600,
                             size: 28,
                           ),
                         ),
@@ -79,7 +80,7 @@ class ExerciseCard extends ConsumerWidget {
                             Text(
                               exercise.category.toUpperCase(),
                               style: TextStyle(
-                                color: AppColors.primary,
+                                color: context.colors.primary,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 11,
                                 letterSpacing: 1.1,
@@ -91,7 +92,7 @@ class ExerciseCard extends ConsumerWidget {
                             // Exercise Name
                             Text(
                               exercise.name,
-                              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900,
+                              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w800,
                                 letterSpacing: 0.3,
@@ -104,7 +105,7 @@ class ExerciseCard extends ConsumerWidget {
                             Text(
                               exercise.equipment.toUpperCase(),
                               style: TextStyle(
-                                color: AppColors.grey400,
+                                color: context.customColors.grey400,
                                 fontSize: 11,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -120,14 +121,14 @@ class ExerciseCard extends ConsumerWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: AppColors.primary.withOpacity(0.5),
+                              color: context.colors.primary.withOpacity(0.5),
                               width: 1,
                             ),
                           ),
                           child: Text(
                             exercise.difficulty.toUpperCase(),
                             style: TextStyle(
-                              color: AppColors.primary,
+                              color: context.colors.primary,
                               fontSize: 9,
                               fontWeight: FontWeight.w900,
                               letterSpacing: 0.8,
@@ -155,7 +156,7 @@ class ExerciseCard extends ConsumerWidget {
                           padding: EdgeInsets.all(4),
                           child: Icon(
                             isFav ? Icons.star : Icons.star_border,
-                            color: isFav ? Colors.amber : AppColors.grey500,
+                            color: isFav ? Colors.amber : context.customColors.grey500,
                             size: 20,
                           ),
                         ),
@@ -163,7 +164,7 @@ class ExerciseCard extends ConsumerWidget {
                       // Chevron right icon
                       Icon(
                         Icons.chevron_right,
-                        color: AppColors.grey600,
+                        color: context.customColors.grey600,
                         size: 20,
                       ),
                     ],

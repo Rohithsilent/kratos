@@ -1,6 +1,7 @@
 // lib/features/exercise_library/presentation/screens/exercise_library_screen.dart
 
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../providers/exercise_providers.dart';
@@ -67,7 +68,7 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                   children: [
                     Text(
                       'EXERCISES',
-                      style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900,
+                      style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
                         fontSize: 28,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 1.0,
@@ -89,15 +90,15 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                         duration: Duration(milliseconds: 200),
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: _showSearch ? AppColors.primary.withOpacity(0.2) : AppColors.glassDark,
+                          color: _showSearch ? context.colors.primary.withOpacity(0.2) : context.glassmorphism.cardColor,
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: _showSearch ? AppColors.primary : AppColors.glassBorderDark,
+                            color: _showSearch ? context.colors.primary : context.glassmorphism.borderColor,
                           ),
                         ),
                         child: Icon(
                           _showSearch ? Icons.close_rounded : Icons.search_rounded,
-                          color: _showSearch ? AppColors.primary : Colors.white,
+                          color: _showSearch ? context.colors.primary : Colors.white,
                           size: 22,
                         ),
                       ),
@@ -118,27 +119,27 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: AppColors.glassDark,
+                          color: context.glassmorphism.cardColor,
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: AppColors.glassBorderDark),
+                          border: Border.all(color: context.glassmorphism.borderColor),
                         ),
                         child: TextField(
                           controller: _searchController,
                           onChanged: (val) {
                             ref.read(searchQueryProvider.notifier).setQuery(val);
                           },
-                          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900, fontSize: 15),
-                          cursorColor: AppColors.primary,
+                          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 15),
+                          cursorColor: context.colors.primary,
                           decoration: InputDecoration(
                             hintText: 'Search exercises...',
-                            hintStyle: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.4), fontSize: 15),
-                            prefixIcon: Icon(Icons.search_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.5)),
+                            hintStyle: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.4), fontSize: 15),
+                            prefixIcon: Icon(Icons.search_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.5)),
                             suffixIcon: Padding(
                               padding: EdgeInsets.only(right: 4.0),
                               child: IconButton(
                                 icon: Icon(
                                   Icons.tune_rounded,
-                                  color: _showFilters ? AppColors.primary : Colors.white.withOpacity(0.5),
+                                  color: _showFilters ? context.colors.primary : Colors.white.withOpacity(0.5),
                                   size: 22,
                                 ),
                                 onPressed: () {
@@ -194,15 +195,15 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                                     height: 52,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: isSelected ? Colors.transparent : AppColors.glassDark,
+                                      color: isSelected ? Colors.transparent : context.glassmorphism.cardColor,
                                       border: Border.all(
-                                        color: isSelected ? AppColors.primary : AppColors.glassBorderDark,
+                                        color: isSelected ? context.colors.primary : context.glassmorphism.borderColor,
                                         width: isSelected ? 2.0 : 1.0,
                                       ),
                                       boxShadow: isSelected
                                           ? [
                                               BoxShadow(
-                                                color: AppColors.redGlow.withOpacity(0.2),
+                                                color: context.glow.redGlow.withOpacity(0.2),
                                                 blurRadius: 10,
                                                 spreadRadius: 2,
                                               )
@@ -212,7 +213,7 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                                     child: Center(
                                       child: Icon(
                                         cat.icon,
-                                        color: isSelected ? AppColors.primary : Colors.white.withOpacity(0.70),
+                                        color: isSelected ? context.colors.primary : Colors.white.withOpacity(0.70),
                                         size: 22,
                                       ),
                                     ),
@@ -221,7 +222,7 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                                   Text(
                                     cat.name,
                                     style: TextStyle(
-                                      color: isSelected ? AppColors.primary : Colors.white.withOpacity(0.54),
+                                      color: isSelected ? context.colors.primary : Colors.white.withOpacity(0.54),
                                       fontSize: 11,
                                       fontWeight: isSelected ? FontWeight.w900 : FontWeight.w500,
                                     ),
@@ -249,7 +250,7 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                   children: [
                     Text(
                       '${selectedCategory.toUpperCase()} EXERCISES',
-                      style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.70),
+                      style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70),
                         fontSize: 13,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 1.2,
@@ -259,7 +260,7 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                       data: (list) => Text(
                         '${list.length} Exercises',
                         style: TextStyle(
-                          color: AppColors.primary,
+                          color: context.colors.primary,
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
                         ),
@@ -267,9 +268,9 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                       loading: () => SizedBox(
                         height: 12,
                         width: 12,
-                        child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
+                        child: CircularProgressIndicator(strokeWidth: 2, color: context.colors.primary),
                       ),
-                      error: (_, _) => Text('Error', style: TextStyle(color: AppColors.primary, fontSize: 13)),
+                      error: (_, _) => Text('Error', style: TextStyle(color: context.colors.primary, fontSize: 13)),
                     ),
                   ],
                 ),
@@ -290,12 +291,12 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                             SizedBox(height: 16),
                             Text(
                               'No exercises found',
-                              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.6), fontSize: 16, fontWeight: FontWeight.bold),
+                              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.6), fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 8),
                             Text(
                               'Try checking spelling or changing filters',
-                              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.4), fontSize: 13),
+                              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.4), fontSize: 13),
                             ),
                           ],
                         ),
@@ -311,7 +312,7 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                     );
                   },
                   loading: () => Center(
-                    child: CircularProgressIndicator(color: AppColors.primary),
+                    child: CircularProgressIndicator(color: context.colors.primary),
                   ),
                   error: (error, stack) => Center(
                     child: Padding(
@@ -319,17 +320,17 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.error_outline_rounded, size: 48, color: AppColors.error),
+                          Icon(Icons.error_outline_rounded, size: 48, color: context.colors.error),
                           SizedBox(height: 16),
                           Text(
                             'Error Loading Exercises',
-                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.8), fontSize: 16, fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.8), fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 8),
                           Text(
                             error.toString(),
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.4), fontSize: 13),
+                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.4), fontSize: 13),
                           ),
                         ],
                       ),

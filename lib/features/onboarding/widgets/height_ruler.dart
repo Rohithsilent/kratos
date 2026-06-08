@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 
@@ -92,14 +93,14 @@ class _HeightRulerState extends State<HeightRuler>
                           '$_selectedHeight',
                           key: ValueKey('cm-$_selectedHeight'),
                           style: AppTypography.metric.copyWith(
-                            color: AppColors.white,
+                            color: Colors.white,
                           ),
                         )
                       : Text(
                           _cmToFtIn(_selectedHeight),
                           key: ValueKey('ft-$_selectedHeight'),
                           style: AppTypography.metric.copyWith(
-                            color: AppColors.white,
+                            color: Colors.white,
                             fontSize: 42,
                           ),
                         ),
@@ -110,7 +111,7 @@ class _HeightRulerState extends State<HeightRuler>
                     widget.useCm ? 'cm' : 'ft / in',
                     key: ValueKey(widget.useCm ? 'unit-cm' : 'unit-ft'),
                     style: AppTypography.metricUnit.copyWith(
-                      color: AppColors.grey400,
+                      color: context.customColors.grey400,
                     ),
                   ),
                 ),
@@ -124,7 +125,7 @@ class _HeightRulerState extends State<HeightRuler>
                   width: 40,
                   child: CustomPaint(
                     painter: _SilhouettePainter(
-                      color: AppColors.primary.withOpacity(0.6),
+                      color: context.colors.primary.withOpacity(0.6),
                     ),
                     size: Size(40, _mapHeight(_selectedHeight)),
                   ),
@@ -189,11 +190,11 @@ class _HeightRulerState extends State<HeightRuler>
                           gradient: LinearGradient(
                             colors: [
                               Colors.transparent,
-                              AppColors.primary.withOpacity(
+                              context.colors.primary.withOpacity(
                                 0.7 + _pulseController.value * 0.3,
                               ),
-                              AppColors.primary,
-                              AppColors.primary.withOpacity(
+                              context.colors.primary,
+                              context.colors.primary.withOpacity(
                                 0.7 + _pulseController.value * 0.3,
                               ),
                               Colors.transparent,
@@ -201,7 +202,7 @@ class _HeightRulerState extends State<HeightRuler>
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: AppColors.primary.withOpacity(0.4),
+                              color: context.colors.primary.withOpacity(0.4),
                               blurRadius: 8,
                             ),
                           ],
@@ -260,8 +261,8 @@ class _RulerTick extends StatelessWidget {
               labelText,
               style: TextStyle(
                 color: isSelected
-                    ? AppColors.primary
-                    : (isDark ? AppColors.grey500 : AppColors.grey400),
+                    ? context.colors.primary
+                    : (isDark ? context.customColors.grey500 : context.customColors.grey400),
                 fontSize: 11,
                 fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
               ),
@@ -273,7 +274,7 @@ class _RulerTick extends StatelessWidget {
           height: isMajor ? 2 : 1,
           decoration: BoxDecoration(
             color: isSelected
-                ? AppColors.primary
+                ? context.colors.primary
                 : (isDark
                     ? Colors.white.withOpacity(isMajor ? 0.25 : 0.10)
                     : Colors.black.withOpacity(isMajor ? 0.20 : 0.08)),

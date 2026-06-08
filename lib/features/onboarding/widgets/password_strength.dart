@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/validators.dart';
 
@@ -10,7 +11,7 @@ class PasswordStrengthIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     final strength = Validators.passwordStrength(password);
     final label = Validators.strengthLabel(strength);
-    final color = _strengthColor(strength);
+    final color = _strengthColor(context, strength);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,11 +59,11 @@ class PasswordStrengthIndicator extends StatelessWidget {
     );
   }
 
-  Color _strengthColor(double strength) {
-    if (strength <= 0.25) return AppColors.error;
-    if (strength <= 0.50) return AppColors.warning;
-    if (strength <= 0.75) return AppColors.info;
-    return AppColors.success;
+  Color _strengthColor(BuildContext context, double strength) {
+    if (strength <= 0.25) return context.colors.error;
+    if (strength <= 0.50) return context.customColors.warning;
+    if (strength <= 0.75) return context.customColors.info;
+    return context.customColors.success;
   }
 }
 
@@ -82,14 +83,14 @@ class _Requirement extends StatelessWidget {
             width: 16, height: 16,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: met ? AppColors.success.withOpacity(0.15) : Colors.white.withOpacity(0.04),
-              border: Border.all(color: met ? AppColors.success : Colors.white.withOpacity(0.12)),
+              color: met ? context.customColors.success.withOpacity(0.15) : Colors.white.withOpacity(0.04),
+              border: Border.all(color: met ? context.customColors.success : Colors.white.withOpacity(0.12)),
             ),
-            child: met ? Icon(Icons.check, size: 10, color: AppColors.success) : null,
+            child: met ? Icon(Icons.check, size: 10, color: context.customColors.success) : null,
           ),
           SizedBox(width: 8),
           Text(text, style: TextStyle(
-            color: met ? AppColors.success.withOpacity(0.9) : Colors.white.withOpacity(0.4),
+            color: met ? context.customColors.success.withOpacity(0.9) : Colors.white.withOpacity(0.4),
             fontSize: 12, fontWeight: FontWeight.w500,
           )),
         ],

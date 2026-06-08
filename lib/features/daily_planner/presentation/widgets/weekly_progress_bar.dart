@@ -1,6 +1,7 @@
 // lib/features/daily_planner/presentation/widgets/weekly_progress_bar.dart
 
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class WeeklyProgressBar extends StatelessWidget {
@@ -35,11 +36,11 @@ class WeeklyProgressBar extends StatelessWidget {
                   height: 2,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [AppColors.primary, AppColors.primaryLight],
+                      colors: [context.colors.primary, context.colors.secondary],
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.primary.withOpacity(0.5),
+                        color: context.colors.primary.withOpacity(0.5),
                         blurRadius: 4,
                         spreadRadius: 1,
                       ),
@@ -60,18 +61,18 @@ class WeeklyProgressBar extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: isActive 
-                          ? AppColors.primary 
-                          : (isPassed ? AppColors.primary.withOpacity(0.6) : Color(0xFF2A2A2A)),
+                          ? context.colors.primary 
+                          : (isPassed ? context.colors.primary.withOpacity(0.6) : Color(0xFF2A2A2A)),
                       border: Border.all(
                         color: isActive 
                             ? Colors.white 
-                            : (isPassed ? AppColors.primary.withOpacity(0.8) : Colors.transparent),
+                            : (isPassed ? context.colors.primary.withOpacity(0.8) : Colors.transparent),
                         width: isActive ? 2 : 1,
                       ),
                       boxShadow: isActive
                           ? [
                               BoxShadow(
-                                color: AppColors.primary.withOpacity(0.6),
+                                color: context.colors.primary.withOpacity(0.6),
                                 blurRadius: 8,
                                 spreadRadius: 2,
                               ),

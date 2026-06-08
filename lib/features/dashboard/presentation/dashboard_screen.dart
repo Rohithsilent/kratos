@@ -2,6 +2,7 @@
 
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -105,7 +106,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     
     final color = isActive 
-        ? AppColors.primary
+        ? context.colors.primary
         : (isDark ? Colors.white.withValues(alpha: 0.5) : Colors.black.withValues(alpha: 0.6));
 
     return Expanded(
@@ -191,7 +192,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         Text(
                           'KRATOS',
                           style: AppTypography.displaySmall.copyWith(
-                            color: isDark ? Colors.white : AppColors.grey900,
+                            color: isDark ? Colors.white : context.customColors.grey900,
                             letterSpacing: 2,
                             fontWeight: FontWeight.w900,
                           ),
@@ -205,7 +206,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                 style: TextStyle(
                                   color: isDark
                                       ? Colors.white.withValues(alpha: 0.45)
-                                      : AppColors.grey500,
+                                      : context.customColors.grey500,
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -215,7 +216,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                             Text(
                               timeGreeting,
                               style: TextStyle(
-                                color: AppColors.primary.withValues(alpha: 0.8),
+                                color: context.colors.primary.withValues(alpha: 0.8),
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -245,7 +246,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       ),
                       child: Icon(
                         isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
-                        color: isDark ? Colors.white54 : AppColors.grey600,
+                        color: isDark ? Colors.white54 : context.customColors.grey600,
                         size: 18,
                       ),
                     ),
@@ -267,7 +268,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     child: _buildQuickAction(
                       icon: Icons.fitness_center_rounded,
                       label: 'MY WORKOUTS',
-                      color: AppColors.primary,
+                      color: context.colors.primary,
                       isDark: isDark,
                       onTap: () => setState(() => _currentTabIndex = 1),
                     ),
@@ -308,7 +309,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               Text(
                 'NOW PLAYING',
                 style: AppTypography.labelBold.copyWith(
-                  color: isDark ? Colors.white54 : AppColors.grey500,
+                  color: isDark ? Colors.white54 : context.customColors.grey500,
                   letterSpacing: 1.5,
                   fontSize: 11,
                 ),
@@ -372,7 +373,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     Text(
                       'Active System Repair',
                       style: AppTypography.headlineSmall.copyWith(
-                        color: isDark ? Colors.white : AppColors.grey900,
+                        color: isDark ? Colors.white : context.customColors.grey900,
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
                       ),
@@ -386,7 +387,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           Text(
             'No workout scheduled. Rest, hydrate, and prepare for your next mission.',
             style: AppTypography.caption.copyWith(
-              color: isDark ? Colors.white38 : AppColors.grey500,
+              color: isDark ? Colors.white38 : context.customColors.grey500,
               fontSize: 12,
               height: 1.5,
             ),
@@ -433,14 +434,14 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       padding: const EdgeInsets.all(22),
       backgroundColor: isDark
           ? (isCompleted
-              ? AppColors.success.withValues(alpha: 0.06)
-              : AppColors.primary.withValues(alpha: 0.06))
+              ? context.customColors.success.withValues(alpha: 0.06)
+              : context.colors.primary.withValues(alpha: 0.06))
           : (isCompleted
-              ? AppColors.success.withValues(alpha: 0.03)
-              : AppColors.primary.withValues(alpha: 0.03)),
+              ? context.customColors.success.withValues(alpha: 0.03)
+              : context.colors.primary.withValues(alpha: 0.03)),
       borderColor: isCompleted
-          ? AppColors.success.withValues(alpha: 0.15)
-          : AppColors.primary.withValues(alpha: 0.15),
+          ? context.customColors.success.withValues(alpha: 0.15)
+          : context.colors.primary.withValues(alpha: 0.15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -450,13 +451,13 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: isCompleted
-                      ? AppColors.success.withValues(alpha: 0.12)
-                      : AppColors.primary.withValues(alpha: 0.12),
+                      ? context.customColors.success.withValues(alpha: 0.12)
+                      : context.colors.primary.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Icon(
                   isCompleted ? Icons.check_circle_outline_rounded : Icons.flash_on_rounded,
-                  color: isCompleted ? AppColors.success : AppColors.primary,
+                  color: isCompleted ? context.customColors.success : context.colors.primary,
                   size: 22,
                 ),
               ),
@@ -468,7 +469,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     Text(
                       isCompleted ? 'MISSION ACCOMPLISHED' : 'TODAY\'S MISSION',
                       style: AppTypography.labelBold.copyWith(
-                        color: isCompleted ? AppColors.success : AppColors.primary,
+                        color: isCompleted ? context.customColors.success : context.colors.primary,
                         fontSize: 10,
                         letterSpacing: 1.5,
                       ),
@@ -477,7 +478,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     Text(
                       workout.name,
                       style: AppTypography.headlineSmall.copyWith(
-                        color: isDark ? Colors.white : AppColors.grey900,
+                        color: isDark ? Colors.white : context.customColors.grey900,
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
                       ),
@@ -516,22 +517,22 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             child: Container(
               height: 48,
               decoration: BoxDecoration(
-                gradient: isCompleted ? null : AppColors.primaryGradient,
+                gradient: isCompleted ? null : context.customColors.primaryGradient,
                 color: isCompleted
                     ? (isDark
-                        ? AppColors.success.withValues(alpha: 0.12)
-                        : AppColors.success.withValues(alpha: 0.08))
+                        ? context.customColors.success.withValues(alpha: 0.12)
+                        : context.customColors.success.withValues(alpha: 0.08))
                     : null,
                 borderRadius: BorderRadius.circular(14),
                 border: isCompleted
-                    ? Border.all(color: AppColors.success.withValues(alpha: 0.25))
+                    ? Border.all(color: context.customColors.success.withValues(alpha: 0.25))
                     : null,
               ),
               child: Center(
                 child: Text(
                   isCompleted ? 'CONQUERED • VIEW TIMELINE' : 'START WORKOUT',
                   style: AppTypography.labelBold.copyWith(
-                    color: isCompleted ? AppColors.success : Colors.white,
+                    color: isCompleted ? context.customColors.success : Colors.white,
                     fontSize: 12,
                     letterSpacing: 1.0,
                   ),
@@ -558,13 +559,13 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 13, color: isDark ? Colors.white38 : AppColors.grey500),
+            Icon(icon, size: 13, color: isDark ? Colors.white38 : context.customColors.grey500),
             const SizedBox(width: 4),
             Flexible(
               child: Text(
                 text,
                 style: AppTypography.caption.copyWith(
-                  color: isDark ? Colors.white70 : AppColors.grey700,
+                  color: isDark ? Colors.white70 : context.customColors.grey700,
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
                 ),
@@ -608,7 +609,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             Text(
               label,
               style: AppTypography.caption.copyWith(
-                color: isDark ? Colors.white70 : AppColors.grey700,
+                color: isDark ? Colors.white70 : context.customColors.grey700,
                 fontSize: 9,
                 fontWeight: FontWeight.w800,
                 letterSpacing: 0.5,

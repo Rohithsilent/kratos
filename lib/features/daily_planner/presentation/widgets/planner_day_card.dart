@@ -1,6 +1,7 @@
 // lib/features/daily_planner/presentation/widgets/planner_day_card.dart
 
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../domain/models/planner_item_model.dart';
 import '../../domain/enums/planner_status.dart';
 import '../../utils/planner_helpers.dart';
@@ -44,7 +45,7 @@ class PlannerDayCard extends StatelessWidget {
       displayIcon = Icons.spa_rounded;
       displayLabel = 'RECOVERY';
     } else if (isCompleted) {
-      accentColor = AppColors.primary;
+      accentColor = context.colors.primary;
       displayIcon = Icons.check_rounded;
       displayLabel = 'DONE';
     } else if (isMissed) {
@@ -54,7 +55,7 @@ class PlannerDayCard extends StatelessWidget {
     } else if (hasWorkout) {
       final name = (item?.workoutName ?? '').toLowerCase();
       if (name.contains('push')) {
-        accentColor = AppColors.primary;
+        accentColor = context.colors.primary;
         displayIcon = Icons.fitness_center_rounded;
         displayLabel = 'PUSH';
       } else if (name.contains('pull')) {
@@ -78,7 +79,7 @@ class PlannerDayCard extends StatelessWidget {
         displayIcon = Icons.straighten_rounded;
         displayLabel = 'CORE';
       } else {
-        accentColor = AppColors.primary;
+        accentColor = context.colors.primary;
         displayIcon = Icons.fitness_center_rounded;
         displayLabel = 'TRAIN';
       }
@@ -92,10 +93,10 @@ class PlannerDayCard extends StatelessWidget {
     Color borderColor;
     double borderWidth;
     if (isSelected) {
-      borderColor = AppColors.primary.withOpacity(0.8);
+      borderColor = context.colors.primary.withOpacity(0.8);
       borderWidth = 1.5;
     } else if (isToday) {
-      borderColor = AppColors.primary.withOpacity(0.3);
+      borderColor = context.colors.primary.withOpacity(0.3);
       borderWidth = 1.0;
     } else {
       borderColor = Colors.white.withOpacity(0.04);
@@ -119,7 +120,7 @@ class PlannerDayCard extends StatelessWidget {
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: AppColors.primary.withOpacity(0.08),
+                    color: context.colors.primary.withOpacity(0.08),
                     blurRadius: 16,
                     spreadRadius: 1,
                   ),
@@ -134,7 +135,7 @@ class PlannerDayCard extends StatelessWidget {
               PlannerHelpers.getDayNameShort(date),
               style: TextStyle(
                 color: isToday
-                    ? AppColors.primary
+                    ? context.colors.primary
                     : Colors.white.withOpacity(0.3),
                 fontSize: 9,
                 fontWeight: FontWeight.w800,

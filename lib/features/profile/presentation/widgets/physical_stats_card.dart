@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter/services.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_decorations.dart';
@@ -100,7 +101,7 @@ class PhysicalStatsCard extends StatelessWidget {
             Text(
               label,
               style: AppTypography.labelBold.copyWith(
-                color: isDark ? AppColors.grey500 : AppColors.grey400,
+                color: isDark ? context.customColors.grey500 : context.customColors.grey400,
                 fontSize: 9,
                 letterSpacing: 1.5,
               ),
@@ -115,7 +116,7 @@ class PhysicalStatsCard extends StatelessWidget {
                 Text(
                   value.isNotEmpty ? value : '—',
                   style: AppTypography.headlineLarge.copyWith(
-                    color: isDark ? Colors.white : AppColors.grey900,
+                    color: isDark ? Colors.white : context.customColors.grey900,
                     fontSize: 22,
                     fontWeight: FontWeight.w900,
                   ),
@@ -125,7 +126,7 @@ class PhysicalStatsCard extends StatelessWidget {
                   Text(
                     unit,
                     style: AppTypography.labelSmall.copyWith(
-                      color: isDark ? AppColors.grey500 : AppColors.grey600,
+                      color: isDark ? context.customColors.grey500 : context.customColors.grey600,
                       fontSize: 9,
                     ),
                   ),
@@ -148,7 +149,7 @@ class PhysicalStatsCard extends StatelessWidget {
                   Icon(
                     Icons.edit_rounded,
                     size: 10,
-                    color: isDark ? AppColors.grey500 : AppColors.grey400,
+                    color: isDark ? context.customColors.grey500 : context.customColors.grey400,
                   ),
                   const SizedBox(width: 3),
                   Text(
@@ -157,7 +158,7 @@ class PhysicalStatsCard extends StatelessWidget {
                       fontSize: 8,
                       fontWeight: FontWeight.w700,
                       letterSpacing: 0.8,
-                      color: isDark ? AppColors.grey500 : AppColors.grey400,
+                      color: isDark ? context.customColors.grey500 : context.customColors.grey400,
                     ),
                   ),
                 ],
@@ -265,7 +266,7 @@ class PhysicalStatsCard extends StatelessWidget {
                       width: 40,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: isDark ? AppColors.grey700 : AppColors.grey300,
+                        color: isDark ? context.customColors.grey700 : context.customColors.grey300,
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -273,7 +274,7 @@ class PhysicalStatsCard extends StatelessWidget {
                     Text(
                       'UPDATE HEIGHT',
                       style: AppTypography.labelBold.copyWith(
-                        color: isDark ? Colors.white : AppColors.grey900,
+                        color: isDark ? Colors.white : context.customColors.grey900,
                         letterSpacing: 2,
                       ),
                     ),
@@ -303,18 +304,18 @@ class PhysicalStatsCard extends StatelessWidget {
                       ],
                       textAlign: TextAlign.center,
                       style: AppTypography.headlineLarge.copyWith(
-                        color: isDark ? Colors.white : AppColors.grey900,
+                        color: isDark ? Colors.white : context.customColors.grey900,
                         fontSize: 32,
                       ),
                       decoration: InputDecoration(
                         hintText: isCm ? '170' : "5'10",
                         hintStyle: TextStyle(
-                          color: isDark ? AppColors.grey700 : AppColors.grey300,
+                          color: isDark ? context.customColors.grey700 : context.customColors.grey300,
                           fontSize: 32,
                         ),
                         suffixText: isCm ? 'cm' : 'ft',
                         suffixStyle: AppTypography.labelBold.copyWith(
-                          color: AppColors.grey500,
+                          color: context.customColors.grey500,
                         ),
                         border: InputBorder.none,
                         enabledBorder: UnderlineInputBorder(
@@ -326,7 +327,7 @@ class PhysicalStatsCard extends StatelessWidget {
                         ),
                         focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
-                            color: AppColors.primary.withOpacity(0.6),
+                            color: context.colors.primary.withOpacity(0.6),
                             width: 2,
                           ),
                         ),
@@ -348,7 +349,7 @@ class PhysicalStatsCard extends StatelessWidget {
                         width: double.infinity,
                         height: 48,
                         decoration: BoxDecoration(
-                          gradient: AppColors.primaryGradient,
+                          gradient: context.customColors.primaryGradient,
                           borderRadius: BorderRadius.circular(14),
                         ),
                         child: Center(
@@ -410,7 +411,7 @@ class PhysicalStatsCard extends StatelessWidget {
                       width: 40,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: isDark ? AppColors.grey700 : AppColors.grey300,
+                        color: isDark ? context.customColors.grey700 : context.customColors.grey300,
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -418,7 +419,7 @@ class PhysicalStatsCard extends StatelessWidget {
                     Text(
                       'UPDATE WEIGHT',
                       style: AppTypography.labelBold.copyWith(
-                        color: isDark ? Colors.white : AppColors.grey900,
+                        color: isDark ? Colors.white : context.customColors.grey900,
                         letterSpacing: 2,
                       ),
                     ),
@@ -445,18 +446,18 @@ class PhysicalStatsCard extends StatelessWidget {
                       ],
                       textAlign: TextAlign.center,
                       style: AppTypography.headlineLarge.copyWith(
-                        color: isDark ? Colors.white : AppColors.grey900,
+                        color: isDark ? Colors.white : context.customColors.grey900,
                         fontSize: 32,
                       ),
                       decoration: InputDecoration(
                         hintText: isKg ? '70' : '154',
                         hintStyle: TextStyle(
-                          color: isDark ? AppColors.grey700 : AppColors.grey300,
+                          color: isDark ? context.customColors.grey700 : context.customColors.grey300,
                           fontSize: 32,
                         ),
                         suffixText: isKg ? 'kg' : 'lbs',
                         suffixStyle: AppTypography.labelBold.copyWith(
-                          color: AppColors.grey500,
+                          color: context.customColors.grey500,
                         ),
                         border: InputBorder.none,
                         enabledBorder: UnderlineInputBorder(
@@ -468,7 +469,7 @@ class PhysicalStatsCard extends StatelessWidget {
                         ),
                         focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
-                            color: AppColors.primary.withOpacity(0.6),
+                            color: context.colors.primary.withOpacity(0.6),
                             width: 2,
                           ),
                         ),
@@ -489,7 +490,7 @@ class PhysicalStatsCard extends StatelessWidget {
                         width: double.infinity,
                         height: 48,
                         decoration: BoxDecoration(
-                          gradient: AppColors.primaryGradient,
+                          gradient: context.customColors.primaryGradient,
                           borderRadius: BorderRadius.circular(14),
                         ),
                         child: Center(
@@ -541,7 +542,7 @@ class PhysicalStatsCard extends StatelessWidget {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: isDark ? AppColors.grey700 : AppColors.grey300,
+                  color: isDark ? context.customColors.grey700 : context.customColors.grey300,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -549,7 +550,7 @@ class PhysicalStatsCard extends StatelessWidget {
               Text(
                 'SELECT SEX',
                 style: AppTypography.labelBold.copyWith(
-                  color: isDark ? Colors.white : AppColors.grey900,
+                  color: isDark ? Colors.white : context.customColors.grey900,
                   letterSpacing: 2,
                 ),
               ),
@@ -568,14 +569,14 @@ class PhysicalStatsCard extends StatelessWidget {
                         vertical: 14, horizontal: 20),
                     decoration: BoxDecoration(
                       color: isSelected
-                          ? AppColors.primary.withOpacity(0.12)
+                          ? context.colors.primary.withOpacity(0.12)
                           : (isDark
                               ? Colors.white.withOpacity(0.04)
                               : Colors.black.withOpacity(0.03)),
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(
                         color: isSelected
-                            ? AppColors.primary.withOpacity(0.4)
+                            ? context.colors.primary.withOpacity(0.4)
                             : (isDark
                                 ? Colors.white.withOpacity(0.06)
                                 : Colors.black.withOpacity(0.06)),
@@ -591,8 +592,8 @@ class PhysicalStatsCard extends StatelessWidget {
                                   ? Icons.female_rounded
                                   : Icons.transgender_rounded,
                           color: isSelected
-                              ? AppColors.primary
-                              : (isDark ? AppColors.grey400 : AppColors.grey600),
+                              ? context.colors.primary
+                              : (isDark ? context.customColors.grey400 : context.customColors.grey600),
                           size: 22,
                         ),
                         const SizedBox(width: 14),
@@ -600,10 +601,10 @@ class PhysicalStatsCard extends StatelessWidget {
                           option,
                           style: AppTypography.bodyLarge.copyWith(
                             color: isSelected
-                                ? (isDark ? Colors.white : AppColors.grey900)
+                                ? (isDark ? Colors.white : context.customColors.grey900)
                                 : (isDark
-                                    ? AppColors.grey400
-                                    : AppColors.grey600),
+                                    ? context.customColors.grey400
+                                    : context.customColors.grey600),
                             fontWeight:
                                 isSelected ? FontWeight.w700 : FontWeight.w500,
                           ),
@@ -612,7 +613,7 @@ class PhysicalStatsCard extends StatelessWidget {
                         if (isSelected)
                           Icon(
                             Icons.check_circle_rounded,
-                            color: AppColors.primary,
+                            color: context.colors.primary,
                             size: 20,
                           ),
                       ],
@@ -641,14 +642,14 @@ class PhysicalStatsCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         decoration: BoxDecoration(
           color: isActive
-              ? AppColors.primary.withOpacity(0.15)
+              ? context.colors.primary.withOpacity(0.15)
               : (isDark
                   ? Colors.white.withOpacity(0.04)
                   : Colors.black.withOpacity(0.03)),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isActive
-                ? AppColors.primary.withOpacity(0.4)
+                ? context.colors.primary.withOpacity(0.4)
                 : Colors.transparent,
           ),
         ),
@@ -656,8 +657,8 @@ class PhysicalStatsCard extends StatelessWidget {
           label,
           style: AppTypography.labelBold.copyWith(
             color: isActive
-                ? AppColors.primary
-                : (isDark ? AppColors.grey500 : AppColors.grey400),
+                ? context.colors.primary
+                : (isDark ? context.customColors.grey500 : context.customColors.grey400),
             fontSize: 12,
           ),
         ),

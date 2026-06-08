@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/constants/app_strings.dart';
@@ -29,9 +30,9 @@ class _HeightStepState extends State<HeightStep> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: 24),
-                Text(AppStrings.heightTitle, style: AppTypography.display.copyWith(color: AppColors.white, fontSize: 40)),
+                Text(AppStrings.heightTitle, style: AppTypography.display.copyWith(color: Colors.white, fontSize: 40)),
                 SizedBox(height: 12),
-                Text(AppStrings.heightMicrocopy, style: AppTypography.bodyMedium.copyWith(color: AppColors.grey400)),
+                Text(AppStrings.heightMicrocopy, style: AppTypography.bodyMedium.copyWith(color: context.customColors.grey400)),
                 SizedBox(height: 20),
 
                 // CM / FT toggle
@@ -78,11 +79,11 @@ class _ToggleChip extends StatelessWidget {
         duration: Duration(milliseconds: 250),
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 10),
         decoration: BoxDecoration(
-          color: isActive ? AppColors.primary : Colors.transparent,
+          color: isActive ? context.colors.primary : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Text(label, style: AppTypography.labelBold.copyWith(
-          color: isActive ? AppColors.white : AppColors.grey500,
+          color: isActive ? Colors.white : context.customColors.grey500,
           fontSize: 13,
         )),
       ),

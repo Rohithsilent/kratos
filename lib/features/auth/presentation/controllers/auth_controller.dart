@@ -14,7 +14,9 @@ class AuthController extends AsyncNotifier<void> {
 
   Future<void> signInWithEmail(String email, String password) async {
     state = AsyncValue.loading();
-    state = await AsyncValue.guard(() => ref.read(authRepositoryProvider).signInWithEmailAndPassword(email, password));
+    final result = await AsyncValue.guard(() => ref.read(authRepositoryProvider).signInWithEmailAndPassword(email, password));
+    if (!ref.mounted) return;
+    state = result;
   }
 
   String? _verificationId;
@@ -47,40 +49,54 @@ class AuthController extends AsyncNotifier<void> {
       return;
     }
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() => ref.read(authRepositoryProvider).verifyOTP(_verificationId!, smsCode));
+    final result = await AsyncValue.guard(() => ref.read(authRepositoryProvider).verifyOTP(_verificationId!, smsCode));
+    if (!ref.mounted) return;
+    state = result;
   }
 
   Future<void> signInWithGoogle({bool isLogin = false, UserModel? onboardingData}) async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() => ref.read(authRepositoryProvider).signInWithGoogle(isLogin: isLogin, onboardingData: onboardingData));
+    final result = await AsyncValue.guard(() => ref.read(authRepositoryProvider).signInWithGoogle(isLogin: isLogin, onboardingData: onboardingData));
+    if (!ref.mounted) return;
+    state = result;
   }
 
   Future<void> registerWithEmail(String email, String password, UserModel userData) async {
     state = AsyncValue.loading();
-    state = await AsyncValue.guard(() => ref.read(authRepositoryProvider).registerWithEmail(email, password, userData));
+    final result = await AsyncValue.guard(() => ref.read(authRepositoryProvider).registerWithEmail(email, password, userData));
+    if (!ref.mounted) return;
+    state = result;
   }
 
   Future<void> sendEmailVerification() async {
     state = AsyncValue.loading();
-    state = await AsyncValue.guard(() => ref.read(authRepositoryProvider).sendEmailVerification());
+    final result = await AsyncValue.guard(() => ref.read(authRepositoryProvider).sendEmailVerification());
+    if (!ref.mounted) return;
+    state = result;
   }
 
   Future<bool> checkEmailVerified() async {
     state = AsyncValue.loading();
     bool isVerified = false;
-    state = await AsyncValue.guard(() async {
+    final result = await AsyncValue.guard(() async {
       isVerified = await ref.read(authRepositoryProvider).checkEmailVerified();
     });
+    if (!ref.mounted) return isVerified;
+    state = result;
     return isVerified;
   }
 
   Future<void> sendPasswordResetEmail(String email) async {
     state = AsyncValue.loading();
-    state = await AsyncValue.guard(() => ref.read(authRepositoryProvider).sendPasswordResetEmail(email));
+    final result = await AsyncValue.guard(() => ref.read(authRepositoryProvider).sendPasswordResetEmail(email));
+    if (!ref.mounted) return;
+    state = result;
   }
 
   Future<void> signOut() async {
     state = AsyncValue.loading();
-    state = await AsyncValue.guard(() => ref.read(authRepositoryProvider).signOut());
+    final result = await AsyncValue.guard(() => ref.read(authRepositoryProvider).signOut());
+    if (!ref.mounted) return;
+    state = result;
   }
 }

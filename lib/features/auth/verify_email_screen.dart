@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -46,7 +47,7 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen>
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Could not open email app automatically.'),
-            backgroundColor: AppColors.error,
+            backgroundColor: context.colors.error,
           ),
         );
       }
@@ -64,7 +65,7 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen>
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Email verified successfully!'),
-            backgroundColor: AppColors.primary,
+            backgroundColor: context.colors.primary,
           ),
         );
         context.go('/dashboard');
@@ -72,7 +73,7 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen>
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Email is not verified yet. Please check your inbox.'),
-            backgroundColor: AppColors.warning,
+            backgroundColor: context.customColors.warning,
           ),
         );
       }
@@ -101,16 +102,16 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen>
                     padding: EdgeInsets.all(24),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: AppColors.primary.withOpacity(0.1),
+                      color: context.colors.primary.withOpacity(0.1),
                       border: Border.all(
-                        color: AppColors.primary.withOpacity(0.3),
+                        color: context.colors.primary.withOpacity(0.3),
                         width: 2,
                       ),
                     ),
                     child: Icon(
                       Icons.mark_email_unread_rounded,
                       size: 64,
-                      color: AppColors.primary,
+                      color: context.colors.primary,
                     ),
                   ),
                 ),
@@ -122,7 +123,7 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen>
                   child: Text(
                     'Verify your email',
                     style: AppTypography.display.copyWith(
-                      color: AppColors.white,
+                      color: Colors.white,
                       fontSize: 32,
                     ),
                     textAlign: TextAlign.center,
@@ -136,7 +137,7 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen>
                   child: Text(
                     'We\'ve sent a verification link to your email address. Please verify your email to access your account.',
                     style: AppTypography.bodyLarge.copyWith(
-                      color: AppColors.grey400,
+                      color: context.customColors.grey400,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -158,8 +159,8 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen>
                   delay: 0.5,
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.primary,
-                      side: BorderSide(color: AppColors.primary),
+                      foregroundColor: context.colors.primary,
+                      side: BorderSide(color: context.colors.primary),
                       minimumSize: Size(double.infinity, 56),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
@@ -180,14 +181,14 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen>
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Verification email resent.'),
-                          backgroundColor: AppColors.primary,
+                          backgroundColor: context.colors.primary,
                         ),
                       );
                     },
                     child: Text(
                       'Resend Verification Email',
                       style: AppTypography.bodyMedium.copyWith(
-                        color: AppColors.primary,
+                        color: context.colors.primary,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -203,7 +204,7 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen>
                     child: Text(
                       'Sign Out',
                       style: AppTypography.bodyMedium.copyWith(
-                        color: AppColors.grey500,
+                        color: context.customColors.grey500,
                       ),
                     ),
                   ),

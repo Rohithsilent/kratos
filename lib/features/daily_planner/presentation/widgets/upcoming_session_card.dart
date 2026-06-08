@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../domain/models/planner_item_model.dart';
@@ -19,10 +20,10 @@ class UpcomingSessionCard extends StatelessWidget {
     final workoutName = item.workoutName ?? 'Scheduled Workout';
     final splitName = workoutName.toLowerCase();
     String splitTag = 'TRAINING';
-    Color splitColor = AppColors.primary;
+    Color splitColor = context.colors.primary;
     if (splitName.contains('push')) {
       splitTag = 'PUSH';
-      splitColor = AppColors.primary;
+      splitColor = context.colors.primary;
     } else if (splitName.contains('pull')) {
       splitTag = 'PULL';
       splitColor = const Color(0xFFFFB852);
@@ -85,7 +86,7 @@ class UpcomingSessionCard extends StatelessWidget {
                     style: TextStyle(
                       color: Theme.of(context).brightness == Brightness.dark
                           ? Colors.white
-                          : AppColors.grey900,
+                          : context.customColors.grey900,
                       fontSize: 15,
                       fontWeight: FontWeight.w900,
                     ),
@@ -129,7 +130,7 @@ class UpcomingSessionCard extends StatelessWidget {
                     style: TextStyle(
                       color: Theme.of(context).brightness == Brightness.dark
                           ? Colors.white
-                          : AppColors.grey900,
+                          : context.customColors.grey900,
                       fontSize: 14,
                       fontWeight: FontWeight.w800,
                     ),
@@ -143,7 +144,7 @@ class UpcomingSessionCard extends StatelessWidget {
               Icons.arrow_forward_ios_rounded,
               color: Theme.of(context).brightness == Brightness.dark
                   ? Colors.white
-                  : AppColors.grey900.withOpacity(0.15),
+                  : context.customColors.grey900.withOpacity(0.15),
               size: 12,
             ),
           ],

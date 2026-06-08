@@ -1,6 +1,7 @@
 // lib/features/daily_planner/presentation/screens/daily_planner_screen.dart
 
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -56,7 +57,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    AppColors.primary.withOpacity(0.04),
+                    context.colors.primary.withOpacity(0.04),
                     Colors.transparent,
                   ],
                 ),
@@ -73,7 +74,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    AppColors.primary.withOpacity(0.02),
+                    context.colors.primary.withOpacity(0.02),
                     Colors.transparent,
                   ],
                 ),
@@ -107,7 +108,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                                     Theme.of(context).brightness ==
                                         Brightness.dark
                                     ? Colors.white
-                                    : AppColors.grey900,
+                                    : context.customColors.grey900,
                                 fontSize: 28,
                                 fontWeight: FontWeight.w900,
                                 letterSpacing: 1.0,
@@ -141,7 +142,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                                           Theme.of(context).brightness ==
                                               Brightness.dark
                                           ? Colors.white
-                                          : AppColors.grey900.withOpacity(0.54),
+                                          : context.customColors.grey900.withOpacity(0.54),
                                       size: 16,
                                     ),
                                   ),
@@ -161,7 +162,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                                     Theme.of(context).brightness ==
                                         Brightness.dark
                                     ? Colors.white
-                                    : AppColors.grey900.withOpacity(0.35),
+                                    : context.customColors.grey900.withOpacity(0.35),
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -185,7 +186,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                           icon: Icons.local_fire_department_rounded,
                           value: '${stats.currentStreak}',
                           label: 'Day Streak',
-                          glowColor: AppColors.primary,
+                          glowColor: context.colors.primary,
                         ),
                         SizedBox(width: 8),
                         PlannerStatChip(
@@ -292,7 +293,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                           child: Text(
                             'VIEW ALL',
                             style: TextStyle(
-                              color: AppColors.primary.withOpacity(0.7),
+                              color: context.colors.primary.withOpacity(0.7),
                               fontSize: 9,
                               fontWeight: FontWeight.w900,
                               letterSpacing: 0.5,
@@ -310,7 +311,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                   loading: () => SliverToBoxAdapter(
                     child: Center(
                       child: CircularProgressIndicator(
-                        color: AppColors.primary,
+                        color: context.colors.primary,
                         strokeWidth: 2,
                       ),
                     ),
@@ -322,7 +323,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                         style: TextStyle(
                           color: Theme.of(context).brightness == Brightness.dark
                               ? Colors.white
-                              : AppColors.grey900.withOpacity(0.24),
+                              : context.customColors.grey900.withOpacity(0.24),
                         ),
                       ),
                     ),
@@ -360,7 +361,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                                       Theme.of(context).brightness ==
                                           Brightness.dark
                                       ? Colors.white
-                                      : AppColors.grey900.withOpacity(0.15),
+                                      : context.customColors.grey900.withOpacity(0.15),
                                   size: 20,
                                 ),
                                 SizedBox(width: 12),
@@ -372,7 +373,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                                           Theme.of(context).brightness ==
                                               Brightness.dark
                                           ? Colors.white
-                                          : AppColors.grey900.withOpacity(0.25),
+                                          : context.customColors.grey900.withOpacity(0.25),
                                       fontSize: 11,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -439,7 +440,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                                   color:
                                       Theme.of(context).brightness == Brightness.dark
                                           ? Colors.white
-                                          : AppColors.grey900.withOpacity(0.15),
+                                          : context.customColors.grey900.withOpacity(0.15),
                                   size: 20,
                                 ),
                                 SizedBox(width: 12),
@@ -450,7 +451,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                                       color:
                                           Theme.of(context).brightness == Brightness.dark
                                               ? Colors.white
-                                              : AppColors.grey900.withOpacity(0.25),
+                                              : context.customColors.grey900.withOpacity(0.25),
                                       fontSize: 11,
                                       fontWeight: FontWeight.w500,
                                     ),

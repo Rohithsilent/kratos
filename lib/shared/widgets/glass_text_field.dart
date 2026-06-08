@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_decorations.dart';
 
@@ -97,11 +98,11 @@ class _GlassTextFieldState extends State<GlassTextField>
             textInputAction: widget.textInputAction,
             textCapitalization: widget.textCapitalization,
             style: TextStyle(
-              color: isDark ? AppColors.white : AppColors.grey900,
+              color: isDark ? Colors.white : context.customColors.grey900,
               fontSize: 16,
               fontWeight: FontWeight.w500,
             ),
-            cursorColor: AppColors.primary,
+            cursorColor: context.colors.primary,
             decoration: InputDecoration(
               hintText: widget.hintText,
               labelText: widget.labelText,
@@ -117,18 +118,18 @@ class _GlassTextFieldState extends State<GlassTextField>
                 vertical: 18,
               ),
               hintStyle: TextStyle(
-                color: isDark ? AppColors.grey500 : AppColors.grey400,
+                color: isDark ? context.customColors.grey500 : context.customColors.grey400,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
               ),
               labelStyle: TextStyle(
                 color: _isFocused
-                    ? AppColors.primary
-                    : (isDark ? AppColors.grey400 : AppColors.grey500),
+                    ? context.colors.primary
+                    : (isDark ? context.customColors.grey400 : context.customColors.grey500),
                 fontSize: 14,
               ),
               floatingLabelStyle: TextStyle(
-                color: AppColors.primary,
+                color: context.colors.primary,
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
               ),

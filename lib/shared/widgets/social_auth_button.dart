@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 
@@ -39,7 +40,7 @@ class SocialAuthButton extends StatelessWidget {
         child: InkWell(
           onTap: onPressed,
           borderRadius: BorderRadius.circular(16),
-          splashColor: AppColors.primary.withOpacity(0.08),
+          splashColor: context.colors.primary.withOpacity(0.08),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -47,13 +48,13 @@ class SocialAuthButton extends StatelessWidget {
                 icon,
                 size: 22,
                 color: iconColor ??
-                    (isDark ? AppColors.white : AppColors.grey800),
+                    (isDark ? Colors.white : context.customColors.grey800),
               ),
               SizedBox(width: 12),
               Text(
                 label,
                 style: AppTypography.labelMedium.copyWith(
-                  color: isDark ? AppColors.white : AppColors.grey800,
+                  color: isDark ? Colors.white : context.customColors.grey800,
                 ),
               ),
             ],

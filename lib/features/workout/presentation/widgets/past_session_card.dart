@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../domain/models/workout_model.dart';
@@ -88,7 +89,7 @@ class PastSessionCard extends StatelessWidget {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.timer_outlined, color: AppColors.primary, size: 10),
+                            Icon(Icons.timer_outlined, color: context.colors.primary, size: 10),
                             SizedBox(width: 4),
                             Text(
                               _formatDuration(session.totalDurationSeconds),

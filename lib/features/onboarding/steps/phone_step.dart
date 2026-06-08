@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/constants/app_strings.dart';
@@ -58,9 +59,9 @@ class _PhoneStepState extends State<PhoneStep> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: 24),
-                Text(AppStrings.phoneTitle, style: AppTypography.display.copyWith(color: AppColors.white, fontSize: 40)),
+                Text(AppStrings.phoneTitle, style: AppTypography.display.copyWith(color: Colors.white, fontSize: 40)),
                 SizedBox(height: 12),
-                Text(AppStrings.phoneMicrocopy, style: AppTypography.bodyMedium.copyWith(color: AppColors.grey400)),
+                Text(AppStrings.phoneMicrocopy, style: AppTypography.bodyMedium.copyWith(color: context.customColors.grey400)),
                 SizedBox(height: 40),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,11 +81,11 @@ class _PhoneStepState extends State<PhoneStep> {
                           children: [
                             Text(_selectedFlag, style: TextStyle(fontSize: 20)),
                             SizedBox(width: 6),
-                            Text(_selectedCode, style: AppTypography.bodyMedium.copyWith(color: AppColors.white, fontWeight: FontWeight.w600)),
+                            Text(_selectedCode, style: AppTypography.bodyMedium.copyWith(color: Colors.white, fontWeight: FontWeight.w600)),
                             SizedBox(width: 2),
                             Icon(
                               _showPicker ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
-                              color: AppColors.grey500, size: 18,
+                              color: context.customColors.grey500, size: 18,
                             ),
                           ],
                         ),
@@ -111,8 +112,8 @@ class _PhoneStepState extends State<PhoneStep> {
                                       ? Icons.check_circle_rounded
                                       : Icons.cancel_rounded,
                                   color: _digitCount == 10
-                                      ? AppColors.success
-                                      : AppColors.error,
+                                      ? context.customColors.success
+                                      : context.colors.error,
                                   size: 20,
                                 ),
                               ),
@@ -124,7 +125,7 @@ class _PhoneStepState extends State<PhoneStep> {
                               child: Text(
                                 '$_digitCount/10 digits',
                                 style: TextStyle(
-                                  color: _digitCount < 10 ? AppColors.grey500 : AppColors.success,
+                                  color: _digitCount < 10 ? context.customColors.grey500 : context.customColors.success,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -168,20 +169,20 @@ class _PhoneStepState extends State<PhoneStep> {
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                              color: isSelected ? AppColors.primary.withOpacity(0.08) : Colors.transparent,
+                              color: isSelected ? context.colors.primary.withOpacity(0.08) : Colors.transparent,
                               child: Row(
                                 children: [
                                   Text(country['flag']!, style: TextStyle(fontSize: 18)),
                                   SizedBox(width: 10),
                                   Text(country['code']!, style: TextStyle(
-                                    color: isSelected ? AppColors.primary : AppColors.white,
+                                    color: isSelected ? context.colors.primary : Colors.white,
                                     fontWeight: FontWeight.w600, fontSize: 14,
                                   )),
                                   SizedBox(width: 10),
                                   Expanded(child: Text(country['name']!, style: TextStyle(
-                                    color: AppColors.grey400, fontSize: 13,
+                                    color: context.customColors.grey400, fontSize: 13,
                                   ))),
-                                  if (isSelected) Icon(Icons.check_rounded, color: AppColors.primary, size: 18),
+                                  if (isSelected) Icon(Icons.check_rounded, color: context.colors.primary, size: 18),
                                 ],
                               ),
                             ),

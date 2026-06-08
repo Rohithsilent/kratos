@@ -1,6 +1,7 @@
 // lib/features/workout/presentation/screens/workout_complete_screen.dart
 
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_decorations.dart';
 import '../../../../shared/widgets/glass_card.dart';
@@ -40,7 +41,7 @@ class WorkoutCompleteScreen extends StatelessWidget {
               width: 350,
               height: 350,
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.08),
+                color: context.colors.primary.withOpacity(0.08),
                 shape: BoxShape.circle,
               ),
             ),
@@ -52,7 +53,7 @@ class WorkoutCompleteScreen extends StatelessWidget {
               width: 300,
               height: 300,
               decoration: BoxDecoration(
-                color: AppColors.success.withOpacity(0.06),
+                color: context.customColors.success.withOpacity(0.06),
                 shape: BoxShape.circle,
               ),
             ),
@@ -71,12 +72,12 @@ class WorkoutCompleteScreen extends StatelessWidget {
                     width: 90,
                     height: 90,
                     decoration: BoxDecoration(
-                      color: AppColors.success.withOpacity(0.12),
+                      color: context.customColors.success.withOpacity(0.12),
                       shape: BoxShape.circle,
-                      border: Border.all(color: AppColors.success.withOpacity(0.4), width: 2),
+                      border: Border.all(color: context.customColors.success.withOpacity(0.4), width: 2),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.success.withOpacity(0.2),
+                          color: context.customColors.success.withOpacity(0.2),
                           blurRadius: 20,
                           spreadRadius: 2,
                         )
@@ -85,7 +86,7 @@ class WorkoutCompleteScreen extends StatelessWidget {
                     child: Center(
                       child: Icon(
                         Icons.check_circle_outline_rounded,
-                        color: AppColors.success,
+                        color: context.customColors.success,
                         size: 48,
                       ),
                     ),
@@ -96,7 +97,7 @@ class WorkoutCompleteScreen extends StatelessWidget {
                   Text(
                     session.workoutName.toUpperCase(),
                     style: TextStyle(
-                      color: AppColors.primary,
+                      color: context.colors.primary,
                       fontSize: 12,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 3,
@@ -105,7 +106,7 @@ class WorkoutCompleteScreen extends StatelessWidget {
                   SizedBox(height: 8),
                   Text(
                     'SESSION COMPLETE',
-                    style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900,
+                    style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
                       fontSize: 24,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 1,
@@ -114,7 +115,7 @@ class WorkoutCompleteScreen extends StatelessWidget {
                   SizedBox(height: 4),
                   Text(
                     'TEMPLE CONQUERED. STATS RECORDED.',
-                    style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.38),
+                    style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38),
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 0.8,
@@ -131,14 +132,14 @@ class WorkoutCompleteScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 18),
                           child: Column(
                             children: [
-                              Icon(Icons.timer_outlined, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.30), size: 18),
+                              Icon(Icons.timer_outlined, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.30), size: 18),
                               SizedBox(height: 6),
                               Text(
                                 _formatDuration(session.totalDurationSeconds),
-                                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900, fontSize: 13, fontWeight: FontWeight.bold),
+                                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 13, fontWeight: FontWeight.bold),
                               ),
                               SizedBox(height: 2),
-                              Text('ELAPSED TIME', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.38), fontSize: 9)),
+                              Text('ELAPSED TIME', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38), fontSize: 9)),
                             ],
                           ),
                         ),
@@ -150,14 +151,14 @@ class WorkoutCompleteScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 18),
                           child: Column(
                             children: [
-                              Icon(Icons.fitness_center_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.30), size: 18),
+                              Icon(Icons.fitness_center_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.30), size: 18),
                               SizedBox(height: 6),
                               Text(
                                 '${session.totalVolumeKg.toStringAsFixed(1)} KG',
-                                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900, fontSize: 13, fontWeight: FontWeight.bold),
+                                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 13, fontWeight: FontWeight.bold),
                               ),
                               SizedBox(height: 2),
-                              Text('TOTAL VOLUME', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.38), fontSize: 9)),
+                              Text('TOTAL VOLUME', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38), fontSize: 9)),
                             ],
                           ),
                         ),
@@ -173,14 +174,14 @@ class WorkoutCompleteScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 18),
                           child: Column(
                             children: [
-                              Icon(Icons.local_fire_department_outlined, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.30), size: 18),
+                              Icon(Icons.local_fire_department_outlined, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.30), size: 18),
                               SizedBox(height: 6),
                               Text(
                                 '${session.caloriesBurned} CAL',
-                                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900, fontSize: 13, fontWeight: FontWeight.bold),
+                                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 13, fontWeight: FontWeight.bold),
                               ),
                               SizedBox(height: 2),
-                              Text('EST. CALORIES', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.38), fontSize: 9)),
+                              Text('EST. CALORIES', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38), fontSize: 9)),
                             ],
                           ),
                         ),
@@ -192,14 +193,14 @@ class WorkoutCompleteScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 18),
                           child: Column(
                             children: [
-                              Icon(Icons.emoji_events_outlined, color: AppColors.primary, size: 18),
+                              Icon(Icons.emoji_events_outlined, color: context.colors.primary, size: 18),
                               SizedBox(height: 6),
                               Text(
                                 '$totalCompletedSets Sets Logged',
-                                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900, fontSize: 13, fontWeight: FontWeight.bold),
+                                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 13, fontWeight: FontWeight.bold),
                               ),
                               SizedBox(height: 2),
-                              Text('ACHIEVEMENT SUMMARY', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.38), fontSize: 9)),
+                              Text('ACHIEVEMENT SUMMARY', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38), fontSize: 9)),
                             ],
                           ),
                         ),
@@ -214,7 +215,7 @@ class WorkoutCompleteScreen extends StatelessWidget {
                     padding: EdgeInsets.all(14),
                     child: Row(
                       children: [
-                        Icon(Icons.offline_bolt_rounded, color: AppColors.primary, size: 24),
+                        Icon(Icons.offline_bolt_rounded, color: context.colors.primary, size: 24),
                         SizedBox(width: 14),
                         Expanded(
                           child: Column(
@@ -222,12 +223,12 @@ class WorkoutCompleteScreen extends StatelessWidget {
                             children: [
                               Text(
                                 'UNSTOPPABLE FORCE',
-                                style: TextStyle(color: AppColors.primary, fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1),
+                                style: TextStyle(color: context.colors.primary, fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1),
                               ),
                               SizedBox(height: 3),
                               Text(
                                 'You conquered ${session.completedExercises.length} tactile splits today. Keep grinding!',
-                                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.70), fontSize: 12, height: 1.35),
+                                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70), fontSize: 12, height: 1.35),
                               ),
                             ],
                           ),
@@ -250,7 +251,7 @@ class WorkoutCompleteScreen extends StatelessWidget {
                       child: Center(
                         child: Text(
                           'RETURN TO DASHBOARD',
-                          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900,
+                          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
                             fontSize: 13,
                             fontWeight: FontWeight.w900,
                             letterSpacing: 1.2,

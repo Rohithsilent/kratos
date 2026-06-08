@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_decorations.dart';
@@ -27,8 +28,8 @@ class ProfileScreen extends ConsumerWidget {
         bottom: false,
         child: profileState.when(
           data: (user) => _buildBody(context, ref, user, isDark),
-          loading: () => Center(child: CircularProgressIndicator(color: AppColors.primary)),
-          error: (e, _) => Center(child: Text('Error: $e', style: TextStyle(color: AppColors.error))),
+          loading: () => Center(child: CircularProgressIndicator(color: context.colors.primary)),
+          error: (e, _) => Center(child: Text('Error: $e', style: TextStyle(color: context.colors.error))),
         ),
       ),
     );
@@ -69,12 +70,12 @@ class ProfileScreen extends ConsumerWidget {
           _statStrip(context, isDark, streak, totalWorkouts, totalCal, bmi),
           const SizedBox(height: 28),
           // ═══ ACTIVITY ═══
-          _sectionLabel('WEEKLY ACTIVITY', isDark),
+          _sectionLabel(context, 'WEEKLY ACTIVITY', isDark),
           const SizedBox(height: 12),
           FitnessProgressChart(dailyCalories: dayCal, labels: labels),
           const SizedBox(height: 28),
           // ═══ BODY METRICS ═══
-          _sectionLabel('BODY METRICS', isDark),
+          _sectionLabel(context, 'BODY METRICS', isDark),
           const SizedBox(height: 12),
           PhysicalStatsCard(
             height: user?.height ?? '', weight: user?.weight ?? '', sex: user?.sex ?? '',
@@ -84,7 +85,7 @@ class ProfileScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 28),
           // ═══ PERSONAL INFO ═══
-          _sectionLabel('PERSONAL', isDark),
+          _sectionLabel(context, 'PERSONAL', isDark),
           const SizedBox(height: 12),
           _infoCard(context, isDark, notifier, [
             _InfoRow('Full Name', user?.name ?? '', Icons.person_rounded, (v) => notifier.updateField('name', v)),
@@ -94,12 +95,12 @@ class ProfileScreen extends ConsumerWidget {
           ]),
           const SizedBox(height: 28),
           // ═══ ACCOUNT ═══
-          _sectionLabel('ACCOUNT', isDark),
+          _sectionLabel(context, 'ACCOUNT', isDark),
           const SizedBox(height: 12),
           _accountCard(context, isDark, user),
           const SizedBox(height: 28),
           // ═══ PREFERENCES ═══
-          _sectionLabel('PREFERENCES', isDark),
+          _sectionLabel(context, 'PREFERENCES', isDark),
           const SizedBox(height: 12),
           _prefCard(context, ref, isDark),
           const SizedBox(height: 32),
@@ -108,7 +109,7 @@ class ProfileScreen extends ConsumerWidget {
           const SizedBox(height: 16),
           // ═══ FOOTER ═══
           Center(child: Text('KRATOS v1.0', style: TextStyle(
-            color: isDark ? AppColors.grey700 : AppColors.grey300, fontSize: 10, fontWeight: FontWeight.w600, letterSpacing: 1.5,
+            color: isDark ? context.customColors.grey700 : context.customColors.grey300, fontSize: 10, fontWeight: FontWeight.w600, letterSpacing: 1.5,
           ))),
           const SizedBox(height: 80),
         ]),
@@ -129,20 +130,20 @@ class ProfileScreen extends ConsumerWidget {
         width: 56, height: 56,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          gradient: AppColors.primaryGradient,
-          boxShadow: [BoxShadow(color: AppColors.primary.withValues(alpha: 0.25), blurRadius: 16)],
+          gradient: context.customColors.primaryGradient,
+          boxShadow: [BoxShadow(color: context.colors.primary.withValues(alpha: 0.25), blurRadius: 16)],
         ),
         child: Padding(
           padding: const EdgeInsets.all(2.5),
           child: Container(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: isDark ? AppColors.darkBg : AppColors.lightBg,
+              color: isDark ? context.colors.surface : context.colors.surface,
             ),
             child: ClipOval(
               child: img != null && img.isNotEmpty
-                  ? Image.network(img, fit: BoxFit.cover, errorBuilder: (_, __, ___) => _avatarFallback(initial, isDark))
-                  : _avatarFallback(initial, isDark),
+                  ? Image.network(img, fit: BoxFit.cover, errorBuilder: (_, __, ___) => _avatarFallback(context, initial, isDark))
+                  : _avatarFallback(context, initial, isDark),
             ),
           ),
         ),
@@ -151,31 +152,31 @@ class ProfileScreen extends ConsumerWidget {
       // Name + Email
       Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(name, style: AppTypography.headlineLarge.copyWith(
-          color: isDark ? Colors.white : AppColors.grey900, fontSize: 20, fontWeight: FontWeight.w900, letterSpacing: 1,
+          color: isDark ? Colors.white : context.customColors.grey900, fontSize: 20, fontWeight: FontWeight.w900, letterSpacing: 1,
         )),
         const SizedBox(height: 2),
         Text(email, style: TextStyle(
-          color: isDark ? AppColors.grey500 : AppColors.grey400, fontSize: 12, fontWeight: FontWeight.w500,
+          color: isDark ? context.customColors.grey500 : context.customColors.grey400, fontSize: 12, fontWeight: FontWeight.w500,
         ), overflow: TextOverflow.ellipsis),
       ])),
       // Badge
       Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
-          color: AppColors.primary.withValues(alpha: 0.12),
+          color: context.colors.primary.withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: AppColors.primary.withValues(alpha: 0.25)),
+          border: Border.all(color: context.colors.primary.withValues(alpha: 0.25)),
         ),
         child: Text('PRO', style: TextStyle(
-          color: AppColors.primary, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5,
+          color: context.colors.primary, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5,
         )),
       ),
     ]);
   }
 
-  Widget _avatarFallback(String initial, bool isDark) {
+  Widget _avatarFallback(BuildContext context, String initial, bool isDark) {
     return Center(child: Text(initial, style: TextStyle(
-      color: isDark ? Colors.white : AppColors.grey900, fontSize: 22, fontWeight: FontWeight.w900,
+      color: isDark ? Colors.white : context.customColors.grey900, fontSize: 22, fontWeight: FontWeight.w900,
     )));
   }
 
@@ -185,40 +186,40 @@ class ProfileScreen extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 4),
       decoration: AppDecorations.glassCard(context),
       child: Row(children: [
-        _statCell(isDark, '$streak', 'STREAK', Icons.local_fire_department_rounded, AppColors.primary),
+        _statCell(context, isDark, '$streak', 'STREAK', Icons.local_fire_department_rounded, context.colors.primary),
         _vDiv(isDark),
-        _statCell(isDark, '$workouts', 'WORKOUTS', Icons.fitness_center_rounded, const Color(0xFF22D3EE)),
+        _statCell(context, isDark, '$workouts', 'WORKOUTS', Icons.fitness_center_rounded, const Color(0xFF22D3EE)),
         _vDiv(isDark),
-        _statCell(isDark, '$cal', 'KCAL', Icons.bolt_rounded, const Color(0xFFFBBF24)),
+        _statCell(context, isDark, '$cal', 'KCAL', Icons.bolt_rounded, const Color(0xFFFBBF24)),
         _vDiv(isDark),
-        _statCell(isDark, bmi > 0 ? bmi.toStringAsFixed(1) : '—', 'BMI', Icons.monitor_weight_rounded, const Color(0xFFA78BFA)),
+        _statCell(context, isDark, bmi > 0 ? bmi.toStringAsFixed(1) : '—', 'BMI', Icons.monitor_weight_rounded, const Color(0xFFA78BFA)),
       ]),
     );
   }
 
-  Widget _statCell(bool isDark, String val, String label, IconData icon, Color c) {
+  Widget _statCell(BuildContext context, bool isDark, String val, String label, IconData icon, Color c) {
     return Expanded(child: Column(mainAxisSize: MainAxisSize.min, children: [
       Icon(icon, color: c, size: 18),
       const SizedBox(height: 6),
       Text(val, style: AppTypography.headlineLarge.copyWith(
-        color: isDark ? Colors.white : AppColors.grey900, fontSize: 18, fontWeight: FontWeight.w900,
+        color: isDark ? Colors.white : context.customColors.grey900, fontSize: 18, fontWeight: FontWeight.w900,
       )),
       const SizedBox(height: 2),
-      Text(label, style: TextStyle(color: isDark ? AppColors.grey500 : AppColors.grey400, fontSize: 8, fontWeight: FontWeight.w700, letterSpacing: 1)),
+      Text(label, style: TextStyle(color: isDark ? context.customColors.grey500 : context.customColors.grey400, fontSize: 8, fontWeight: FontWeight.w700, letterSpacing: 1)),
     ]));
   }
 
   Widget _vDiv(bool isDark) => Container(width: 1, height: 40, color: isDark ? Colors.white.withValues(alpha: 0.06) : Colors.black.withValues(alpha: 0.06));
 
   // ─── SECTION LABEL ───
-  Widget _sectionLabel(String t, bool isDark) {
+  Widget _sectionLabel(BuildContext context, String t, bool isDark) {
     return Row(children: [
       Container(width: 3, height: 16, decoration: BoxDecoration(
-        color: AppColors.primary, borderRadius: BorderRadius.circular(2),
+        color: context.colors.primary, borderRadius: BorderRadius.circular(2),
       )),
       const SizedBox(width: 10),
       Text(t, style: AppTypography.labelBold.copyWith(
-        color: isDark ? AppColors.grey400 : AppColors.grey600, fontSize: 11, letterSpacing: 2,
+        color: isDark ? context.customColors.grey400 : context.customColors.grey600, fontSize: 11, letterSpacing: 2,
       )),
     ]);
   }
@@ -243,19 +244,19 @@ class ProfileScreen extends ConsumerWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Row(children: [
-          Icon(row.icon, color: isDark ? AppColors.grey500 : AppColors.grey400, size: 20),
+          Icon(row.icon, color: isDark ? context.customColors.grey500 : context.customColors.grey400, size: 20),
           const SizedBox(width: 16),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(row.label.toUpperCase(), style: TextStyle(
-              color: isDark ? AppColors.grey600 : AppColors.grey400, fontSize: 9, fontWeight: FontWeight.w700, letterSpacing: 1,
+              color: isDark ? context.customColors.grey600 : context.customColors.grey400, fontSize: 9, fontWeight: FontWeight.w700, letterSpacing: 1,
             )),
             const SizedBox(height: 3),
             Text(row.value.isNotEmpty ? row.value : 'Not set', style: AppTypography.bodyMedium.copyWith(
-              color: row.value.isNotEmpty ? (isDark ? Colors.white : AppColors.grey900) : AppColors.grey500,
+              color: row.value.isNotEmpty ? (isDark ? Colors.white : context.customColors.grey900) : context.customColors.grey500,
               fontSize: 15, fontWeight: FontWeight.w500,
             )),
           ])),
-          if (row.onSave != null) Icon(Icons.chevron_right_rounded, color: isDark ? AppColors.grey700 : AppColors.grey300, size: 20),
+          if (row.onSave != null) Icon(Icons.chevron_right_rounded, color: isDark ? context.customColors.grey700 : context.customColors.grey300, size: 20),
         ]),
       ),
     );
@@ -275,18 +276,18 @@ class ProfileScreen extends ConsumerWidget {
           ),
           padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
           child: Column(mainAxisSize: MainAxisSize.min, children: [
-            Container(width: 40, height: 4, decoration: BoxDecoration(color: isDark ? AppColors.grey700 : AppColors.grey300, borderRadius: BorderRadius.circular(2))),
+            Container(width: 40, height: 4, decoration: BoxDecoration(color: isDark ? context.customColors.grey700 : context.customColors.grey300, borderRadius: BorderRadius.circular(2))),
             const SizedBox(height: 20),
-            Text('UPDATE ${label.toUpperCase()}', style: AppTypography.labelBold.copyWith(color: isDark ? Colors.white : AppColors.grey900, letterSpacing: 2)),
+            Text('UPDATE ${label.toUpperCase()}', style: AppTypography.labelBold.copyWith(color: isDark ? Colors.white : context.customColors.grey900, letterSpacing: 2)),
             const SizedBox(height: 20),
             TextField(
               controller: ctrl, autofocus: true, textAlign: TextAlign.center,
-              style: AppTypography.headlineSmall.copyWith(color: isDark ? Colors.white : AppColors.grey900),
+              style: AppTypography.headlineSmall.copyWith(color: isDark ? Colors.white : context.customColors.grey900),
               decoration: InputDecoration(
-                hintText: label, hintStyle: TextStyle(color: isDark ? AppColors.grey700 : AppColors.grey300),
+                hintText: label, hintStyle: TextStyle(color: isDark ? context.customColors.grey700 : context.customColors.grey300),
                 border: InputBorder.none,
                 enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: isDark ? Colors.white.withValues(alpha: 0.08) : Colors.black.withValues(alpha: 0.08))),
-                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: AppColors.primary.withValues(alpha: 0.6), width: 2)),
+                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: context.colors.primary.withValues(alpha: 0.6), width: 2)),
               ),
             ),
             const SizedBox(height: 24),
@@ -294,7 +295,7 @@ class ProfileScreen extends ConsumerWidget {
               onTap: () { if (ctrl.text.trim().isNotEmpty) onSave(ctrl.text.trim()); Navigator.pop(ctx); },
               child: Container(
                 width: double.infinity, height: 48,
-                decoration: BoxDecoration(gradient: AppColors.primaryGradient, borderRadius: BorderRadius.circular(14)),
+                decoration: BoxDecoration(gradient: context.customColors.primaryGradient, borderRadius: BorderRadius.circular(14)),
                 child: Center(child: Text('SAVE', style: AppTypography.labelBold.copyWith(color: Colors.white, letterSpacing: 1.5))),
               ),
             ),
@@ -310,19 +311,19 @@ class ProfileScreen extends ConsumerWidget {
       padding: const EdgeInsets.all(16),
       decoration: AppDecorations.glassCard(context),
       child: Column(children: [
-        _metaRow(isDark, 'PROVIDER', (user?.authProvider ?? 'unknown').toUpperCase()),
+        _metaRow(context, isDark, 'PROVIDER', (user?.authProvider ?? 'unknown').toUpperCase()),
         const SizedBox(height: 10),
-        _metaRow(isDark, 'MEMBER SINCE', _fmtDate(user?.createdAt)),
+        _metaRow(context, isDark, 'MEMBER SINCE', _fmtDate(user?.createdAt)),
         const SizedBox(height: 10),
-        _metaRow(isDark, 'LAST LOGIN', _fmtDate(user?.lastLogin)),
+        _metaRow(context, isDark, 'LAST LOGIN', _fmtDate(user?.lastLogin)),
       ]),
     );
   }
 
-  Widget _metaRow(bool isDark, String label, String val) {
+  Widget _metaRow(BuildContext context, bool isDark, String label, String val) {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Text(label, style: TextStyle(color: isDark ? AppColors.grey600 : AppColors.grey400, fontSize: 9, fontWeight: FontWeight.w700, letterSpacing: 1)),
-      Text(val, style: TextStyle(color: isDark ? Colors.white : AppColors.grey900, fontSize: 13, fontWeight: FontWeight.w600)),
+      Text(label, style: TextStyle(color: isDark ? context.customColors.grey600 : context.customColors.grey400, fontSize: 9, fontWeight: FontWeight.w700, letterSpacing: 1)),
+      Text(val, style: TextStyle(color: isDark ? Colors.white : context.customColors.grey900, fontSize: 13, fontWeight: FontWeight.w600)),
     ]);
   }
 
@@ -332,21 +333,21 @@ class ProfileScreen extends ConsumerWidget {
     return Container(
       decoration: AppDecorations.glassCard(context),
       child: Column(children: [
-        _prefTile(isDark, themeMode == ThemeMode.dark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+        _prefTile(context, isDark, themeMode == ThemeMode.dark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
           'Theme', isDark ? 'Dark Mode' : 'Light Mode', () => ref.read(themeControllerProvider.notifier).toggleTheme()),
         _prefDivider(isDark),
-        _prefTile(isDark, Icons.notifications_rounded, 'Notifications', 'Manage alerts', () {}),
+        _prefTile(context, isDark, Icons.notifications_rounded, 'Notifications', 'Manage alerts', () {}),
         _prefDivider(isDark),
-        _prefTile(isDark, Icons.security_rounded, 'Security', 'Credentials', () {}),
+        _prefTile(context, isDark, Icons.security_rounded, 'Security', 'Credentials', () {}),
         _prefDivider(isDark),
-        _prefTile(isDark, Icons.devices_rounded, 'Devices', 'Sync wearables', () {}),
+        _prefTile(context, isDark, Icons.devices_rounded, 'Devices', 'Sync wearables', () {}),
         _prefDivider(isDark),
-        _prefTile(isDark, Icons.help_outline_rounded, 'Support', 'FAQ & help', () {}),
+        _prefTile(context, isDark, Icons.help_outline_rounded, 'Support', 'FAQ & help', () {}),
       ]),
     );
   }
 
-  Widget _prefTile(bool isDark, IconData icon, String title, String sub, VoidCallback onTap) {
+  Widget _prefTile(BuildContext context, bool isDark, IconData icon, String title, String sub, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap, behavior: HitTestBehavior.opaque,
       child: Padding(
@@ -354,15 +355,15 @@ class ProfileScreen extends ConsumerWidget {
         child: Row(children: [
           Container(
             padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
-            child: Icon(icon, color: AppColors.primary, size: 18),
+            decoration: BoxDecoration(color: context.colors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
+            child: Icon(icon, color: context.colors.primary, size: 18),
           ),
           const SizedBox(width: 14),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(title, style: TextStyle(color: isDark ? Colors.white : AppColors.grey900, fontSize: 15, fontWeight: FontWeight.w600)),
-            Text(sub, style: TextStyle(color: isDark ? AppColors.grey500 : AppColors.grey400, fontSize: 11, fontWeight: FontWeight.w400)),
+            Text(title, style: TextStyle(color: isDark ? Colors.white : context.customColors.grey900, fontSize: 15, fontWeight: FontWeight.w600)),
+            Text(sub, style: TextStyle(color: isDark ? context.customColors.grey500 : context.customColors.grey400, fontSize: 11, fontWeight: FontWeight.w400)),
           ])),
-          Icon(Icons.chevron_right_rounded, color: isDark ? AppColors.grey700 : AppColors.grey300, size: 20),
+          Icon(Icons.chevron_right_rounded, color: isDark ? context.customColors.grey700 : context.customColors.grey300, size: 20),
         ]),
       ),
     );
@@ -377,14 +378,14 @@ class ProfileScreen extends ConsumerWidget {
       child: Container(
         width: double.infinity, padding: const EdgeInsets.symmetric(vertical: 15),
         decoration: BoxDecoration(
-          color: AppColors.primary.withValues(alpha: 0.1),
+          color: context.colors.primary.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+          border: Border.all(color: context.colors.primary.withValues(alpha: 0.3)),
         ),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Icon(Icons.logout_rounded, color: AppColors.primary, size: 18),
+          Icon(Icons.logout_rounded, color: context.colors.primary, size: 18),
           const SizedBox(width: 8),
-          Text('LOG OUT', style: AppTypography.labelBold.copyWith(color: AppColors.primary, letterSpacing: 1.5)),
+          Text('LOG OUT', style: AppTypography.labelBold.copyWith(color: context.colors.primary, letterSpacing: 1.5)),
         ]),
       ),
     );

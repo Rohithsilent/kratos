@@ -1,6 +1,7 @@
 // lib/features/dashboard/presentation/widgets/dashboard_music_player.dart
 
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -130,13 +131,13 @@ class _DashboardMusicPlayerState extends ConsumerState<DashboardMusicPlayer>
                         const SizedBox(height: 4),
                         Text(track.name,
                             style: AppTypography.headlineSmall.copyWith(
-                                color: isDark ? Colors.white : AppColors.grey900,
+                                color: isDark ? Colors.white : context.customColors.grey900,
                                 fontSize: 17, fontWeight: FontWeight.w800, height: 1.2),
                             maxLines: 1, overflow: TextOverflow.ellipsis),
                         const SizedBox(height: 4),
                         Text(track.artistName,
                             style: AppTypography.bodySmall.copyWith(
-                                color: isDark ? Colors.white54 : AppColors.grey500, fontSize: 13),
+                                color: isDark ? Colors.white54 : context.customColors.grey500, fontSize: 13),
                             maxLines: 1, overflow: TextOverflow.ellipsis),
                       ],
                     ),
@@ -167,8 +168,8 @@ class _DashboardMusicPlayerState extends ConsumerState<DashboardMusicPlayer>
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(_fmt(_currentPosition), style: TextStyle(color: isDark ? Colors.white38 : AppColors.grey400, fontSize: 10, fontWeight: FontWeight.w600)),
-                  Text(_fmt(_trackDuration), style: TextStyle(color: isDark ? Colors.white38 : AppColors.grey400, fontSize: 10, fontWeight: FontWeight.w600)),
+                  Text(_fmt(_currentPosition), style: TextStyle(color: isDark ? Colors.white38 : context.customColors.grey400, fontSize: 10, fontWeight: FontWeight.w600)),
+                  Text(_fmt(_trackDuration), style: TextStyle(color: isDark ? Colors.white38 : context.customColors.grey400, fontSize: 10, fontWeight: FontWeight.w600)),
                 ],
               ),
               const SizedBox(height: 12),
@@ -191,11 +192,11 @@ class _DashboardMusicPlayerState extends ConsumerState<DashboardMusicPlayer>
                       width: 52, height: 52,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: isDark ? Colors.white : AppColors.grey900,
-                        boxShadow: [BoxShadow(color: (isDark ? Colors.white : AppColors.grey900).withValues(alpha: 0.3), blurRadius: 16, spreadRadius: 2)],
+                        color: isDark ? Colors.white : context.customColors.grey900,
+                        boxShadow: [BoxShadow(color: (isDark ? Colors.white : context.customColors.grey900).withValues(alpha: 0.3), blurRadius: 16, spreadRadius: 2)],
                       ),
                       child: Icon(musicState.isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
-                          color: isDark ? AppColors.grey900 : Colors.white, size: 28),
+                          color: isDark ? context.customColors.grey900 : Colors.white, size: 28),
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -250,17 +251,17 @@ class _DashboardMusicPlayerState extends ConsumerState<DashboardMusicPlayer>
   }
 
   Widget _placeholder(bool isDark) => Container(
-      color: isDark ? Colors.black38 : AppColors.grey200,
-      child: Icon(Icons.album_rounded, color: isDark ? Colors.white38 : AppColors.grey500, size: 32));
+      color: isDark ? Colors.black38 : context.customColors.grey200,
+      child: Icon(Icons.album_rounded, color: isDark ? Colors.white38 : context.customColors.grey500, size: 32));
 
   Widget _thumbPlaceholder(bool isDark) => Container(
-      color: isDark ? Colors.white.withValues(alpha: 0.05) : AppColors.grey100,
-      child: Icon(Icons.music_note_rounded, color: isDark ? Colors.white24 : AppColors.grey400, size: 20));
+      color: isDark ? Colors.white.withValues(alpha: 0.05) : context.customColors.grey100,
+      child: Icon(Icons.music_note_rounded, color: isDark ? Colors.white24 : context.customColors.grey400, size: 20));
 
   Widget _ctrl(IconData icon, bool isDark, {double size = 24, bool active = false, VoidCallback? onTap}) {
     return GestureDetector(
       onTap: onTap,
-      child: Icon(icon, color: active ? const Color(0xFF1DB954) : (isDark ? Colors.white70 : AppColors.grey600), size: size),
+      child: Icon(icon, color: active ? Color(0xFF1DB954) : (isDark ? Colors.white70 : context.customColors.grey600), size: size),
     );
   }
 
@@ -285,9 +286,9 @@ class _DashboardMusicPlayerState extends ConsumerState<DashboardMusicPlayer>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('TACTICAL AUDIO', style: AppTypography.labelBold.copyWith(color: isDark ? Colors.white : AppColors.grey900, letterSpacing: 1.5, fontSize: 13)),
+                  Text('TACTICAL AUDIO', style: AppTypography.labelBold.copyWith(color: isDark ? Colors.white : context.customColors.grey900, letterSpacing: 1.5, fontSize: 13)),
                   const SizedBox(height: 2),
-                  Text('Connect Spotify to fuel your sessions', style: AppTypography.caption.copyWith(color: isDark ? Colors.white38 : AppColors.grey500)),
+                  Text('Connect Spotify to fuel your sessions', style: AppTypography.caption.copyWith(color: isDark ? Colors.white38 : context.customColors.grey500)),
                 ],
               ),
             ),
@@ -331,13 +332,13 @@ class _DashboardMusicPlayerState extends ConsumerState<DashboardMusicPlayer>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('READY TO PLAY', style: AppTypography.labelBold.copyWith(color: isDark ? Colors.white : AppColors.grey900, letterSpacing: 1.2, fontSize: 13)),
+                        Text('READY TO PLAY', style: AppTypography.labelBold.copyWith(color: isDark ? Colors.white : context.customColors.grey900, letterSpacing: 1.2, fontSize: 13)),
                         const SizedBox(height: 2),
-                        Text('Tap a playlist below to start', style: AppTypography.caption.copyWith(color: isDark ? Colors.white38 : AppColors.grey500)),
+                        Text('Tap a playlist below to start', style: AppTypography.caption.copyWith(color: isDark ? Colors.white38 : context.customColors.grey500)),
                       ],
                     ),
                   ),
-                  Icon(Icons.chevron_right_rounded, color: isDark ? Colors.white24 : AppColors.grey400),
+                  Icon(Icons.chevron_right_rounded, color: isDark ? Colors.white24 : context.customColors.grey400),
                 ],
               ),
               if (playlists.isNotEmpty) ...[

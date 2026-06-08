@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/constants/app_strings.dart';
@@ -51,9 +52,9 @@ class _EmailStepState extends State<EmailStep> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: 24),
-                Text(AppStrings.emailTitle, style: AppTypography.display.copyWith(color: AppColors.white, fontSize: 40)),
+                Text(AppStrings.emailTitle, style: AppTypography.display.copyWith(color: Colors.white, fontSize: 40)),
                 SizedBox(height: 12),
-                Text(AppStrings.emailMicrocopy, style: AppTypography.bodyMedium.copyWith(color: AppColors.grey400)),
+                Text(AppStrings.emailMicrocopy, style: AppTypography.bodyMedium.copyWith(color: context.customColors.grey400)),
                 SizedBox(height: 40),
                 GlassTextField(
                   hintText: AppStrings.emailHint,
@@ -61,7 +62,7 @@ class _EmailStepState extends State<EmailStep> {
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.done,
                   autofocus: true,
-                  prefixIcon: Icon(Icons.mail_outline_rounded, color: AppColors.grey500, size: 20),
+                  prefixIcon: Icon(Icons.mail_outline_rounded, color: context.customColors.grey500, size: 20),
                   onChanged: widget.onChanged,
                   suffixIcon: AnimatedOpacity(
                     duration: Duration(milliseconds: 300),
@@ -70,7 +71,7 @@ class _EmailStepState extends State<EmailStep> {
                       padding: EdgeInsets.only(right: 12),
                       child: Icon(
                         _isValid ? Icons.check_circle_rounded : Icons.cancel_rounded,
-                        color: _isValid ? AppColors.success : AppColors.error,
+                        color: _isValid ? context.customColors.success : context.colors.error,
                         size: 20,
                       ),
                     ),
@@ -81,7 +82,7 @@ class _EmailStepState extends State<EmailStep> {
                     padding: EdgeInsets.only(top: 8, left: 4),
                     child: Text(
                       'Enter a valid email address',
-                      style: TextStyle(color: AppColors.error.withOpacity(0.8), fontSize: 12, fontWeight: FontWeight.w500),
+                      style: TextStyle(color: context.colors.error.withOpacity(0.8), fontSize: 12, fontWeight: FontWeight.w500),
                     ),
                   ),
 
@@ -92,7 +93,7 @@ class _EmailStepState extends State<EmailStep> {
                     Expanded(child: Divider(color: Colors.white.withOpacity(0.08))),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: Text('or', style: AppTypography.bodySmall.copyWith(color: AppColors.grey500)),
+                      child: Text('or', style: AppTypography.bodySmall.copyWith(color: context.customColors.grey500)),
                     ),
                     Expanded(child: Divider(color: Colors.white.withOpacity(0.08))),
                   ],

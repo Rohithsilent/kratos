@@ -46,13 +46,12 @@ class KratosApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
+    final themeData = ref.watch(themeDataProvider);
 
     return MaterialApp.router(
       title: 'KRATOS',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
-      themeMode: ref.watch(themeControllerProvider),
+      theme: themeData,
       routerConfig: router,
     );
   }

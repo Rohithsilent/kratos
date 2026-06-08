@@ -1,6 +1,7 @@
 // lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart
 
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -96,7 +97,7 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: AppColors.success,
+          backgroundColor: context.customColors.success,
           content: Text('Plan updated successfully!', style: TextStyle(fontWeight: FontWeight.bold)),
         ),
       );
@@ -115,7 +116,7 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.70), size: 16),
+          icon: Icon(Icons.arrow_back_ios_new_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70), size: 16),
           onPressed: () => context.pop(),
         ),
         title: Text(
@@ -144,11 +145,11 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
                   Container(
                     padding: EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withOpacity(0.08),
+                      color: context.colors.primary.withOpacity(0.08),
                       shape: BoxShape.circle,
-                      border: Border.all(color: AppColors.primary.withOpacity(0.2)),
+                      border: Border.all(color: context.colors.primary.withOpacity(0.2)),
                     ),
-                    child: Icon(Icons.calendar_month_rounded, color: AppColors.primary, size: 24),
+                    child: Icon(Icons.calendar_month_rounded, color: context.colors.primary, size: 24),
                   ),
                   SizedBox(width: 16),
                   Expanded(
@@ -157,13 +158,13 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
                       children: [
                         Text(
                           '${PlannerHelpers.getDayNameShort(widget.date)}, ${dateStr.toUpperCase()}',
-                          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900, fontSize: 18, fontWeight: FontWeight.w900),
+                          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 18, fontWeight: FontWeight.w900),
                           overflow: TextOverflow.ellipsis,
                         ),
                         SizedBox(height: 4),
                         Text(
                           'Define your tactical fitness objectives.',
-                          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.38), fontSize: 11),
+                          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38), fontSize: 11),
                         ),
                       ],
                     ),
@@ -176,12 +177,12 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
             // 1. SELECT TARGET WORKOUT
             Text(
               'ASSIGN TRAINING WORKOUT',
-              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.60), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1),
+              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.60), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1),
             ),
             SizedBox(height: 10),
             workoutsAsync.when(
-              loading: () => Center(child: CircularProgressIndicator(color: AppColors.primary)),
-              error: (err, st) => Center(child: Text('Failed to load workouts: $err', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.24)))),
+              loading: () => Center(child: CircularProgressIndicator(color: context.colors.primary)),
+              error: (err, st) => Center(child: Text('Failed to load workouts: $err', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.24)))),
               data: (workouts) {
                 if (workouts.isEmpty) {
                   return Container(
@@ -198,12 +199,12 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
                         Expanded(
                           child: Text(
                             'No custom workouts created yet! Build a routine first.',
-                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.70), fontSize: 11),
+                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70), fontSize: 11),
                           ),
                         ),
                         TextButton(
                           onPressed: () => context.push('/workout/create'),
-                          child: Text('BUILD', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w900)),
+                          child: Text('BUILD', style: TextStyle(color: context.colors.primary, fontWeight: FontWeight.w900)),
                         )
                       ],
                     ),
@@ -221,8 +222,8 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
                     child: DropdownButton<String?>(
                       value: _selectedWorkoutId,
                       dropdownColor: Color(0xFF0F0F0F),
-                      icon: Icon(Icons.arrow_drop_down_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.60)),
-                      hint: Text('Select Routine...', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.30), fontSize: 13)),
+                      icon: Icon(Icons.arrow_drop_down_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.60)),
+                      hint: Text('Select Routine...', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.30), fontSize: 13)),
                       items: [
                         DropdownMenuItem<String?>(
                           value: null,
@@ -231,7 +232,7 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
                         ...workouts.map((w) {
                           return DropdownMenuItem<String?>(
                             value: w.id,
-                            child: Text(w.name, style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900, fontSize: 13)),
+                            child: Text(w.name, style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 13)),
                           );
                         }),
                       ],
@@ -255,7 +256,7 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
             // 2. MISSION PLANNER STATUS
             Text(
               'MISSION STATUS OVERRIDE',
-              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.60), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1),
+              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.60), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1),
             ),
             SizedBox(height: 10),
             Wrap(
@@ -263,8 +264,8 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
               runSpacing: 8,
               children: PlannerStatus.values.map((status) {
                 final isSelected = _selectedStatus == status;
-                Color statusColor = AppColors.primary;
-                if (status == PlannerStatus.completed) statusColor = AppColors.success;
+                Color statusColor = context.colors.primary;
+                if (status == PlannerStatus.completed) statusColor = context.customColors.success;
                 if (status == PlannerStatus.recovery) statusColor = Colors.tealAccent;
                 if (status == PlannerStatus.skipped) statusColor = Colors.orangeAccent;
                 if (status == PlannerStatus.planned) statusColor = Colors.blueAccent;
@@ -304,7 +305,7 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
             // 3. TACTICAL NOTES FOR THE DAY
             Text(
               'PLANNING OR PRE-WORKOUT NOTES',
-              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.60), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1),
+              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.60), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1),
             ),
             SizedBox(height: 10),
             Container(
@@ -317,7 +318,7 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
               child: TextField(
                 controller: _notesController,
                 maxLines: 4,
-                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900, fontSize: 13),
+                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 13),
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   enabledBorder: InputBorder.none,
@@ -326,7 +327,7 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
                   focusedErrorBorder: InputBorder.none,
                   disabledBorder: InputBorder.none,
                   hintText: 'Enter targets, energy levels, hydration plans, or notes...',
-                  hintStyle: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.24), fontSize: 12),
+                  hintStyle: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.24), fontSize: 12),
                   contentPadding: EdgeInsets.symmetric(vertical: 16),
                 ),
               ),
@@ -338,26 +339,26 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
               onTap: _handleSave,
               child: Container(
                 height: 50,
-                decoration: AppColors.primaryGradient.colors.isNotEmpty
+                decoration: context.customColors.primaryGradient.colors.isNotEmpty
                     ? BoxDecoration(
-                        gradient: AppColors.primaryGradient,
+                        gradient: context.customColors.primaryGradient,
                         borderRadius: BorderRadius.circular(14),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.primary.withOpacity(0.2),
+                            color: context.colors.primary.withOpacity(0.2),
                             blurRadius: 12,
                             offset: Offset(0, 4),
                           ),
                         ],
                       )
                     : BoxDecoration(
-                        color: AppColors.primary,
+                        color: context.colors.primary,
                         borderRadius: BorderRadius.circular(14),
                       ),
                 child: Center(
                   child: Text(
                     'COMMIT OBJECTIVES',
-                    style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900,
+                    style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
                       fontSize: 12,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 1.0,

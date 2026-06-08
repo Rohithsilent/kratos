@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/constants/app_strings.dart';
@@ -95,7 +96,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
                     child: Text(
                       AppStrings.welcomeBack,
                       style: AppTypography.display.copyWith(
-                        color: AppColors.white,
+                        color: Colors.white,
                         fontSize: 42,
                       ),
                     ),
@@ -113,7 +114,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
                       textInputAction: TextInputAction.next,
                       prefixIcon: Icon(
                         Icons.mail_outline_rounded,
-                        color: AppColors.grey500,
+                        color: context.customColors.grey500,
                         size: 20,
                       ),
                     ),
@@ -131,7 +132,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
                       textInputAction: TextInputAction.done,
                       prefixIcon: Icon(
                         Icons.lock_outline_rounded,
-                        color: AppColors.grey500,
+                        color: context.customColors.grey500,
                         size: 20,
                       ),
                       suffixIcon: IconButton(
@@ -139,7 +140,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
                           _obscurePassword
                               ? Icons.visibility_off_rounded
                               : Icons.visibility_rounded,
-                          color: AppColors.grey500,
+                          color: context.customColors.grey500,
                           size: 20,
                         ),
                         onPressed: () => setState(
@@ -170,12 +171,12 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(6),
                                     color: _rememberMe
-                                        ? AppColors.primary
+                                        ? context.colors.primary
                                         : Colors.transparent,
                                     border: Border.all(
                                       color: _rememberMe
-                                          ? AppColors.primary
-                                          : AppColors.grey600,
+                                          ? context.colors.primary
+                                          : context.customColors.grey600,
                                       width: 1.5,
                                     ),
                                   ),
@@ -183,7 +184,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
                                       ? Icon(
                                           Icons.check,
                                           size: 14,
-                                          color: AppColors.white,
+                                          color: Colors.white,
                                         )
                                       : null,
                                 ),
@@ -192,7 +193,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
                                   child: Text(
                                     AppStrings.rememberMe,
                                     style: AppTypography.bodySmall.copyWith(
-                                      color: AppColors.grey400,
+                                      color: context.customColors.grey400,
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -217,7 +218,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
                           child: Text(
                             AppStrings.forgotPassword,
                             style: AppTypography.bodySmall.copyWith(
-                              color: AppColors.primary,
+                              color: context.colors.primary,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -276,7 +277,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
                           child: Text(
                             'or',
                             style: AppTypography.bodySmall.copyWith(
-                              color: AppColors.grey500,
+                              color: context.customColors.grey500,
                             ),
                           ),
                         ),
@@ -305,16 +306,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
                     ),
                   ),
 
-                  SizedBox(height: 12),
 
-                  _animatedEntry(
-                    delay: 0.55,
-                    child: SocialAuthButton(
-                      label: AppStrings.continueWithApple,
-                      icon: Icons.apple_rounded,
-                      onPressed: () {},
-                    ),
-                  ),
 
                   SizedBox(height: 32),
 
@@ -330,13 +322,13 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
                           text: TextSpan(
                             text: AppStrings.noAccount,
                             style: AppTypography.bodySmall.copyWith(
-                              color: AppColors.grey400,
+                              color: context.customColors.grey400,
                             ),
                             children: [
                               TextSpan(
                                 text: AppStrings.register,
                                 style: AppTypography.bodySmall.copyWith(
-                                  color: AppColors.primary,
+                                  color: context.colors.primary,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
@@ -387,18 +379,18 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: AppColors.darkSurface,
+          backgroundColor: context.colors.surface,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: Text(
             'Enter OTP',
-            style: AppTypography.headlineSmall.copyWith(color: AppColors.white),
+            style: AppTypography.headlineSmall.copyWith(color: Colors.white),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 'Please enter the 6-digit code sent to your phone.',
-                style: AppTypography.bodyMedium.copyWith(color: AppColors.grey400),
+                style: AppTypography.bodyMedium.copyWith(color: context.customColors.grey400),
               ),
               SizedBox(height: 16),
               GlassTextField(
@@ -413,7 +405,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel', style: TextStyle(color: AppColors.grey400)),
+              child: Text('Cancel', style: TextStyle(color: context.customColors.grey400)),
             ),
             TextButton(
               onPressed: () {
@@ -423,7 +415,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
                   ref.read(authControllerProvider.notifier).verifyOTP(code);
                 }
               },
-              child: Text('Verify', style: TextStyle(color: AppColors.primary)),
+              child: Text('Verify', style: TextStyle(color: context.colors.primary)),
             ),
           ],
         );

@@ -118,20 +118,7 @@ class AuthRepository {
         throw Exception('Google Sign-In was cancelled by the user.');
       }
 
-      // If they are logging in, verify the user exists in Firestore BEFORE authenticating with Firebase
-      // to prevent the app router from instantly redirecting to the dashboard on an auth state change.
-      if (isLogin && googleUser.email.isNotEmpty) {
-        final querySnapshot = await _firestore
-            .collection('users')
-            .where('email', isEqualTo: googleUser.email)
-            .limit(1)
-            .get();
 
-        if (querySnapshot.docs.isEmpty) {
-          await _googleSignIn.signOut();
-          throw Exception('No registered user found with this Google account. Please sign up first.');
-        }
-      }
 
       // v7.x: get idToken via the authentication property
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
@@ -143,11 +130,13 @@ class AuthRepository {
 
       final userCredential = await _auth.signInWithCredential(credential);
       
-      // Check if new user to create profile
-      if (userCredential.additionalUserInfo?.isNewUser == true) {
-
-        final user = userCredential.user;
-        if (user != null) {
+      final user = userCredential.user;
+      if (user != null) {
+        // Double check if document exists, because they might be an existing Firebase Auth user
+        // but the Firestore document was deleted or creation failed previously.
+        final userDoc = await _firestore.collection('users').doc(user.uid).get();
+        
+        if (userCredential.additionalUserInfo?.isNewUser == true || !userDoc.exists) {
           final newUser = UserModel(
             uid: user.uid,
             name: onboardingData?.name ?? user.displayName ?? '',
@@ -159,15 +148,15 @@ class AuthRepository {
             weight: onboardingData?.weight ?? '',
             profileImage: user.photoURL ?? '',
             authProvider: 'google',
-            onboardingCompleted: true, // We assume if they passed onboardingData, they completed it. If not, they skipped it somehow but we default to true to maintain previous behavior (or we can use onboardingData != null). Let's use true for now as they've gone through the flow.
+            onboardingCompleted: true,
             emailVerified: true,
             createdAt: DateTime.now().toIso8601String(),
             lastLogin: DateTime.now().toIso8601String(),
           );
           await saveUserData(newUser);
+        } else {
+          await _updateLastLogin(user.uid);
         }
-      } else {
-        await _updateLastLogin(userCredential.user?.uid);
       }
       
       return userCredential;

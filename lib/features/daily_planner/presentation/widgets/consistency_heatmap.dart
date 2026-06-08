@@ -1,6 +1,7 @@
 // lib/features/daily_planner/presentation/widgets/consistency_heatmap.dart
 
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
@@ -53,7 +54,7 @@ class ConsistencyHeatmap extends ConsumerWidget {
             height: 100,
             child: Center(
               child: CircularProgressIndicator(
-                color: AppColors.primary,
+                color: context.colors.primary,
                 strokeWidth: 2,
               ),
             ),
@@ -222,7 +223,7 @@ class _HeatmapGrid extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(2.5),
                                 border: isToday
                                     ? Border.all(
-                                        color: AppColors.primary.withOpacity(0.8),
+                                        color: context.colors.primary.withOpacity(0.8),
                                         width: 1.2,
                                       )
                                     : null,

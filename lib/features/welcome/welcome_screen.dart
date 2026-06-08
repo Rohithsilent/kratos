@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/constants/app_strings.dart';
@@ -121,7 +122,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                         child: Text(
                           AppStrings.appName,
                           style: AppTypography.display.copyWith(
-                            color: AppColors.primary,
+                            color: context.colors.primary,
                             fontSize: 56,
                             letterSpacing: 12,
                           ),
@@ -138,7 +139,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                             AppStrings.appTagline,
                             textAlign: TextAlign.center,
                             style: AppTypography.headlineLarge.copyWith(
-                              color: AppColors.white,
+                              color: Colors.white,
                               fontSize: 34,
                             ),
                           ),
@@ -155,7 +156,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                             AppStrings.appDescription,
                             textAlign: TextAlign.center,
                             style: AppTypography.bodyMedium.copyWith(
-                              color: AppColors.grey400,
+                              color: context.customColors.grey400,
                               height: 1.7,
                             ),
                           ),
@@ -228,12 +229,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                               child: RichText(
                                 text: TextSpan(
                                   text: AppStrings.alreadyHaveAccount,
-                                  style: AppTypography.bodySmall.copyWith(color: AppColors.grey400),
+                                  style: AppTypography.bodySmall.copyWith(color: context.customColors.grey400),
                                   children: [
                                     TextSpan(
                                       text: ' ${AppStrings.signIn}',
                                       style: AppTypography.bodySmall.copyWith(
-                                        color: AppColors.primary,
+                                        color: context.colors.primary,
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
@@ -268,9 +269,9 @@ class _StatCard extends StatelessWidget {
       borderRadius: 18,
       child: Column(
         children: [
-          Text(value, style: AppTypography.headlineSmall.copyWith(color: AppColors.primary, fontWeight: FontWeight.w800)),
+          Text(value, style: AppTypography.headlineSmall.copyWith(color: context.colors.primary, fontWeight: FontWeight.w800)),
           SizedBox(height: 4),
-          Text(label, style: AppTypography.caption.copyWith(color: AppColors.grey400), textAlign: TextAlign.center),
+          Text(label, style: AppTypography.caption.copyWith(color: context.customColors.grey400), textAlign: TextAlign.center),
         ],
       ),
     );

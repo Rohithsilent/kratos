@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 
@@ -101,7 +102,7 @@ class _WeightWheelState extends State<WeightWheel> {
                 : _displayValue.round().toString(),
             key: ValueKey('${widget.useKg}-$_selectedWeight'),
             style: AppTypography.metric.copyWith(
-              color: AppColors.white,
+              color: Colors.white,
               fontSize: 72,
             ),
           ),
@@ -112,7 +113,7 @@ class _WeightWheelState extends State<WeightWheel> {
             widget.useKg ? 'kg' : 'lbs',
             key: ValueKey(widget.useKg ? 'u-kg' : 'u-lbs'),
             style: AppTypography.metricUnit.copyWith(
-              color: AppColors.grey400,
+              color: context.customColors.grey400,
             ),
           ),
         ),
@@ -130,10 +131,10 @@ class _WeightWheelState extends State<WeightWheel> {
                 height: 52,
                 margin: EdgeInsets.symmetric(horizontal: 40),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.08),
+                  color: context.colors.primary.withOpacity(0.08),
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: AppColors.primary.withOpacity(0.2),
+                    color: context.colors.primary.withOpacity(0.2),
                     width: 1,
                   ),
                 ),
@@ -177,7 +178,7 @@ class _WeightWheelState extends State<WeightWheel> {
                                   ? FontWeight.w600
                                   : FontWeight.w400),
                           color: isSelected
-                              ? AppColors.primary
+                              ? context.colors.primary
                               : (isDark
                                   ? Colors.white.withOpacity(
                                       isWhole ? 0.5 : 0.25)

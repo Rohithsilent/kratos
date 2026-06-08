@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'dart:ui';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
@@ -25,10 +26,10 @@ class TacticalPlaylistCard extends StatelessWidget {
         width: 240, // Wider for cinematic feel
         margin: const EdgeInsets.only(right: 20),
         decoration: BoxDecoration(
-          color: AppColors.darkCard,
+          color: context.colors.surface,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: AppColors.glassBorderDark,
+            color: context.glassmorphism.borderColor,
             width: 1,
           ),
           boxShadow: [
@@ -74,7 +75,7 @@ class TacticalPlaylistCard extends StatelessWidget {
                         end: Alignment.bottomCenter,
                         colors: [
                           Colors.transparent,
-                          AppColors.darkCard.withValues(alpha: 0.9),
+                          context.colors.surface.withValues(alpha: 0.9),
                         ],
                       ),
                     ),
@@ -83,7 +84,7 @@ class TacticalPlaylistCard extends StatelessWidget {
                   Positioned(
                     top: 12,
                     left: 12,
-                    child: _buildChip('[ ${playlist.bpmRange} BPM ]', AppColors.primary),
+                    child: _buildChip('[ ${playlist.bpmRange} BPM ]', context.colors.primary),
                   ),
                   Positioned(
                     top: 12,
@@ -102,7 +103,7 @@ class TacticalPlaylistCard extends StatelessWidget {
                   Text(
                     playlist.name.toUpperCase(),
                     style: AppTypography.labelBold.copyWith(
-                      color: Colors.white,
+                      color: context.colors.onSurface,
                       fontSize: 14,
                       letterSpacing: 1.5,
                     ),
@@ -112,13 +113,13 @@ class TacticalPlaylistCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   Row(
                     children: [
-                      Icon(Icons.bolt, color: AppColors.primary, size: 14),
+                      Icon(Icons.bolt, color: context.colors.primary, size: 14),
                       const SizedBox(width: 4),
                       Expanded(
                         child: Text(
                           '${playlist.category} • ${playlist.duration}',
                           style: AppTypography.bodySmall.copyWith(
-                            color: Colors.white70,
+                            color: context.colors.onSurface.withValues(alpha: 0.7),
                             fontSize: 11,
                           ),
                           maxLines: 1,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/theme/app_colors.dart';
@@ -52,7 +53,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Password reset email sent. Please check your inbox.'),
-            backgroundColor: AppColors.primary,
+            backgroundColor: context.colors.primary,
           ),
         );
         context.pop();
@@ -96,7 +97,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
                     child: Text(
                       'Reset Password',
                       style: AppTypography.display.copyWith(
-                        color: AppColors.white,
+                        color: Colors.white,
                         fontSize: 42,
                       ),
                     ),
@@ -109,7 +110,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
                     child: Text(
                       'Enter your email address to receive a password reset link.',
                       style: AppTypography.bodyLarge.copyWith(
-                        color: AppColors.grey400,
+                        color: context.customColors.grey400,
                       ),
                     ),
                   ),
@@ -126,7 +127,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
                       textInputAction: TextInputAction.done,
                       prefixIcon: Icon(
                         Icons.mail_outline_rounded,
-                        color: AppColors.grey500,
+                        color: context.customColors.grey500,
                         size: 20,
                       ),
                     ),

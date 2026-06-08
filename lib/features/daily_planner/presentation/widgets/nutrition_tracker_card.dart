@@ -2,6 +2,7 @@
 
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
@@ -35,19 +36,19 @@ class NutritionTrackerCard extends ConsumerWidget {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
+                    color: context.colors.primary.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: AppColors.primary.withOpacity(0.2)),
+                    border: Border.all(color: context.colors.primary.withOpacity(0.2)),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.add_rounded, color: AppColors.primary, size: 12),
+                      Icon(Icons.add_rounded, color: context.colors.primary, size: 12),
                       SizedBox(width: 4),
                       Text(
                         'LOG',
                         style: TextStyle(
-                          color: AppColors.primary,
+                          color: context.colors.primary,
                           fontSize: 9,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 0.5,
@@ -71,7 +72,7 @@ class NutritionTrackerCard extends ConsumerWidget {
                 target: '${nutrition.caloriesTarget.round()}',
                 unit: 'kcal',
                 progress: nutrition.caloriesProgress,
-                color: AppColors.primary,
+                color: context.colors.primary,
               ),
               SizedBox(width: 8),
               _MacroCapsule(
@@ -171,7 +172,7 @@ class NutritionTrackerCard extends ConsumerWidget {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryContainer,
+                    backgroundColor: context.colors.primary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
                     ),

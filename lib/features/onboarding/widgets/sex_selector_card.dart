@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 
@@ -44,13 +45,13 @@ class _Option extends StatelessWidget {
         curve: Curves.easeOutCubic,
         height: 140,
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary.withOpacity(0.10) : (isDark ? Colors.white.withOpacity(0.04) : Colors.black.withOpacity(0.03)),
+          color: isSelected ? context.colors.primary.withOpacity(0.10) : (isDark ? Colors.white.withOpacity(0.04) : Colors.black.withOpacity(0.03)),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? AppColors.primary.withOpacity(0.6) : (isDark ? Colors.white.withOpacity(0.08) : Colors.black.withOpacity(0.06)),
+            color: isSelected ? context.colors.primary.withOpacity(0.6) : (isDark ? Colors.white.withOpacity(0.08) : Colors.black.withOpacity(0.06)),
             width: isSelected ? 1.5 : 1,
           ),
-          boxShadow: isSelected ? [BoxShadow(color: AppColors.primary.withOpacity(0.15), blurRadius: 24, spreadRadius: -4)] : null,
+          boxShadow: isSelected ? [BoxShadow(color: context.colors.primary.withOpacity(0.15), blurRadius: 24, spreadRadius: -4)] : null,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -59,13 +60,13 @@ class _Option extends StatelessWidget {
               padding: EdgeInsets.all(12),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isSelected ? AppColors.primary.withOpacity(0.15) : (isDark ? Colors.white.withOpacity(0.06) : Colors.black.withOpacity(0.04)),
+                color: isSelected ? context.colors.primary.withOpacity(0.15) : (isDark ? Colors.white.withOpacity(0.06) : Colors.black.withOpacity(0.04)),
               ),
-              child: Icon(icon, size: 28, color: isSelected ? AppColors.primary : (isDark ? AppColors.grey400 : AppColors.grey500)),
+              child: Icon(icon, size: 28, color: isSelected ? context.colors.primary : (isDark ? context.customColors.grey400 : context.customColors.grey500)),
             ),
             SizedBox(height: 10),
             Text(label, style: AppTypography.labelMedium.copyWith(
-              color: isSelected ? (isDark ? AppColors.white : AppColors.grey900) : (isDark ? AppColors.grey400 : AppColors.grey500),
+              color: isSelected ? (isDark ? Colors.white : context.customColors.grey900) : (isDark ? context.customColors.grey400 : context.customColors.grey500),
               fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
             )),
           ],

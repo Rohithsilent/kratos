@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -91,7 +92,7 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.2),
+              color: context.colors.primary.withValues(alpha: 0.2),
               blurRadius: 20,
               spreadRadius: -5,
               offset: const Offset(0, 8),
@@ -105,10 +106,10 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
             child: Container(
               height: 72,
               decoration: BoxDecoration(
-                color: isDark ? AppColors.darkCard.withValues(alpha: 0.8) : AppColors.white.withValues(alpha: 0.85),
+                color: isDark ? context.colors.surface.withValues(alpha: 0.8) : Colors.white.withValues(alpha: 0.85),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: isDark ? AppColors.glassBorderDark : AppColors.glassBorderLight,
+                  color: isDark ? context.glassmorphism.borderColor : context.glassmorphism.borderColor,
                   width: 1.5,
                 ),
               ),
@@ -118,7 +119,7 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
                   // Progress Bar Background
                   Container(
                     height: 3,
-                    color: isDark ? Colors.white10 : AppColors.grey300,
+                    color: isDark ? Colors.white10 : context.customColors.grey300,
                   ),
                   // Live Progress Bar
                   FractionallySizedBox(
@@ -126,10 +127,10 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
                     child: Container(
                       height: 3,
                       decoration: BoxDecoration(
-                        color: AppColors.primary,
+                        color: context.colors.primary,
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.primary,
+                            color: context.colors.primary,
                             blurRadius: 6,
                             spreadRadius: 1,
                           ),
@@ -148,7 +149,7 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
                           width: 50,
                           height: 50,
                           decoration: BoxDecoration(
-                            color: isDark ? Colors.black45 : AppColors.grey100,
+                            color: isDark ? Colors.black45 : context.customColors.grey100,
                             borderRadius: BorderRadius.circular(12),
                             image: track.albumImageUrl.isNotEmpty
                                 ? DecorationImage(
@@ -156,10 +157,10 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
                                     fit: BoxFit.cover,
                                   )
                                 : null,
-                            border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+                            border: Border.all(color: context.colors.primary.withValues(alpha: 0.3)),
                           ),
                           child: track.albumImageUrl.isEmpty
-                              ? const Icon(Icons.graphic_eq, color: AppColors.primary)
+                              ? Icon(Icons.graphic_eq, color: context.colors.primary)
                               : null,
                         ),
                         const SizedBox(width: 12),
@@ -172,7 +173,7 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
                               Text(
                                 track.name,
                                 style: AppTypography.labelBold.copyWith(
-                                  color: isDark ? Colors.white : AppColors.black,
+                                  color: isDark ? Colors.white : Colors.black,
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -181,7 +182,7 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
                               Text(
                                 track.artistName,
                                 style: AppTypography.bodySmall.copyWith(
-                                  color: isDark ? Colors.white54 : AppColors.grey600,
+                                  color: isDark ? Colors.white54 : context.customColors.grey600,
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -208,7 +209,7 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
       mainAxisSize: MainAxisSize.min,
       children: [
         IconButton(
-          icon: Icon(Icons.skip_previous_rounded, color: isDark ? Colors.white : AppColors.black, size: 28),
+          icon: Icon(Icons.skip_previous_rounded, color: isDark ? Colors.white : Colors.black, size: 28),
           onPressed: () => ref.read(musicControllerProvider.notifier).previous(),
         ),
         GestureDetector(
@@ -224,18 +225,18 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
             height: 44,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: AppColors.primary.withValues(alpha: 0.15),
-              border: Border.all(color: AppColors.primary.withValues(alpha: 0.5)),
+              color: context.colors.primary.withValues(alpha: 0.15),
+              border: Border.all(color: context.colors.primary.withValues(alpha: 0.5)),
             ),
             child: Icon(
               musicState.isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
-              color: AppColors.primary,
+              color: context.colors.primary,
               size: 26,
             ),
           ),
         ),
         IconButton(
-          icon: Icon(Icons.skip_next_rounded, color: isDark ? Colors.white : AppColors.black, size: 28),
+          icon: Icon(Icons.skip_next_rounded, color: isDark ? Colors.white : Colors.black, size: 28),
           onPressed: () => ref.read(musicControllerProvider.notifier).next(),
         ),
       ],
@@ -253,22 +254,22 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
             height: 64,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: isDark ? AppColors.darkCard.withValues(alpha: 0.8) : AppColors.white.withValues(alpha: 0.85),
+              color: isDark ? context.colors.surface.withValues(alpha: 0.8) : Colors.white.withValues(alpha: 0.85),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: isDark ? AppColors.glassBorderDark : AppColors.glassBorderLight,
+                color: isDark ? context.glassmorphism.borderColor : context.glassmorphism.borderColor,
                 width: 1.5,
               ),
             ),
             child: Row(
               children: [
-                Icon(Icons.speaker_group_outlined, color: AppColors.primary, size: 24),
+                Icon(Icons.speaker_group_outlined, color: context.colors.primary, size: 24),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     "TACTICAL AUDIO",
                     style: AppTypography.labelBold.copyWith(
-                      color: isDark ? Colors.white : AppColors.black,
+                      color: isDark ? Colors.white : Colors.black,
                       letterSpacing: 1.5,
                     ),
                   ),
@@ -279,7 +280,7 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
                   },
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.white,
-                    backgroundColor: AppColors.primary.withValues(alpha: 0.8),
+                    backgroundColor: context.colors.primary.withValues(alpha: 0.8),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   child: const Text("CONNECT"),

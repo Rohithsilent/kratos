@@ -2,6 +2,7 @@
 
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class PlannerProgressRing extends StatelessWidget {
@@ -25,6 +26,7 @@ class PlannerProgressRing extends StatelessWidget {
         painter: _ProgressRingPainter(
           progress: progress,
           strokeWidth: strokeWidth,
+          colors: context.colors,
         ),
       ),
     );
@@ -34,10 +36,12 @@ class PlannerProgressRing extends StatelessWidget {
 class _ProgressRingPainter extends CustomPainter {
   final double progress;
   final double strokeWidth;
+  final ColorScheme colors;
 
   _ProgressRingPainter({
     required this.progress,
     required this.strokeWidth,
+    required this.colors,
   });
 
   @override
@@ -57,7 +61,7 @@ class _ProgressRingPainter extends CustomPainter {
     if (progress > 0) {
       final activePaint = Paint()
         ..shader = SweepGradient(
-          colors: [AppColors.primary, AppColors.primaryLight, AppColors.primary],
+          colors: [colors.primary, colors.secondary, colors.primary],
           stops: [0.0, 0.5, 1.0],
           transform: GradientRotation(-pi / 2),
         ).createShader(Rect.fromCircle(center: center, radius: radius))

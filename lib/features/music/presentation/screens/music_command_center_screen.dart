@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
@@ -29,7 +30,7 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
     final playlistState = ref.watch(playlistsControllerProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.darkBg,
+      backgroundColor: context.colors.surface,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -40,20 +41,20 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
         title: Text(
           'AUDIO COMMAND',
           style: AppTypography.labelBold.copyWith(
-            color: AppColors.primary,
+            color: context.colors.primary,
             letterSpacing: 2.0,
           ),
         ),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.add_link, color: AppColors.primary),
+            icon: Icon(Icons.add_link, color: context.colors.primary),
             onPressed: () => _showImportDialog(context),
           ),
         ],
       ),
       body: playlistState.isLoading
-          ? const Center(child: CircularProgressIndicator(color: AppColors.primary))
+          ? Center(child: CircularProgressIndicator(color: context.colors.primary))
           : CustomScrollView(
               slivers: [
                 SliverPadding(
@@ -213,10 +214,10 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                         colors: [Color(0xFF181818), Color(0xFF0B0B0B)],
                       ),
                       borderRadius: BorderRadius.circular(28),
-                      border: Border.all(color: AppColors.primary.withOpacity(0.2), width: 1),
+                      border: Border.all(color: context.colors.primary.withOpacity(0.2), width: 1),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.redGlowSubtle,
+                          color: context.glow.redGlowSubtle,
                           blurRadius: 50,
                           spreadRadius: 1,
                         ),
@@ -238,7 +239,7 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                               ),
                             ),
                             const SizedBox(height: 12),
-                            Container(width: 48, height: 2, color: AppColors.primary),
+                            Container(width: 48, height: 2, color: context.colors.primary),
                           ],
                         ),
                         const SizedBox(height: 32),
@@ -247,13 +248,13 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                         Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: AppColors.primary.withOpacity(0.08),
+                            color: context.colors.primary.withOpacity(0.08),
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: AppColors.primary.withOpacity(0.2)),
+                            border: Border.all(color: context.colors.primary.withOpacity(0.2)),
                           ),
                           child: Row(
                             children: [
-                              Icon(Icons.info_outline, color: AppColors.primary.withOpacity(0.8), size: 20),
+                              Icon(Icons.info_outline, color: context.colors.primary.withOpacity(0.8), size: 20),
                               const SizedBox(width: 12),
                               Expanded(
                                 child: Text(
@@ -273,7 +274,7 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                         TextField(
                           controller: controller,
                           style: const TextStyle(color: Colors.white),
-                          cursorColor: AppColors.primary,
+                          cursorColor: context.colors.primary,
                           decoration: InputDecoration(
                             hintText: 'https://open.spotify.com/playlist/...',
                             hintStyle: TextStyle(color: Colors.white.withOpacity(0.25)),
@@ -290,7 +291,7 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+                              borderSide: BorderSide(color: context.colors.primary, width: 1.5),
                             ),
                             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                           ),
@@ -332,12 +333,12 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                                   padding: EdgeInsets.zero,
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                   elevation: 8,
-                                  shadowColor: AppColors.primary.withOpacity(0.4),
+                                  shadowColor: context.colors.primary.withOpacity(0.4),
                                 ),
                                 child: Ink(
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
-                                      colors: [AppColors.primary, AppColors.primary.withOpacity(0.7)],
+                                      colors: [context.colors.primary, context.colors.primary.withOpacity(0.7)],
                                     ),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
@@ -389,10 +390,10 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                     decoration: BoxDecoration(
                       color: const Color(0xFF121212),
                       borderRadius: BorderRadius.circular(24),
-                      border: Border.all(color: AppColors.primary.withOpacity(0.3), width: 1),
+                      border: Border.all(color: context.colors.primary.withOpacity(0.3), width: 1),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.redGlowSubtle,
+                          color: context.glow.redGlowSubtle,
                           blurRadius: 40,
                           spreadRadius: 1,
                         ),
@@ -402,7 +403,7 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.warning_amber_rounded, color: AppColors.primary, size: 48),
+                        Icon(Icons.warning_amber_rounded, color: context.colors.primary, size: 48),
                         const SizedBox(height: 16),
                         Text(
                           'DELETE PLAYLIST',
@@ -456,7 +457,7 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                                 },
                                 style: ElevatedButton.styleFrom(
                                   padding: const EdgeInsets.symmetric(vertical: 16),
-                                  backgroundColor: AppColors.primary,
+                                  backgroundColor: context.colors.primary,
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                 ),
                                 child: Text('DELETE', style: AppTypography.labelBold.copyWith(color: Colors.white)),
@@ -482,7 +483,7 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
         Container(
           width: 4,
           height: 16,
-          color: AppColors.primary,
+          color: context.colors.primary,
         ),
         const SizedBox(width: 8),
         Text(

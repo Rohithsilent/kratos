@@ -2,6 +2,7 @@
 
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -45,7 +46,7 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
     return Scaffold(
       backgroundColor: Color(0xFF090909), // Premium Primary Background #090909
       body: workoutsAsync.when(
-        loading: () => Center(child: CircularProgressIndicator(color: AppColors.primary)),
+        loading: () => Center(child: CircularProgressIndicator(color: context.colors.primary)),
         error: (err, st) => Center(child: Text('Failed to load: $err', style: TextStyle(color: Color(0xFF8A8A8A)))),
         data: (workouts) {
           final workout = workouts.firstWhere(
@@ -219,14 +220,14 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                                     child: Container(
                                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                       decoration: BoxDecoration(
-                                        color: AppColors.primary.withOpacity(0.1),
+                                        color: context.colors.primary.withOpacity(0.1),
                                         borderRadius: BorderRadius.circular(6),
-                                        border: Border.all(color: AppColors.primary.withOpacity(0.3), width: 0.8),
+                                        border: Border.all(color: context.colors.primary.withOpacity(0.3), width: 0.8),
                                       ),
                                       child: Text(
                                         'CHANGE',
                                         style: TextStyle(
-                                          color: AppColors.primaryLight,
+                                          color: context.colors.secondary,
                                           fontSize: 9,
                                           fontWeight: FontWeight.bold,
                                           letterSpacing: 0.5,
@@ -268,12 +269,12 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Icon(Icons.add_circle_outline, color: AppColors.primary, size: 20),
+                                          Icon(Icons.add_circle_outline, color: context.colors.primary, size: 20),
                                           SizedBox(width: 8),
                                           Text(
                                             'ASSIGN PLAYLIST',
                                             style: TextStyle(
-                                              color: AppColors.primary,
+                                              color: context.colors.primary,
                                               fontSize: 12,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -449,7 +450,7 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.play_arrow_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900, size: 20),
+                          Icon(Icons.play_arrow_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, size: 20),
                           SizedBox(width: 8),
                           Text(
                             'START WORKOUT ROUTINE',
@@ -461,7 +462,7 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                             ),
                           ),
                           SizedBox(width: 4),
-                          Icon(Icons.chevron_right_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.54), size: 16),
+                          Icon(Icons.chevron_right_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.54), size: 16),
                         ],
                       ),
                     ),
@@ -766,7 +767,7 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                     Text(
                       'SELECT TACTICAL PLAYLIST',
                       style: TextStyle(
-                        color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900,
+                        color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
                         fontSize: 15,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 1.5,
@@ -774,7 +775,7 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                     ),
                     const SizedBox(height: 20),
                     if (playlistState.isLoading && allPlaylists.isEmpty)
-                      const Center(child: CircularProgressIndicator(color: AppColors.primary))
+                      Center(child: CircularProgressIndicator(color: context.colors.primary))
                     else if (allPlaylists.isEmpty)
                       const Center(
                         child: Padding(
@@ -802,7 +803,7 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                               ),
                               subtitle: Text(
                                 pl.category,
-                                style: const TextStyle(color: AppColors.primary, fontSize: 11),
+                                style: TextStyle(color: context.colors.primary, fontSize: 11),
                               ),
                               onTap: () {
                                 ref.read(workoutListProvider.notifier).addOrUpdateWorkout(

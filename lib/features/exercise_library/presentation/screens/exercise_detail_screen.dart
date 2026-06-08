@@ -2,6 +2,7 @@
 
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_decorations.dart';
@@ -74,8 +75,8 @@ class _ExerciseDetailScreenState extends ConsumerState<ExerciseDetailScreen> {
                     gradient: LinearGradient(
                       colors: [
                         Colors.black.withOpacity(0.4),
-                        AppColors.darkBg.withOpacity(0.9),
-                        AppColors.darkBg,
+                        context.colors.surface.withOpacity(0.9),
+                        context.colors.surface,
                       ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -106,13 +107,13 @@ class _ExerciseDetailScreenState extends ConsumerState<ExerciseDetailScreen> {
                             child: Container(
                               padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                color: AppColors.glassDark,
+                                color: context.glassmorphism.cardColor,
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                  color: AppColors.glassBorderDark,
+                                  color: context.glassmorphism.borderColor,
                                 ),
                               ),
-                              child: Icon(Icons.arrow_back_ios_new_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900,
+                              child: Icon(Icons.arrow_back_ios_new_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
                                 size: 18,
                               ),
                             ),
@@ -143,13 +144,13 @@ class _ExerciseDetailScreenState extends ConsumerState<ExerciseDetailScreen> {
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Icon(Icons.add_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900,
+                                      Icon(Icons.add_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
                                         size: 16,
                                       ),
                                       SizedBox(width: 4),
                                       Text(
                                         'ADD TO WORKOUT',
-                                        style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900,
+                                        style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
                                           fontSize: 11,
                                           fontWeight: FontWeight.w900,
                                           letterSpacing: 0.5,
@@ -178,7 +179,7 @@ class _ExerciseDetailScreenState extends ConsumerState<ExerciseDetailScreen> {
                         children: [
                           Text(
                             widget.exercise.name.toUpperCase(),
-                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900,
+                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
                               fontSize: 26,
                               fontWeight: FontWeight.w900,
                               letterSpacing: 0.5,
@@ -199,7 +200,7 @@ class _ExerciseDetailScreenState extends ConsumerState<ExerciseDetailScreen> {
                                         widget.exercise.muscleGroup
                                             .toUpperCase(),
                                         style: TextStyle(
-                                          color: AppColors.primary,
+                                          color: context.colors.primary,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 12,
                                           letterSpacing: 1.1,
@@ -207,11 +208,11 @@ class _ExerciseDetailScreenState extends ConsumerState<ExerciseDetailScreen> {
                                       ),
                                       Text(
                                         '  •  ',
-                                        style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.38)),
+                                        style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38)),
                                       ),
                                       Text(
                                         widget.exercise.equipment.toUpperCase(),
-                                        style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.60),
+                                        style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.60),
                                           fontWeight: FontWeight.w600,
                                           fontSize: 12,
                                           letterSpacing: 1.1,
@@ -228,16 +229,16 @@ class _ExerciseDetailScreenState extends ConsumerState<ExerciseDetailScreen> {
                                   vertical: 4,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: AppColors.primary.withOpacity(0.12),
+                                  color: context.colors.primary.withOpacity(0.12),
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
-                                    color: AppColors.primary.withOpacity(0.4),
+                                    color: context.colors.primary.withOpacity(0.4),
                                   ),
                                 ),
                                 child: Text(
                                   widget.exercise.difficulty.toUpperCase(),
                                   style: TextStyle(
-                                    color: AppColors.primary,
+                                    color: context.colors.primary,
                                     fontSize: 10,
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: 0.8,
@@ -287,11 +288,11 @@ class _ExerciseDetailScreenState extends ConsumerState<ExerciseDetailScreen> {
                                   fit: BoxFit.contain,
                                   filterQuality: FilterQuality.high,
                                   errorBuilder: (c, e, s) => Container(
-                                    color: AppColors.darkSurface,
+                                    color: context.colors.surface,
                                     child: Center(
                                       child: Icon(
                                         Icons.fitness_center,
-                                        color: AppColors.grey500,
+                                        color: context.customColors.grey500,
                                         size: 64,
                                       ),
                                     ),
@@ -349,7 +350,7 @@ class _ExerciseDetailScreenState extends ConsumerState<ExerciseDetailScreen> {
                         children: [
                           Text(
                             'HOW TO PERFORM',
-                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900,
+                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
                               fontSize: 16,
                               fontWeight: FontWeight.w900,
                               letterSpacing: 1.1,
@@ -375,8 +376,8 @@ class _ExerciseDetailScreenState extends ConsumerState<ExerciseDetailScreen> {
                                         shape: BoxShape.circle,
                                         gradient: LinearGradient(
                                           colors: [
-                                            AppColors.primary,
-                                            AppColors.primaryDark,
+                                            context.colors.primary,
+                                            context.colors.primary,
                                           ],
                                           begin: Alignment.topLeft,
                                           end: Alignment.bottomRight,
@@ -385,7 +386,7 @@ class _ExerciseDetailScreenState extends ConsumerState<ExerciseDetailScreen> {
                                       child: Center(
                                         child: Text(
                                           '${index + 1}',
-                                          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900,
+                                          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
                                             fontWeight: FontWeight.w900,
                                             fontSize: 12,
                                           ),
@@ -397,7 +398,7 @@ class _ExerciseDetailScreenState extends ConsumerState<ExerciseDetailScreen> {
                                     Expanded(
                                       child: Text(
                                         steps[index],
-                                        style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.85),
+                                        style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.85),
                                           fontSize: 14,
                                           height: 1.5,
                                         ),
@@ -436,10 +437,10 @@ class _ExerciseDetailScreenState extends ConsumerState<ExerciseDetailScreen> {
           Container(
             padding: EdgeInsets.all(6),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.12),
+              color: context.colors.primary.withOpacity(0.12),
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, color: AppColors.primary, size: 14),
+            child: Icon(icon, color: context.colors.primary, size: 14),
           ),
           SizedBox(width: 10),
           Column(
@@ -448,7 +449,7 @@ class _ExerciseDetailScreenState extends ConsumerState<ExerciseDetailScreen> {
             children: [
               Text(
                 label.toUpperCase(),
-                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.38),
+                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38),
                   fontSize: 8,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 0.6,
@@ -457,7 +458,7 @@ class _ExerciseDetailScreenState extends ConsumerState<ExerciseDetailScreen> {
               SizedBox(height: 1),
               Text(
                 value.toUpperCase(),
-                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900,
+                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
                   fontSize: 11,
                   fontWeight: FontWeight.w900,
                 ),

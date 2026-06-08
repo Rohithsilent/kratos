@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/constants/app_strings.dart';
@@ -58,10 +59,10 @@ class _CompleteStepState extends State<CompleteStep>
                 width: 120, height: 120,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: AppColors.primary.withOpacity(0.10),
+                  color: context.colors.primary.withOpacity(0.10),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.primary.withOpacity(0.1 + _pulseController.value * 0.1),
+                      color: context.colors.primary.withOpacity(0.1 + _pulseController.value * 0.1),
                       blurRadius: 40,
                       spreadRadius: 10,
                     ),
@@ -71,7 +72,10 @@ class _CompleteStepState extends State<CompleteStep>
                   animation: _checkController,
                   builder: (context, _) {
                     return CustomPaint(
-                      painter: _CheckPainter(progress: _checkController.value),
+                      painter: _CheckPainter(
+                        progress: _checkController.value,
+                        primaryColor: context.colors.primary,
+                      ),
                     );
                   },
                 ),
@@ -92,13 +96,13 @@ class _CompleteStepState extends State<CompleteStep>
                   Text(
                     AppStrings.completeTitle,
                     textAlign: TextAlign.center,
-                    style: AppTypography.display.copyWith(color: AppColors.white, fontSize: 36),
+                    style: AppTypography.display.copyWith(color: Colors.white, fontSize: 36),
                   ),
                   SizedBox(height: 16),
                   Text(
                     AppStrings.completeSubtitle,
                     textAlign: TextAlign.center,
-                    style: AppTypography.bodyMedium.copyWith(color: AppColors.grey400, height: 1.7),
+                    style: AppTypography.bodyMedium.copyWith(color: context.customColors.grey400, height: 1.7),
                   ),
                 ],
               ),
@@ -128,12 +132,13 @@ class _CompleteStepState extends State<CompleteStep>
 
 class _CheckPainter extends CustomPainter {
   final double progress;
-  _CheckPainter({required this.progress});
+  final Color primaryColor;
+  _CheckPainter({required this.progress, required this.primaryColor});
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = AppColors.primary
+      ..color = primaryColor
       ..strokeWidth = 4
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
@@ -158,7 +163,7 @@ class _CheckPainter extends CustomPainter {
       final p2 = Offset(center.dx - r * 0.05, center.dy + r * 0.35);
       final p3 = Offset(center.dx + r * 0.4, center.dy - r * 0.3);
 
-      paint.color = AppColors.primary;
+      paint.color = primaryColor;
       if (checkProg <= 0.5) {
         final t = checkProg * 2;
         canvas.drawLine(p1, Offset.lerp(p1, p2, t)!, paint);

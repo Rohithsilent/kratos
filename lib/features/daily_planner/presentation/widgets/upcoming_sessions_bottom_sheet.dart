@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../domain/models/planner_item_model.dart';
 import 'upcoming_session_card.dart';
@@ -33,7 +34,7 @@ class UpcomingSessionsBottomSheet extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 color: Theme.of(context).brightness == Brightness.dark
-                    ? AppColors.darkBg.withOpacity(0.85)
+                    ? context.colors.surface.withOpacity(0.85)
                     : Colors.white.withOpacity(0.9),
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
                 border: Border(
@@ -53,7 +54,7 @@ class UpcomingSessionsBottomSheet extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Theme.of(context).brightness == Brightness.dark
                           ? Colors.white.withOpacity(0.2)
-                          : AppColors.grey900.withOpacity(0.2),
+                          : context.customColors.grey900.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -69,7 +70,7 @@ class UpcomingSessionsBottomSheet extends StatelessWidget {
                           style: TextStyle(
                             color: Theme.of(context).brightness == Brightness.dark
                                 ? Colors.white
-                                : AppColors.grey900,
+                                : context.customColors.grey900,
                             fontSize: 14,
                             fontWeight: FontWeight.w900,
                             letterSpacing: 1.5,
@@ -78,13 +79,13 @@ class UpcomingSessionsBottomSheet extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            color: AppColors.primary.withOpacity(0.1),
+                            color: context.colors.primary.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
                             '${items.length} TOTAL',
                             style: TextStyle(
-                              color: AppColors.primary,
+                              color: context.colors.primary,
                               fontSize: 9,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 0.5,
@@ -105,7 +106,7 @@ class UpcomingSessionsBottomSheet extends StatelessWidget {
                               style: TextStyle(
                                 color: Theme.of(context).brightness == Brightness.dark
                                     ? Colors.white.withOpacity(0.5)
-                                    : AppColors.grey900.withOpacity(0.5),
+                                    : context.customColors.grey900.withOpacity(0.5),
                               ),
                             ),
                           )

@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../core/theme/app_colors.dart';
 
 class AnimatedGradientBackground extends StatefulWidget {
@@ -62,7 +63,7 @@ class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>
     return Stack(
       children: [
         // Base dark background
-        Container(color: AppColors.darkBg),
+        Container(color: context.colors.surface),
 
         // Animated red orbs
         AnimatedBuilder(
@@ -72,6 +73,7 @@ class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>
               size: MediaQuery.of(context).size,
               painter: _OrbPainter(
                 progress: _orbController.value,
+                primaryColor: context.colors.primary,
               ),
             );
           },
@@ -87,6 +89,7 @@ class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>
                 painter: _ParticlePainter(
                   particles: _particles,
                   progress: _particleController.value,
+                  primaryColor: context.colors.primary,
                 ),
               );
             },
@@ -101,8 +104,9 @@ class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>
 
 class _OrbPainter extends CustomPainter {
   final double progress;
+  final Color primaryColor;
 
-  _OrbPainter({required this.progress});
+  _OrbPainter({required this.progress, required this.primaryColor});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -111,19 +115,19 @@ class _OrbPainter extends CustomPainter {
     // Large red orb - top right, slowly drifting
     final orb1X = size.width * 0.75 + sin(progress * 2 * pi) * 40;
     final orb1Y = size.height * 0.15 + cos(progress * 2 * pi) * 30;
-    paint.color = AppColors.primaryContainer.withOpacity(0.12);
+    paint.color = primaryColor.withOpacity(0.12);
     canvas.drawCircle(Offset(orb1X, orb1Y), 120, paint);
 
     // Medium red orb - bottom left
     final orb2X = size.width * 0.2 + cos(progress * 2 * pi + 1) * 50;
     final orb2Y = size.height * 0.7 + sin(progress * 2 * pi + 1) * 40;
-    paint.color = AppColors.primary.withOpacity(0.08);
+    paint.color = primaryColor.withOpacity(0.08);
     canvas.drawCircle(Offset(orb2X, orb2Y), 90, paint);
 
     // Small accent orb - center
     final orb3X = size.width * 0.5 + sin(progress * 2 * pi + 2.5) * 60;
     final orb3Y = size.height * 0.45 + cos(progress * 2 * pi + 2.5) * 35;
-    paint.color = AppColors.primaryDark.withOpacity(0.06);
+    paint.color = primaryColor.withOpacity(0.06);
     canvas.drawCircle(Offset(orb3X, orb3Y), 70, paint);
   }
 
@@ -135,8 +139,9 @@ class _OrbPainter extends CustomPainter {
 class _ParticlePainter extends CustomPainter {
   final List<_Particle> particles;
   final double progress;
+  final Color primaryColor;
 
-  _ParticlePainter({required this.particles, required this.progress});
+  _ParticlePainter({required this.particles, required this.progress, required this.primaryColor});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -144,7 +149,7 @@ class _ParticlePainter extends CustomPainter {
       final y = (p.y - progress * p.speed) % 1.0;
       final opacity = p.opacity * (1.0 - (y - 0.5).abs() * 1.2).clamp(0.0, 1.0);
       final paint = Paint()
-        ..color = AppColors.primary.withOpacity(opacity)
+        ..color = primaryColor.withOpacity(opacity)
         ..maskFilter = MaskFilter.blur(BlurStyle.normal, 1);
       canvas.drawCircle(
         Offset(p.x * size.width, y * size.height),

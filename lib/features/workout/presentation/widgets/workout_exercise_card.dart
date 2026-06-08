@@ -1,6 +1,7 @@
 // lib/features/workout/presentation/widgets/workout_exercise_card.dart
 
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/glass_card.dart';
 import '../../domain/models/workout_model.dart';
@@ -121,7 +122,7 @@ class WorkoutExerciseCard extends StatelessWidget {
                       if (isReorderable)
                         Padding(
                           padding: EdgeInsets.only(left: 8.0, top: 1.0),
-                          child: Icon(Icons.reorder_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.24),
+                          child: Icon(Icons.reorder_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.24),
                             size: 16,
                           ),
                         ),
@@ -195,13 +196,13 @@ class WorkoutExerciseCard extends StatelessWidget {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.edit_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.4),
+                                Icon(Icons.edit_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.4),
                                   size: 11,
                                 ),
                                 SizedBox(width: 4),
                                 Text(
                                   'Edit Targets',
-                                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.grey900.withOpacity(0.45),
+                                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.45),
                                     fontSize: 10.5,
                                     fontWeight: FontWeight.bold,
                                   ),

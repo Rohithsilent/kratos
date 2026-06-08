@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
@@ -60,10 +61,10 @@ class _MusicCommandCenterSheetState extends ConsumerState<MusicCommandCenterShee
       child: Container(
         height: MediaQuery.of(context).size.height * 0.85,
         decoration: BoxDecoration(
-          color: AppColors.glassDark,
+          color: context.glassmorphism.cardColor,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
           border: Border.all(
-            color: AppColors.glassBorderDark,
+            color: context.glassmorphism.borderColor,
             width: 1,
           ),
         ),
@@ -76,7 +77,7 @@ class _MusicCommandCenterSheetState extends ConsumerState<MusicCommandCenterShee
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: Colors.white24,
+                  color: context.colors.onSurface.withValues(alpha: 0.24),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -92,7 +93,7 @@ class _MusicCommandCenterSheetState extends ConsumerState<MusicCommandCenterShee
                     child: Text(
                       'AUDIO QUICK ACCESS',
                       style: AppTypography.labelBold.copyWith(
-                        color: AppColors.primary,
+                        color: context.colors.primary,
                         letterSpacing: 2.0,
                       ),
                       maxLines: 1,
@@ -114,12 +115,12 @@ class _MusicCommandCenterSheetState extends ConsumerState<MusicCommandCenterShee
                         Text(
                           'FULL LIBRARY',
                           style: AppTypography.labelBold.copyWith(
-                            color: Colors.white,
+                            color: context.colors.onSurface,
                             fontSize: 10,
                           ),
                         ),
                         const SizedBox(width: 4),
-                        const Icon(Icons.open_in_new, color: Colors.white, size: 14),
+                        Icon(Icons.open_in_new, color: context.colors.onSurface, size: 14),
                       ],
                     ),
                   ),
@@ -141,7 +142,7 @@ class _MusicCommandCenterSheetState extends ConsumerState<MusicCommandCenterShee
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: Text(
                           'NOW PLAYING',
-                          style: AppTypography.labelBold.copyWith(color: Colors.white54, letterSpacing: 1.2),
+                          style: AppTypography.labelBold.copyWith(color: context.colors.onSurface.withValues(alpha: 0.54), letterSpacing: 1.2),
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -152,12 +153,12 @@ class _MusicCommandCenterSheetState extends ConsumerState<MusicCommandCenterShee
                           padding: const EdgeInsets.symmetric(horizontal: 24),
                           child: Row(
                             children: [
-                              const Icon(Icons.playlist_play, color: AppColors.primary, size: 20),
+                              Icon(Icons.playlist_play, color: context.colors.primary, size: 20),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
                                   'SOURCE: ${activePlaylist.name.toUpperCase()}',
-                                  style: AppTypography.labelBold.copyWith(color: AppColors.primary, letterSpacing: 1.0, fontSize: 12),
+                                  style: AppTypography.labelBold.copyWith(color: context.colors.primary, letterSpacing: 1.0, fontSize: 12),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -175,9 +176,9 @@ class _MusicCommandCenterSheetState extends ConsumerState<MusicCommandCenterShee
                           child: Container(
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: AppColors.primary.withValues(alpha: 0.1),
+                              color: context.colors.primary.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(16),
-                              border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+                              border: Border.all(color: context.colors.primary.withValues(alpha: 0.3)),
                             ),
                             child: Row(
                               children: [
@@ -192,10 +193,10 @@ class _MusicCommandCenterSheetState extends ConsumerState<MusicCommandCenterShee
                                             fit: BoxFit.cover,
                                           )
                                         : null,
-                                    color: Colors.black45,
+                                    color: context.colors.onSurface.withValues(alpha: 0.1),
                                   ),
                                   child: track.albumImageUrl.isEmpty
-                                      ? const Icon(Icons.music_note, color: Colors.white54)
+                                      ? Icon(Icons.music_note, color: context.colors.onSurface.withValues(alpha: 0.54))
                                       : null,
                                 ),
                                 const SizedBox(width: 16),
@@ -205,14 +206,14 @@ class _MusicCommandCenterSheetState extends ConsumerState<MusicCommandCenterShee
                                     children: [
                                       Text(
                                         track.name,
-                                        style: AppTypography.labelBold.copyWith(color: Colors.white, fontSize: 16),
+                                        style: AppTypography.labelBold.copyWith(color: context.colors.onSurface, fontSize: 16),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
                                         track.artistName,
-                                        style: AppTypography.bodySmall.copyWith(color: Colors.white70),
+                                        style: AppTypography.bodySmall.copyWith(color: context.colors.onSurface.withValues(alpha: 0.7)),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                       ),
@@ -233,12 +234,12 @@ class _MusicCommandCenterSheetState extends ConsumerState<MusicCommandCenterShee
                                     height: 44,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: AppColors.primary.withValues(alpha: 0.2),
-                                      border: Border.all(color: AppColors.primary),
+                                      color: context.colors.primary.withValues(alpha: 0.2),
+                                      border: Border.all(color: context.colors.primary),
                                     ),
                                     child: Icon(
                                       musicState.isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
-                                      color: AppColors.primary,
+                                      color: context.colors.primary,
                                       size: 26,
                                     ),
                                   ),
@@ -255,15 +256,15 @@ class _MusicCommandCenterSheetState extends ConsumerState<MusicCommandCenterShee
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: Text(
                         'RECOMMENDED FOR TODAY',
-                        style: AppTypography.labelBold.copyWith(color: Colors.white54, letterSpacing: 1.2),
+                        style: AppTypography.labelBold.copyWith(color: context.colors.onSurface.withValues(alpha: 0.54), letterSpacing: 1.2),
                       ),
                     ),
                     const SizedBox(height: 16),
                     if (playlistState.isLoading)
-                      const Center(
+                      Center(
                         child: Padding(
                           padding: EdgeInsets.all(32.0),
-                          child: CircularProgressIndicator(color: AppColors.primary),
+                          child: CircularProgressIndicator(color: context.colors.primary),
                         ),
                       )
                     else
@@ -302,13 +303,13 @@ class _MusicCommandCenterSheetState extends ConsumerState<MusicCommandCenterShee
         Container(
           width: 4,
           height: 16,
-          color: AppColors.primary,
+          color: context.colors.primary,
         ),
         const SizedBox(width: 8),
         Text(
           title,
           style: AppTypography.labelBold.copyWith(
-            color: Colors.white,
+            color: context.colors.onSurface,
             letterSpacing: 1.5,
           ),
         ),

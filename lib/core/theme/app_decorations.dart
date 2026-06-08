@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'app_theme_extensions.dart';
 import 'app_colors.dart';
 
@@ -13,10 +14,10 @@ class AppDecorations {
   }) {
     final glassExt = Theme.of(context).extension<GlassmorphismExtension>();
     return BoxDecoration(
-      color: glassExt?.cardColor ?? AppColors.glassDark,
+      color: glassExt?.cardColor ?? context.glassmorphism.cardColor,
       borderRadius: BorderRadius.circular(borderRadius),
       border: Border.all(
-        color: glassExt?.borderColor ?? AppColors.glassBorderDark,
+        color: glassExt?.borderColor ?? context.glassmorphism.borderColor,
         width: 1,
       ),
     );
@@ -41,12 +42,12 @@ class AppDecorations {
       color: glassExt?.inputFocusedColor ?? Colors.white.withOpacity(0.06),
       borderRadius: BorderRadius.circular(16),
       border: Border.all(
-        color: glassExt?.inputFocusedBorderColor ?? AppColors.primary.withOpacity(0.6),
+        color: glassExt?.inputFocusedBorderColor ?? context.colors.primary.withOpacity(0.6),
         width: 1.5,
       ),
       boxShadow: [
         BoxShadow(
-          color: glowExt?.redGlowSubtle ?? AppColors.redGlowSubtle,
+          color: glowExt?.redGlowSubtle ?? context.glow.redGlowSubtle,
           blurRadius: 20,
           spreadRadius: 0,
         ),
@@ -61,11 +62,11 @@ class AppDecorations {
   }) {
     final glowExt = Theme.of(context).extension<GlowExtension>();
     return BoxDecoration(
-      gradient: AppColors.primaryGradient,
+      gradient: context.customColors.primaryGradient,
       borderRadius: BorderRadius.circular(borderRadius),
       boxShadow: [
         BoxShadow(
-          color: glowExt?.redGlow ?? AppColors.redGlow,
+          color: glowExt?.redGlow ?? context.glow.redGlow,
           blurRadius: 24,
           offset: Offset(0, 8),
           spreadRadius: -4,
@@ -98,7 +99,7 @@ class AppDecorations {
     double opacity = 0.3,
   }) {
     return BoxShadow(
-      color: AppColors.primaryContainer.withOpacity(opacity),
+      color: context.colors.primary.withOpacity(opacity),
       blurRadius: blur,
       spreadRadius: 0,
     );

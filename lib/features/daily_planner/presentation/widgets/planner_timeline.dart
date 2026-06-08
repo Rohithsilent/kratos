@@ -1,6 +1,7 @@
 // lib/features/daily_planner/presentation/widgets/planner_timeline.dart
 
 import 'package:flutter/material.dart';
+import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../controllers/planner_controller.dart';
 import '../controllers/planner_week_controller.dart';
@@ -87,14 +88,14 @@ class PlannerTimeline extends ConsumerWidget {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.08),
+                    color: context.colors.primary.withOpacity(0.08),
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: AppColors.primary.withOpacity(0.15)),
+                    border: Border.all(color: context.colors.primary.withOpacity(0.15)),
                   ),
                   child: Text(
                     'EDIT',
                     style: TextStyle(
-                      color: AppColors.primary,
+                      color: context.colors.primary,
                       fontSize: 9,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 0.5,
@@ -129,7 +130,7 @@ class PlannerTimeline extends ConsumerWidget {
           height: 150,
           child: plannerItemsAsync.when(
             loading: () => Center(
-              child: CircularProgressIndicator(color: AppColors.primary, strokeWidth: 2),
+              child: CircularProgressIndicator(color: context.colors.primary, strokeWidth: 2),
             ),
             error: (err, st) => Center(
               child: Text('$err', style: TextStyle(color: Colors.white.withOpacity(0.24), fontSize: 10)),
@@ -193,7 +194,7 @@ class PlannerTimeline extends ConsumerWidget {
                     height: 6,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: AppColors.primary.withOpacity(0.6),
+                      color: context.colors.primary.withOpacity(0.6),
                     ),
                   ),
                   SizedBox(width: 6),
@@ -210,7 +211,7 @@ class PlannerTimeline extends ConsumerWidget {
                 '${(stats.weeklyCompletionPercentage * 100).round()}% adherence',
                 style: TextStyle(
                   color: stats.weeklyCompletionPercentage >= 0.8
-                      ? AppColors.primary
+                      ? context.colors.primary
                       : Colors.white.withOpacity(0.25),
                   fontSize: 9,
                   fontWeight: FontWeight.w700,
@@ -250,7 +251,7 @@ class PlannerTimeline extends ConsumerWidget {
                 SizedBox(height: 18),
                 ListTile(
                   leading:
-                      Icon(Icons.copy_rounded, color: AppColors.primary),
+                      Icon(Icons.copy_rounded, color: context.colors.primary),
                   title: Text('Duplicate Plan to Next Week',
                       style: TextStyle(color: Colors.white,
                           fontSize: 13,
@@ -268,7 +269,7 @@ class PlannerTimeline extends ConsumerWidget {
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          backgroundColor: AppColors.success,
+                          backgroundColor: context.customColors.success,
                           content: Text('Week plan duplicated successfully!',
                               style: TextStyle(fontWeight: FontWeight.bold)),
                         ),
@@ -404,7 +405,7 @@ class PlannerTimeline extends ConsumerWidget {
                           
                           final w = workouts[index - 1];
                           return ListTile(
-                            leading: Icon(Icons.fitness_center_rounded, color: AppColors.primary),
+                            leading: Icon(Icons.fitness_center_rounded, color: context.colors.primary),
                             title: Text(w.name, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
                             subtitle: Text(w.split, style: TextStyle(color: Colors.white.withOpacity(0.38), fontSize: 11)),
                             onTap: () async {
@@ -417,7 +418,7 @@ class PlannerTimeline extends ConsumerWidget {
                               if (context.mounted) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    backgroundColor: AppColors.primary,
+                                    backgroundColor: context.colors.primary,
                                     content: Text('Workout Assigned', style: TextStyle(fontWeight: FontWeight.bold)),
                                   ),
                                 );
@@ -428,7 +429,7 @@ class PlannerTimeline extends ConsumerWidget {
                       ),
                     );
                   },
-                  loading: () => Center(child: CircularProgressIndicator(color: AppColors.primary)),
+                  loading: () => Center(child: CircularProgressIndicator(color: context.colors.primary)),
                   error: (e, st) => Center(child: Text('Error: $e', style: TextStyle(color: Colors.red))),
                 ),
               ],
