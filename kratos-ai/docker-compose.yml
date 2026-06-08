@@ -1,0 +1,98 @@
+# ─── KRATOS AI — Docker Compose ─────────────────────────────────────────────
+# Orchestrates: PostgreSQL, Redis, and the FastAPI AI backend.
+# Usage:
+#   docker compose up -d              # Start all services
+#   docker compose up -d postgres     # Start only PostgreSQL
+#   docker compose logs -f postgres   # Tail PostgreSQL logs
+# ────────────────────────────────────────────────────────────────────────────
+
+services:
+  # ── PostgreSQL 16 — AI Intelligence Database ──────────────────────────────
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: kratos-postgres
+    restart: unless-stopped
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-kratos_ai}
+      POSTGRES_USER: ${POSTGRES_USER:-kratos}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      # Performance tuning
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+    volumes:
+      - kratos_pgdata:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-kratos} -d ${POSTGRES_DB:-kratos_ai}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    command:
+      - "postgres"
+      - "-c" 
+      - "shared_buffers=128MB"
+      - "-c"
+      - "effective_cache_size=256MB"
+      - "-c"
+      - "work_mem=4MB"
+      - "-c"
+      - "maintenance_work_mem=64MB"
+      - "-c"
+      - "max_connections=100"
+      - "-c"
+      - "log_min_duration_statement=500"
+
+  # ── Redis — Cache & Queue ─────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: kratos-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - kratos_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: redis-server --appendonly yes --maxmemory 128mb --maxmemory-policy allkeys-lru
+
+  # ── KRATOS AI Backend ─────────────────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kratos-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      # Override DATABASE_URL to use Docker network hostname
+      DATABASE_URL: "postgresql+asyncpg://${POSTGRES_USER:-kratos}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-kratos_ai}"
+      REDIS_URL: "redis://redis:6379/0"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  kratos_pgdata:
+    driver: local
+  kratos_redis_data:
+    driver: local

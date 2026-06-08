@@ -1,0 +1,37 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+    
+    // User profile and subcollections
+    match /users/{userId} {
+      // Users can only read and write their own profile
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Workouts subcollection
+      match /workouts/{workoutId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+      
+      // Sessions subcollection
+      match /sessions/{sessionId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+      
+      // Planner subcollection
+      match /planner/{plannerId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+    
+    // Workout Playlists (Global but require auth)
+    match /workout_playlists/{playlistId} {
+      // Any authenticated user can read or write playlists
+      allow read, write: if request.auth != null;
+    }
+  }
+}

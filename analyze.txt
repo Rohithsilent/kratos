@@ -1,0 +1,552 @@
+Analyzing kratos...                                             
+
+   info • Don't invoke 'print' in production code • fix_background.dart:19:7 • avoid_print
+   info • Don't invoke 'print' in production code • fix_colors.dart:112:7 • avoid_print
+   info • Don't invoke 'print' in production code • fix_theme.dart:49:7 • avoid_print
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_colors.dart:41:46 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_colors.dart:42:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_colors.dart:43:50 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_colors.dart:46:47 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_colors.dart:47:53 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_colors.dart:50:48 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_colors.dart:51:54 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_colors.dart:52:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_decorations.dart:28:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_decorations.dart:31:59 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_decorations.dart:41:58 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_decorations.dart:44:71 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_decorations.dart:87:28 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_decorations.dart:88:28 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_decorations.dart:101:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_theme.dart:33:35 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_theme.dart:36:56 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_theme.dart:40:56 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_theme.dart:44:61 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_theme.dart:101:35 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_theme.dart:104:56 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_theme.dart:108:56 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_theme.dart:112:65 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_theme_extensions.dart:94:28 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_theme_extensions.dart:95:34 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_theme_extensions.dart:96:35 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_theme_extensions.dart:97:46 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_theme_extensions.dart:103:28 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_theme_extensions.dart:104:34 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_theme_extensions.dart:106:46 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_theme_extensions.dart:116:30 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_theme_extensions.dart:117:42 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_theme_extensions.dart:118:44 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/auth/sign_in_screen.dart:84:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/auth/sign_in_screen.dart:267:62 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/auth/sign_in_screen.dart:279:62 • deprecated_member_use
+warning • The value of the local variable 'monthStart' isn't used • lib/features/daily_planner/presentation/controllers/planner_completion_controller.dart:106:9 • unused_local_variable
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:54:39 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:71:39 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:117:59 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:120:61 • deprecated_member_use
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:123:161 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:135:59 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:138:61 • deprecated_member_use
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:141:157 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:155:138 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:164:58 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:289:56 • deprecated_member_use
+  error • The getter 'grey90024' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:315:126 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:337:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:340:53 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:345:154 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:352:144 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:414:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:417:57 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:427:59 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:432:58 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:476:56 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/daily_planner_screen.dart:507:165 • deprecated_member_use
+  error • The getter 'grey90070' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:118:138 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:147:48 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:149:67 • deprecated_member_use
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:166:126 • undefined_getter
+  error • The getter 'grey90060' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:179:114 • undefined_getter
+  error • The getter 'grey90024' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:184:186 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:190:43 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:192:62 • deprecated_member_use
+  error • Methods can't be invoked in constant expressions • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:201:53 • const_eval_method_invocation
+  error • The getter 'grey90070' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:201:128 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:218:60 • deprecated_member_use
+  error • The getter 'grey90060' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:224:147 • undefined_getter
+  error • The getter 'grey90030' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:225:154 • undefined_getter
+  error • The getter 'grey90060' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:258:114 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:282:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:282:88 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:285:72 • deprecated_member_use
+  error • The getter 'grey90060' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:307:114 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:315:56 • deprecated_member_use
+  error • Methods can't be invoked in constant expressions • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:329:47 • const_eval_method_invocation
+  error • The getter 'grey90024' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:329:122 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:347:54 • deprecated_member_use
+  error • Methods can't be invoked in constant expressions • lib/features/daily_planner/presentation/screens/planner_day_detail_screen.dart:360:45 • const_eval_method_invocation
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/consistency_heatmap.dart:39:124 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/consistency_heatmap.dart:73:124 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/consistency_heatmap.dart:93:124 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/consistency_heatmap.dart:171:130 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/consistency_heatmap.dart:220:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/consistency_heatmap.dart:225:66 • deprecated_member_use
+  error • Undefined name 'context' • lib/features/daily_planner/presentation/widgets/consistency_heatmap.dart:262:48 • undefined_identifier
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/consistency_heatmap.dart:262:122 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/hydration_tracker_card.dart:35:35 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/hydration_tracker_card.dart:37:54 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/hydration_tracker_card.dart:52:58 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/hydration_tracker_card.dart:56:60 • deprecated_member_use
+  error • Undefined name 'AppColors' • lib/features/daily_planner/presentation/widgets/hydration_tracker_card.dart:79:124 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/features/daily_planner/presentation/widgets/hydration_tracker_card.dart:87:124 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/features/daily_planner/presentation/widgets/hydration_tracker_card.dart:98:118 • undefined_identifier
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/hydration_tracker_card.dart:120:60 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/hydration_tracker_card.dart:159:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/hydration_tracker_card.dart:184:59 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/hydration_tracker_card.dart:185:48 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/hydration_tracker_card.dart:189:61 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/hydration_tracker_card.dart:190:50 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/mission_card.dart:78:64 • deprecated_member_use
+  error • Methods can't be invoked in constant expressions • lib/features/daily_planner/presentation/widgets/mission_card.dart:88:80 • const_eval_method_invocation
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/widgets/mission_card.dart:88:155 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/mission_card.dart:131:136 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/mission_card.dart:175:134 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/mission_card.dart:190:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/mission_card.dart:219:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/mission_card.dart:220:44 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/mission_card.dart:227:58 • deprecated_member_use
+  error • Undefined name 'context' • lib/features/daily_planner/presentation/widgets/mission_card.dart:269:36 • undefined_identifier
+  error • The getter 'grey90030' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/widgets/mission_card.dart:269:102 • undefined_getter
+  error • Undefined name 'context' • lib/features/daily_planner/presentation/widgets/mission_card.dart:276:48 • undefined_identifier
+  error • Undefined name 'context' • lib/features/daily_planner/presentation/widgets/mission_card.dart:280:48 • undefined_identifier
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/mission_card.dart:280:122 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/nutrition_tracker_card.dart:38:46 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/nutrition_tracker_card.dart:40:65 • deprecated_member_use
+  error • Undefined name 'context' • lib/features/daily_planner/presentation/widgets/nutrition_tracker_card.dart:202:44 • undefined_identifier
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/nutrition_tracker_card.dart:202:118 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/nutrition_tracker_card.dart:212:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/nutrition_tracker_card.dart:214:52 • deprecated_member_use
+  error • Undefined name 'context' • lib/features/daily_planner/presentation/widgets/nutrition_tracker_card.dart:219:46 • undefined_identifier
+  error • Undefined name 'context' • lib/features/daily_planner/presentation/widgets/nutrition_tracker_card.dart:222:54 • undefined_identifier
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/nutrition_tracker_card.dart:222:128 • deprecated_member_use
+  error • Undefined name 'context' • lib/features/daily_planner/presentation/widgets/nutrition_tracker_card.dart:226:52 • undefined_identifier
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/nutrition_tracker_card.dart:226:126 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/nutrition_tracker_card.dart:258:31 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/nutrition_tracker_card.dart:260:50 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/nutrition_tracker_card.dart:307:124 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/nutrition_tracker_card.dart:316:122 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/nutrition_tracker_card.dart:342:30 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_day_card.dart:95:39 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_day_card.dart:98:39 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_day_card.dart:101:34 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_day_card.dart:115:30 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_day_card.dart:116:30 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_day_card.dart:122:46 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_day_card.dart:138:36 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_day_card.dart:150:62 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_day_card.dart:166:35 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_day_card.dart:167:35 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_day_card.dart:170:37 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_day_card.dart:171:37 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_day_card.dart:192:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_day_card.dart:193:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_progress_ring.dart:50:30 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_stat_chip.dart:35:34 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_stat_chip.dart:63:124 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:46:124 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:59:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:61:60 • deprecated_member_use
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:63:141 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:75:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:77:60 • deprecated_member_use
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:79:142 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:90:46 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:92:65 • deprecated_member_use
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:113:127 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:117:124 • deprecated_member_use
+  error • The getter 'grey90024' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:135:134 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:196:48 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:202:128 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:214:38 • deprecated_member_use
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:260:122 • undefined_getter
+  error • The getter 'grey90060' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:281:142 • undefined_getter
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:288:122 • undefined_getter
+  error • The getter 'grey90060' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:314:136 • undefined_getter
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:321:122 • undefined_getter
+  error • Methods can't be invoked in constant expressions • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:374:51 • const_eval_method_invocation
+  error • The getter 'grey90060' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:374:126 • undefined_getter
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/daily_planner/presentation/widgets/planner_timeline.dart:409:152 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/recovery_day_card.dart:44:56 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/recovery_day_card.dart:47:58 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/recovery_day_card.dart:75:136 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/recovery_day_card.dart:92:126 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/recovery_day_card.dart:121:40 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/recovery_day_card.dart:124:42 • deprecated_member_use
+  error • Undefined name 'context' • lib/features/daily_planner/presentation/widgets/recovery_day_card.dart:134:46 • undefined_identifier
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/recovery_day_card.dart:134:120 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/weekly_progress_bar.dart:28:37 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/weekly_progress_bar.dart:42:50 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/weekly_progress_bar.dart:64:59 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/weekly_progress_bar.dart:68:61 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/daily_planner/presentation/widgets/weekly_progress_bar.dart:74:58 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/dashboard/presentation/dashboard_screen.dart:65:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/dashboard/presentation/dashboard_screen.dart:66:40 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/dashboard/presentation/dashboard_screen.dart:70:42 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/dashboard/presentation/dashboard_screen.dart:71:42 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/dashboard/presentation/dashboard_screen.dart:149:48 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/dashboard/presentation/dashboard_screen.dart:247:48 • deprecated_member_use
+  error • The getter 'grey90060' isn't defined for the type 'AppColors' • lib/features/dashboard/presentation/dashboard_screen.dart:261:122 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/dashboard/presentation/dashboard_screen.dart:352:57 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/dashboard/presentation/dashboard_screen.dart:353:57 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/dashboard/presentation/dashboard_screen.dart:418:57 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/dashboard/presentation/dashboard_screen.dart:419:52 • deprecated_member_use
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/dashboard/presentation/dashboard_screen.dart:494:130 • undefined_getter
+  error • The getter 'grey90030' isn't defined for the type 'AppColors' • lib/features/dashboard/presentation/dashboard_screen.dart:518:126 • undefined_getter
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/dashboard/presentation/dashboard_screen.dart:540:130 • undefined_getter
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/dashboard/presentation/dashboard_screen.dart:590:102 • undefined_getter
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/dashboard/presentation/dashboard_screen.dart:604:114 • undefined_getter
+warning • The value of the local variable 'isFav' isn't used • lib/features/exercise_library/presentation/screens/exercise_detail_screen.dart:37:11 • unused_local_variable
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/exercise_library/presentation/screens/exercise_detail_screen.dart:76:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/exercise_library/presentation/screens/exercise_detail_screen.dart:77:42 • deprecated_member_use
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/exercise_library/presentation/screens/exercise_detail_screen.dart:210:140 • undefined_getter
+  error • The getter 'grey90060' isn't defined for the type 'AppColors' • lib/features/exercise_library/presentation/screens/exercise_detail_screen.dart:214:140 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/exercise_library/presentation/screens/exercise_detail_screen.dart:231:60 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/exercise_library/presentation/screens/exercise_detail_screen.dart:234:62 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/exercise_library/presentation/screens/exercise_detail_screen.dart:268:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/exercise_library/presentation/screens/exercise_detail_screen.dart:272:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/exercise_library/presentation/screens/exercise_detail_screen.dart:400:148 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/exercise_library/presentation/screens/exercise_detail_screen.dart:439:40 • deprecated_member_use
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/exercise_library/presentation/screens/exercise_detail_screen.dart:451:116 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/exercise_library/presentation/screens/exercise_library_screen.dart:93:66 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/exercise_library/presentation/screens/exercise_library_screen.dart:135:140 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/exercise_library/presentation/screens/exercise_library_screen.dart:136:158 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/exercise_library/presentation/screens/exercise_library_screen.dart:142:90 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/exercise_library/presentation/screens/exercise_library_screen.dart:206:74 • deprecated_member_use
+  error • The getter 'grey90070' isn't defined for the type 'AppColors' • lib/features/exercise_library/presentation/screens/exercise_library_screen.dart:253:122 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/exercise_library/presentation/screens/exercise_library_screen.dart:290:94 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/exercise_library/presentation/screens/exercise_library_screen.dart:294:138 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/exercise_library/presentation/screens/exercise_library_screen.dart:299:138 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/exercise_library/presentation/screens/exercise_library_screen.dart:327:136 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/exercise_library/presentation/screens/exercise_library_screen.dart:333:136 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/exercise_library/presentation/widgets/exercise_card.dart:123:56 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/onboarding_screen.dart:221:57 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/steps/complete_step.dart:61:44 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/steps/complete_step.dart:64:48 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/steps/email_step.dart:84:63 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/steps/email_step.dart:92:65 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/steps/email_step.dart:97:65 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/steps/height_step.dart:42:43 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/steps/phone_step.dart:74:47 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/steps/phone_step.dart:76:66 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/steps/phone_step.dart:148:43 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/steps/phone_step.dart:150:62 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/steps/phone_step.dart:171:69 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/steps/weight_step.dart:39:67 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/date_wheel_picker.dart:130:44 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/date_wheel_picker.dart:133:46 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/date_wheel_picker.dart:221:40 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/date_wheel_picker.dart:222:40 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/height_ruler.dart:127:48 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/height_ruler.dart:192:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/height_ruler.dart:196:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/height_ruler.dart:204:56 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/height_ruler.dart:278:36 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/height_ruler.dart:279:36 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/password_strength.dart:25:71 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/password_strength.dart:35:58 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/password_strength.dart:85:46 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/password_strength.dart:85:79 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/password_strength.dart:86:80 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/password_strength.dart:92:44 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/password_strength.dart:92:76 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/sex_selector_card.dart:47:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/sex_selector_card.dart:47:92 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/sex_selector_card.dart:47:125 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/sex_selector_card.dart:50:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/sex_selector_card.dart:50:93 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/sex_selector_card.dart:50:126 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/sex_selector_card.dart:53:71 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/sex_selector_card.dart:62:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/sex_selector_card.dart:62:98 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/sex_selector_card.dart:62:131 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/step_progress_bar.dart:53:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/step_progress_bar.dart:54:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/step_progress_bar.dart:67:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/weight_wheel.dart:133:44 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/weight_wheel.dart:136:46 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/weight_wheel.dart:182:50 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/onboarding/widgets/weight_wheel.dart:184:50 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/profile/presentation/widgets/fitness_progress_chart.dart:87:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/profile/presentation/widgets/fitness_progress_chart.dart:88:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/profile/presentation/widgets/glass_settings_tile.dart:46:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/profile/presentation/widgets/glass_settings_tile.dart:54:73 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/profile/presentation/widgets/interactive_height_picker.dart:93:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/profile/presentation/widgets/interactive_height_picker.dart:114:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/profile/presentation/widgets/interactive_height_picker.dart:117:59 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/profile/presentation/widgets/interactive_weight_picker.dart:83:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/profile/presentation/widgets/interactive_weight_picker.dart:103:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/profile/presentation/widgets/interactive_weight_picker.dart:106:59 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/profile/presentation/widgets/profile_header_card.dart:29:35 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/profile/presentation/widgets/profile_header_card.dart:52:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/profile/presentation/widgets/profile_header_card.dart:55:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/welcome/welcome_screen.dart:211:47 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/welcome/welcome_screen.dart:214:65 • deprecated_member_use
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/my_workouts_screen.dart:201:128 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:268:138 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:389:39 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:428:122 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:431:140 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:440:36 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:490:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:505:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:520:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:535:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:561:48 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:575:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:604:130 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:618:46 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:642:130 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:696:40 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:713:54 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:746:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:786:122 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:801:130 • deprecated_member_use
+  error • The getter 'grey90070' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/my_workouts_screen.dart:809:122 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:823:53 • deprecated_member_use
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/my_workouts_screen.dart:871:106 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:875:122 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1104:48 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1108:116 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1134:50 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1149:37 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1152:39 • deprecated_member_use
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/my_workouts_screen.dart:1183:118 • undefined_getter
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/my_workouts_screen.dart:1190:118 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1215:40 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1233:34 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1245:48 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1251:39 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1275:52 • deprecated_member_use
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/my_workouts_screen.dart:1299:130 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1438:34 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1443:54 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1446:52 • deprecated_member_use
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/my_workouts_screen.dart:1472:118 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1482:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1485:43 • deprecated_member_use
+  error • The getter 'grey90070' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/my_workouts_screen.dart:1500:126 • undefined_getter
+  error • The getter 'grey90070' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/my_workouts_screen.dart:1518:139 • undefined_getter
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/my_workouts_screen.dart:1532:118 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1548:34 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1553:54 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1556:52 • deprecated_member_use
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/my_workouts_screen.dart:1579:114 • undefined_getter
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/my_workouts_screen.dart:1590:118 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1650:52 • deprecated_member_use
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/my_workouts_screen.dart:1658:116 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1684:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1691:44 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1811:37 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1813:39 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1820:44 • deprecated_member_use
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/my_workouts_screen.dart:1843:114 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1871:48 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1908:35 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1911:37 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1921:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1942:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1948:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1954:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1964:53 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/my_workouts_screen.dart:1973:53 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_builder_screen.dart:206:44 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_builder_screen.dart:207:48 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_builder_screen.dart:260:58 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_builder_screen.dart:262:77 • deprecated_member_use
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_builder_screen.dart:289:128 • undefined_getter
+  error • The getter 'grey90024' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_builder_screen.dart:306:136 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_builder_screen.dart:309:160 • deprecated_member_use
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_builder_screen.dart:332:130 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_builder_screen.dart:358:94 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_builder_screen.dart:361:96 • deprecated_member_use
+  error • The getter 'grey90070' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_builder_screen.dart:395:128 • undefined_getter
+  error • The getter 'grey90024' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_builder_screen.dart:403:128 • undefined_getter
+  error • The getter 'grey90024' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_builder_screen.dart:424:146 • undefined_getter
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_builder_screen.dart:434:132 • undefined_getter
+  error • The getter 'grey90070' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_builder_screen.dart:445:145 • undefined_getter
+  error • The getter 'grey90070' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_builder_screen.dart:447:159 • undefined_getter
+  error • The getter 'grey90070' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_builder_screen.dart:502:134 • undefined_getter
+  error • The getter 'grey90070' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_builder_screen.dart:590:144 • undefined_getter
+  error • The getter 'grey90070' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_builder_screen.dart:613:144 • undefined_getter
+  error • Methods can't be invoked in constant expressions • lib/features/workout/presentation/screens/workout_builder_screen.dart:636:82 • const_eval_method_invocation
+  error • The getter 'grey90070' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_builder_screen.dart:636:157 • undefined_getter
+  error • Methods can't be invoked in constant expressions • lib/features/workout/presentation/screens/workout_builder_screen.dart:659:84 • const_eval_method_invocation
+  error • The getter 'grey90070' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_builder_screen.dart:659:159 • undefined_getter
+warning • The value of the local variable 'exercisesAsync' isn't used • lib/features/workout/presentation/screens/workout_builder_screen.dart:738:11 • unused_local_variable
+warning • The value of the local variable 'query' isn't used • lib/features/workout/presentation/screens/workout_builder_screen.dart:740:11 • unused_local_variable
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_builder_screen.dart:748:40 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_builder_screen.dart:750:48 • deprecated_member_use
+  error • The getter 'grey90024' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_builder_screen.dart:785:122 • undefined_getter
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_builder_screen.dart:786:140 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_builder_screen.dart:821:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_builder_screen.dart:828:78 • deprecated_member_use
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_builder_screen.dart:843:177 • undefined_getter
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_builder_screen.dart:847:163 • undefined_getter
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_builder_screen.dart:889:136 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_builder_screen.dart:933:29 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_builder_screen.dart:936:31 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_complete_screen.dart:43:42 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_complete_screen.dart:55:42 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_complete_screen.dart:74:48 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_complete_screen.dart:76:67 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_complete_screen.dart:79:52 • deprecated_member_use
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_complete_screen.dart:117:120 • undefined_getter
+  error • The getter 'grey90030' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_complete_screen.dart:134:140 • undefined_getter
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_complete_screen.dart:141:151 • undefined_getter
+  error • The getter 'grey90030' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_complete_screen.dart:153:148 • undefined_getter
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_complete_screen.dart:160:151 • undefined_getter
+  error • The getter 'grey90030' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_complete_screen.dart:176:156 • undefined_getter
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_complete_screen.dart:183:152 • undefined_getter
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_complete_screen.dart:202:158 • undefined_getter
+  error • The getter 'grey90070' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_complete_screen.dart:230:132 • undefined_getter
+  error • Methods can't be invoked in constant expressions • lib/features/workout/presentation/screens/workout_complete_screen.dart:253:51 • const_eval_method_invocation
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_detail_screen.dart:81:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_detail_screen.dart:93:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_detail_screen.dart:115:72 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_detail_screen.dart:139:72 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_detail_screen.dart:183:76 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_detail_screen.dart:243:45 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_detail_screen.dart:248:58 • deprecated_member_use
+  error • Methods can't be invoked in constant expressions • lib/features/workout/presentation/screens/workout_detail_screen.dart:258:65 • const_eval_method_invocation
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_detail_screen.dart:270:143 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_detail_screen.dart:292:31 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_detail_screen.dart:307:47 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_detail_screen.dart:331:60 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_detail_screen.dart:353:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_detail_screen.dart:399:79 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_detail_screen.dart:467:31 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_detail_screen.dart:505:60 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_session_screen.dart:72:50 • deprecated_member_use
+  error • The getter 'grey90060' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_session_screen.dart:80:112 • undefined_getter
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_session_screen.dart:85:136 • undefined_getter
+   info • Don't use 'BuildContext's across async gaps • lib/features/workout/presentation/screens/workout_session_screen.dart:132:28 • use_build_context_synchronously
+  error • Methods can't be invoked in constant expressions • lib/features/workout/presentation/screens/workout_session_screen.dart:145:26 • const_eval_method_invocation
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_session_screen.dart:160:157 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_session_screen.dart:206:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_session_screen.dart:207:42 • deprecated_member_use
+  error • The getter 'grey90070' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_session_screen.dart:234:144 • undefined_getter
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_session_screen.dart:241:130 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_session_screen.dart:259:56 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_session_screen.dart:261:75 • deprecated_member_use
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_session_screen.dart:289:130 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_session_screen.dart:305:61 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_session_screen.dart:328:70 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_session_screen.dart:331:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_session_screen.dart:373:55 • deprecated_member_use
+  error • The getter 'grey90070' isn't defined for the type 'AppColors' • lib/features/workout/presentation/screens/workout_session_screen.dart:378:134 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_session_screen.dart:385:60 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_session_screen.dart:435:62 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_session_screen.dart:449:53 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_session_screen.dart:451:72 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_session_screen.dart:500:53 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/screens/workout_session_screen.dart:502:72 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:138:42 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:140:50 • deprecated_member_use
+  error • The getter 'grey90070' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:165:150 • undefined_getter
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:187:165 • undefined_getter
+  error • The getter 'grey90024' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:195:146 • undefined_getter
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:200:130 • undefined_getter
+  error • Methods can't be invoked in constant expressions • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:211:61 • const_eval_method_invocation
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:249:140 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:277:64 • deprecated_member_use
+  error • The getter 'grey90024' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:318:144 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:322:60 • deprecated_member_use
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:346:118 • undefined_getter
+  error • The getter 'grey90060' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:353:153 • undefined_getter
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:376:118 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:397:57 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:404:84 • deprecated_member_use
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:418:118 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:443:65 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:455:92 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:472:61 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:483:99 • deprecated_member_use
+  error • The getter 'grey90024' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:507:134 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:510:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:512:76 • deprecated_member_use
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:540:122 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:545:45 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:547:64 • deprecated_member_use
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:581:138 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:592:59 • deprecated_member_use
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:627:118 • undefined_getter
+  error • The getter 'grey90024' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:636:124 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:639:45 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:641:66 • deprecated_member_use
+  error • Methods can't be invoked in constant expressions • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:669:59 • const_eval_method_invocation
+  error • Methods can't be invoked in constant expressions • lib/features/workout/presentation/widgets/add_to_workout_bottom_sheet.dart:696:59 • const_eval_method_invocation
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/rest_timer_overlay.dart:45:40 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/rest_timer_overlay.dart:57:44 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/rest_timer_overlay.dart:86:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/rest_timer_overlay.dart:101:43 • deprecated_member_use
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/rest_timer_overlay.dart:197:128 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/rest_timer_overlay.dart:224:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/rest_timer_overlay.dart:226:68 • deprecated_member_use
+  error • The getter 'grey90070' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/rest_timer_overlay.dart:228:140 • undefined_getter
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/rest_timer_overlay.dart:233:126 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/rest_timer_overlay.dart:250:60 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/rest_timer_overlay.dart:250:98 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/rest_timer_overlay.dart:253:62 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/rest_timer_overlay.dart:253:99 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/rest_timer_overlay.dart:287:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/rest_timer_overlay.dart:289:68 • deprecated_member_use
+  error • The getter 'grey90070' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/rest_timer_overlay.dart:291:146 • undefined_getter
+  error • The getter 'grey90054' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/rest_timer_overlay.dart:296:126 • undefined_getter
+  error • Methods can't be invoked in constant expressions • lib/features/workout/presentation/widgets/set_tracker_widget.dart:34:43 • const_eval_method_invocation
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/set_tracker_widget.dart:34:118 • undefined_getter
+  error • Methods can't be invoked in constant expressions • lib/features/workout/presentation/widgets/set_tracker_widget.dart:43:45 • const_eval_method_invocation
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/set_tracker_widget.dart:43:120 • undefined_getter
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/set_tracker_widget.dart:54:120 • undefined_getter
+  error • Methods can't be invoked in constant expressions • lib/features/workout/presentation/widgets/set_tracker_widget.dart:64:43 • const_eval_method_invocation
+  error • The getter 'grey90038' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/set_tracker_widget.dart:64:118 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/set_tracker_widget.dart:86:56 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/set_tracker_widget.dart:112:80 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/set_tracker_widget.dart:115:66 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/set_tracker_widget.dart:115:98 • deprecated_member_use
+  error • Methods can't be invoked in constant expressions • lib/features/workout/presentation/widgets/set_tracker_widget.dart:125:64 • const_eval_method_invocation
+  error • The getter 'grey90024' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/set_tracker_widget.dart:125:139 • undefined_getter
+  error • Methods can't be invoked in constant expressions • lib/features/workout/presentation/widgets/set_tracker_widget.dart:140:61 • const_eval_method_invocation
+  error • The getter 'grey90024' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/set_tracker_widget.dart:140:136 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/set_tracker_widget.dart:156:80 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/set_tracker_widget.dart:159:66 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/set_tracker_widget.dart:159:98 • deprecated_member_use
+  error • Methods can't be invoked in constant expressions • lib/features/workout/presentation/widgets/set_tracker_widget.dart:171:64 • const_eval_method_invocation
+  error • The getter 'grey90024' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/set_tracker_widget.dart:171:139 • undefined_getter
+  error • Methods can't be invoked in constant expressions • lib/features/workout/presentation/widgets/set_tracker_widget.dart:186:61 • const_eval_method_invocation
+  error • The getter 'grey90024' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/set_tracker_widget.dart:186:136 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/set_tracker_widget.dart:207:83 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/set_tracker_widget.dart:216:64 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/workout_exercise_card.dart:32:35 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/workout_exercise_card.dart:46:60 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/workout_exercise_card.dart:53:43 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/workout_exercise_card.dart:81:62 • deprecated_member_use
+  error • Methods can't be invoked in constant expressions • lib/features/workout/presentation/widgets/workout_exercise_card.dart:124:69 • const_eval_method_invocation
+  error • The getter 'grey90024' isn't defined for the type 'AppColors' • lib/features/workout/presentation/widgets/workout_exercise_card.dart:124:144 • undefined_getter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/workout_exercise_card.dart:151:58 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/workout_exercise_card.dart:154:60 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/workout_exercise_card.dart:198:148 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/workout_exercise_card.dart:204:142 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/workout_exercise_card.dart:222:59 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/workout/presentation/widgets/workout_exercise_card.dart:229:61 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/shared/widgets/animated_gradient_bg.dart:114:46 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/shared/widgets/animated_gradient_bg.dart:120:37 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/shared/widgets/animated_gradient_bg.dart:126:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/shared/widgets/animated_gradient_bg.dart:147:37 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/shared/widgets/continue_button.dart:69:59 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/shared/widgets/continue_button.dart:84:43 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/shared/widgets/social_auth_button.dart:27:28 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/shared/widgets/social_auth_button.dart:28:28 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/shared/widgets/social_auth_button.dart:32:30 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/shared/widgets/social_auth_button.dart:33:30 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/shared/widgets/social_auth_button.dart:42:42 • deprecated_member_use
+
