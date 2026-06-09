@@ -38,7 +38,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
     });
   }
 
-  void _upgradeTier(String tierName, int amountInPaise, String description) async {
+  void _upgradeTier(String planId) async {
     final user = ref.read(authRepositoryProvider).currentUser;
     if (user == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -49,11 +49,9 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
 
     final userData = await ref.read(authRepositoryProvider).getUserData(user.uid);
 
-    ref.read(razorpayServiceProvider).openCheckout(
-      amountInPaise: amountInPaise,
-      tierName: tierName,
-      name: 'Kratos Subscription',
-      description: description,
+    ref.read(razorpayServiceProvider).createSubscription(
+      planId: planId,
+      uid: user.uid,
       contact: userData?.phone ?? '',
       email: userData?.email ?? user.email ?? '',
     );
@@ -133,7 +131,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
                           isCurrentTier: currentTier == 'pro',
                           onTap: currentTier == 'premium' 
                             ? null 
-                            : () => _upgradeTier('pro', _isYearly ? 4000 : 500, _isYearly ? 'Pro Yearly Subscription' : 'Pro Monthly Subscription'),
+                            : () => _upgradeTier(_isYearly ? 'plan_ProYearly_ID_Here' : 'plan_ProMonthly_ID_Here'),
                         ),
                         const SizedBox(height: 24),
                         _buildTierCard(
@@ -154,7 +152,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
                             end: Alignment.bottomRight,
                           ),
                           isCurrentTier: currentTier == 'premium',
-                          onTap: () => _upgradeTier('premium', _isYearly ? 9000 : 1000, _isYearly ? 'Premium Yearly Subscription' : 'Premium Monthly Subscription'),
+                          onTap: () => _upgradeTier(_isYearly ? 'plan_PremiumYearly_ID_Here' : 'plan_PremiumMonthly_ID_Here'),
                         ),
                         const SizedBox(height: 40),
                       ],

@@ -8,9 +8,20 @@ class AppStrings {
       'AI-powered workouts, elite fitness tracking,\npersonalized transformation plans, and\nadvanced progress analytics.';
 
   // ─── Welcome ───
-  static String getStarted = 'Get Started';
+  static String getStarted = 'BEGIN YOUR JOURNEY';
   static String signIn = 'Sign In';
-  static String alreadyHaveAccount = 'Already have an account?';
+  static String alreadyHaveAccount = 'Already a warrior?';
+
+  // ─── Welcome Feature Pillars ───
+  static String featureAiTitle = 'AI-POWERED';
+  static String featureAiSubtitle = 'TRAINING';
+  static String featureAiDesc = 'Intelligent workout programming\nthat adapts to your progress.';
+  static String featureTrackTitle = 'ELITE';
+  static String featureTrackSubtitle = 'TRACKING';
+  static String featureTrackDesc = 'Advanced analytics and\nprogress visualization.';
+  static String featureMusicTitle = 'SPOTIFY';
+  static String featureMusicSubtitle = 'INTEGRATED';
+  static String featureMusicDesc = 'Train with your music.\nSeamlessly connected.';
 
   // ─── Sign In ───
   static String welcomeBack = 'Welcome Back,\nWarrior';

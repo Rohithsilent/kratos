@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import '../../../core/providers/firebase_providers.dart';
 
 final razorpayServiceProvider = Provider((ref) {
@@ -17,11 +19,12 @@ class RazorpayService {
   final FirebaseAuth _auth;
   late Razorpay _razorpay;
 
+  // IMPORTANT: Replace this with your actual deployed Vercel URL
+  static const String backendUrl = 'https://your-vercel-app.vercel.app'; 
+
   Function(String)? onPaymentSuccessCallback;
   Function(String)? onPaymentErrorCallback;
   
-  String? _pendingTier;
-
   RazorpayService({required FirebaseFirestore firestore, required FirebaseAuth auth})
       : _firestore = firestore,
         _auth = auth {
@@ -31,80 +34,70 @@ class RazorpayService {
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
-  void openCheckout({
-    required int amountInPaise,
-    required String tierName,
-    required String name,
-    required String description,
+  Future<void> createSubscription({
+    required String planId,
+    required String uid,
     required String contact,
     required String email,
-  }) {
-    _pendingTier = tierName;
-    var options = {
-      'key': 'rzp_test_YourTestKeyHere', // TODO: Replace with actual Razorpay test key
-      'amount': amountInPaise,
-      'name': name,
-      'description': description,
-      'prefill': {
-        'contact': contact,
-        'email': email,
-      },
-    };
-
+  }) async {
     try {
-      _razorpay.open(options);
+      // 1. Call your backend to generate a Razorpay Subscription ID
+      final response = await http.post(
+        Uri.parse('$backendUrl/api/create-subscription'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'plan_id': planId,
+          'uid': uid,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final subscriptionId = data['subscription_id'];
+
+        // 2. Open Razorpay Checkout using the subscription_id
+        var options = {
+          'key': 'rzp_test_YourTestKeyHere', // TODO: Replace with your Razorpay Test Key
+          'subscription_id': subscriptionId,
+          'name': 'Kratos',
+          'description': 'Kratos Subscription',
+          'prefill': {
+            'contact': contact,
+            'email': email,
+          },
+        };
+
+        _razorpay.open(options);
+      } else {
+        if (onPaymentErrorCallback != null) {
+          onPaymentErrorCallback!('Failed to start subscription. Please try again.');
+        }
+      }
     } catch (e) {
       if (onPaymentErrorCallback != null) {
-        onPaymentErrorCallback!(e.toString());
+        onPaymentErrorCallback!('Network error: Unable to connect to payment server.');
       }
     }
   }
 
-  Future<void> _handlePaymentSuccess(PaymentSuccessResponse response) async {
-    final user = _auth.currentUser;
-    if (user != null && _pendingTier != null) {
-      try {
-        // Calculate expiry date
-        DateTime now = DateTime.now();
-        DateTime expiry;
-        if (_pendingTier == 'pro') {
-          expiry = DateTime(now.year, now.month + 1, now.day);
-        } else if (_pendingTier == 'premium') {
-          expiry = DateTime(now.year + 1, now.month, now.day);
-        } else {
-          expiry = now;
-        }
-
-        // Update user document
-        await _firestore.collection('users').doc(user.uid).update({
-          'subscriptionTier': _pendingTier,
-          'subscriptionExpiry': expiry.toIso8601String(),
-        });
-
-        if (onPaymentSuccessCallback != null) {
-          onPaymentSuccessCallback!('Successfully upgraded to $_pendingTier!');
-        }
-      } catch (e) {
-        if (onPaymentErrorCallback != null) {
-          onPaymentErrorCallback!('Failed to update subscription status.');
-        }
-      }
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    // The actual database upgrade is securely handled by your Vercel Webhook.
+    // Here we just show a success message to the user.
+    if (onPaymentSuccessCallback != null) {
+      onPaymentSuccessCallback!('Payment successful! Your account is being upgraded...');
     }
-    _pendingTier = null;
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
     if (onPaymentErrorCallback != null) {
-      onPaymentErrorCallback!(response.message ?? 'Payment failed.');
+      onPaymentErrorCallback!(response.message ?? 'Payment failed or cancelled.');
     }
-    _pendingTier = null;
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     if (onPaymentErrorCallback != null) {
       onPaymentErrorCallback!('External wallets not supported currently.');
     }
-    _pendingTier = null;
   }
 
   void dispose() {
