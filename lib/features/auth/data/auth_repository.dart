@@ -86,6 +86,8 @@ class AuthRepository {
             emailVerified: false,
             createdAt: DateTime.now().toIso8601String(),
             lastLogin: DateTime.now().toIso8601String(),
+            subscriptionTier: 'free',
+            subscriptionExpiry: '',
           );
           await saveUserData(newUser);
         }
@@ -152,6 +154,8 @@ class AuthRepository {
             emailVerified: true,
             createdAt: DateTime.now().toIso8601String(),
             lastLogin: DateTime.now().toIso8601String(),
+            subscriptionTier: 'free',
+            subscriptionExpiry: '',
           );
           await saveUserData(newUser);
         } else {
@@ -183,6 +187,8 @@ class AuthRepository {
           lastLogin: DateTime.now().toIso8601String(),
           onboardingCompleted: true,
           emailVerified: false,
+          subscriptionTier: 'free',
+          subscriptionExpiry: '',
         );
         await saveUserData(finalUserData);
         print("AuthRepository: Attempting to send verification email to ${user.email}");

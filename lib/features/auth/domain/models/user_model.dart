@@ -13,6 +13,8 @@ class UserModel {
   final bool emailVerified;
   final String createdAt;
   final String lastLogin;
+  final String subscriptionTier;
+  final String subscriptionExpiry;
 
   UserModel({
     required this.uid,
@@ -29,6 +31,8 @@ class UserModel {
     required this.emailVerified,
     required this.createdAt,
     required this.lastLogin,
+    required this.subscriptionTier,
+    required this.subscriptionExpiry,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -47,6 +51,8 @@ class UserModel {
       emailVerified: json['emailVerified'] ?? false,
       createdAt: json['createdAt'] ?? '',
       lastLogin: json['lastLogin'] ?? '',
+      subscriptionTier: json['subscriptionTier'] ?? 'free',
+      subscriptionExpiry: json['subscriptionExpiry'] ?? '',
     );
   }
 
@@ -66,6 +72,8 @@ class UserModel {
       'emailVerified': emailVerified,
       'createdAt': createdAt,
       'lastLogin': lastLogin,
+      'subscriptionTier': subscriptionTier,
+      'subscriptionExpiry': subscriptionExpiry,
     };
   }
 
@@ -84,6 +92,8 @@ class UserModel {
     bool? emailVerified,
     String? createdAt,
     String? lastLogin,
+    String? subscriptionTier,
+    String? subscriptionExpiry,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
@@ -100,6 +110,8 @@ class UserModel {
       emailVerified: emailVerified ?? this.emailVerified,
       createdAt: createdAt ?? this.createdAt,
       lastLogin: lastLogin ?? this.lastLogin,
+      subscriptionTier: subscriptionTier ?? this.subscriptionTier,
+      subscriptionExpiry: subscriptionExpiry ?? this.subscriptionExpiry,
     );
   }
 }

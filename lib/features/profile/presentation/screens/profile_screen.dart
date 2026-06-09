@@ -12,6 +12,7 @@ import '../../../workout/presentation/controllers/workout_controller.dart';
 import '../controllers/profile_controller.dart';
 import '../widgets/physical_stats_card.dart';
 import '../widgets/fitness_progress_chart.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileScreen extends ConsumerWidget {
   final bool isTab;
@@ -160,16 +161,29 @@ class ProfileScreen extends ConsumerWidget {
         ), overflow: TextOverflow.ellipsis),
       ])),
       // Badge
-      Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        decoration: BoxDecoration(
-          color: context.colors.primary.withValues(alpha: 0.12),
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: context.colors.primary.withValues(alpha: 0.25)),
-        ),
-        child: Text('PRO', style: TextStyle(
-          color: context.colors.primary, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5,
-        )),
+      Builder(
+        builder: (context) {
+          final tierStr = (user?.subscriptionTier ?? 'BASE').toUpperCase();
+          final displayTier = tierStr == 'FREE' ? 'BASE' : tierStr;
+          Color tierColor = context.colors.primary;
+          if (displayTier == 'PREMIUM') {
+            tierColor = const Color(0xFFFFDF73); // Gold color for premium
+          } else if (displayTier == 'BASE') {
+            tierColor = isDark ? Colors.white54 : Colors.black54;
+          }
+          
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: BoxDecoration(
+              color: tierColor.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: tierColor.withValues(alpha: 0.25)),
+            ),
+            child: Text(displayTier, style: TextStyle(
+              color: tierColor, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5,
+            )),
+          );
+        }
       ),
     ]);
   }
@@ -333,6 +347,8 @@ class ProfileScreen extends ConsumerWidget {
     return Container(
       decoration: AppDecorations.glassCard(context),
       child: Column(children: [
+        _prefTile(context, isDark, Icons.star_rounded, 'Subscription', 'Upgrade to Pro/Premium', () => context.push('/subscription')),
+        _prefDivider(isDark),
         _prefTile(context, isDark, themeMode == ThemeMode.dark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
           'Theme', isDark ? 'Dark Mode' : 'Light Mode', () => ref.read(themeControllerProvider.notifier).toggleTheme()),
         _prefDivider(isDark),

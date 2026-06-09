@@ -16,6 +16,7 @@ import '../../features/workout/presentation/screens/workout_session_screen.dart'
 import '../../features/workout/presentation/screens/workout_complete_screen.dart';
 import '../../features/workout/domain/models/workout_model.dart';
 import '../../features/daily_planner/presentation/screens/planner_day_detail_screen.dart';
+import '../../features/subscription/presentation/subscription_screen.dart';
 import 'router_notifier.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -117,6 +118,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           final date = state.extra as DateTime;
           return PlannerDayDetailScreen(date: date);
         },
+      ),
+      GoRoute(
+        path: '/subscription',
+        builder: (context, state) => SubscriptionScreen(),
       ),
     ],
   );

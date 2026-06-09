@@ -100,6 +100,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       emailVerified: false,
       createdAt: '',
       lastLogin: '',
+      subscriptionTier: 'free',
+      subscriptionExpiry: '',
     );
 
     await ref.read(authControllerProvider.notifier).registerWithEmail(
@@ -152,6 +154,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       emailVerified: true,
       createdAt: '',
       lastLogin: '',
+      subscriptionTier: 'free',
+      subscriptionExpiry: '',
     );
 
     await ref.read(authControllerProvider.notifier).signInWithGoogle(onboardingData: userData);
