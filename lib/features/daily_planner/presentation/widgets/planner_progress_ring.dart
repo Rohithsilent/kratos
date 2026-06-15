@@ -51,7 +51,7 @@ class _ProgressRingPainter extends CustomPainter {
 
     // 1. Draw Background Track (Muted grey-white with low opacity)
     final bgPaint = Paint()
-      ..color = Colors.white.withOpacity(0.05)
+      ..color = colors.onSurface.withValues(alpha: 0.05)
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
 

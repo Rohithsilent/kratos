@@ -208,7 +208,7 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              Colors.black.withOpacity(0.45),
+                              Theme.of(context).brightness == Brightness.dark ? Colors.black.withOpacity(0.45) : context.colors.onSurface.withValues(alpha: 0.65),
                               context.colors.surface.withOpacity(0.92),
                               context.colors.surface,
                             ],
@@ -246,12 +246,12 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                                 shape: BoxShape.circle,
                                 border: Border.all(color: context.glassmorphism.borderColor),
                               ),
-                              child: Icon(Icons.close_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, size: 20),
+                              child: Icon(Icons.close_rounded, color: context.colors.onSurface, size: 20),
                             ),
                           ),
                           Text(
                             widget.editWorkoutId != null ? 'EDIT ROUTINE' : 'CREATE ROUTINE',
-                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                            style: TextStyle(color: context.colors.onSurface,
                               fontSize: 16,
                               fontWeight: FontWeight.w900,
                               letterSpacing: 2,
@@ -291,7 +291,7 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                         children: [
                           Text(
                             'WORKOUT ROUTINE NAME',
-                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38),
+                            style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38),
                               fontSize: 9,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1.2,
@@ -302,16 +302,16 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                             decoration: AppDecorations.glassInput(context),
                             child: TextField(
                               controller: _nameController,
-                              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                              style: TextStyle(color: context.colors.onSurface,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w900,
                               ),
                               decoration: InputDecoration(
                                 hintText: 'Enter routine name (e.g. Push Day)...',
-                                hintStyle: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.24), fontSize: 15),
+                                hintStyle: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.24), fontSize: 15),
                                 contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                                 border: InputBorder.none,
-                                suffixIcon: Icon(Icons.edit_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.3), size: 18),
+                                suffixIcon: Icon(Icons.edit_rounded, color: context.colors.onSurface.withValues(alpha: 0.3), size: 18),
                               ),
                               onChanged: (val) {
                                 ref.read(workoutBuilderProvider.notifier).updateName(val);
@@ -334,7 +334,7 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                             padding: EdgeInsets.symmetric(horizontal: 20.0),
                             child: Text(
                               'CHOOSE WORKOUT SPLIT',
-                              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38),
+                              style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38),
                                 fontSize: 9,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.2,
@@ -360,17 +360,17 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                                       duration: Duration(milliseconds: 200),
                                       padding: EdgeInsets.symmetric(horizontal: 16),
                                       decoration: BoxDecoration(
-                                        color: isSelected ? context.colors.primary : Colors.white.withOpacity(0.04),
+                                        color: isSelected ? context.colors.primary : context.glassmorphism.cardColor,
                                         borderRadius: BorderRadius.circular(10),
                                         border: Border.all(
-                                          color: isSelected ? context.colors.primary : Colors.white.withOpacity(0.08),
+                                          color: isSelected ? context.colors.primary : context.glassmorphism.borderColor,
                                         ),
                                       ),
                                       child: Center(
                                         child: Text(
                                           split.toUpperCase(),
                                           style: TextStyle(
-                                            color: isSelected ? Colors.white : Colors.white.withOpacity(0.60),
+                                            color: isSelected ? context.colors.onSurface : context.colors.onSurface.withOpacity(0.60),
                                             fontSize: 10,
                                             fontWeight: FontWeight.w900,
                                             letterSpacing: 0.8,
@@ -397,7 +397,7 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                         children: [
                           Text(
                             'LINK TACTICAL PLAYLIST',
-                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38),
+                            style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38),
                               fontSize: 9,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1.2,
@@ -428,8 +428,8 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                                       builderState.playlistName ?? 'Tap to assign a Spotify playlist...',
                                       style: TextStyle(
                                         color: builderState.playlistName != null 
-                                          ? (Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900)
-                                          : (Theme.of(context).brightness == Brightness.dark ? Colors.white54 : context.customColors.grey900.withOpacity(0.5)),
+                                          ? (context.colors.onSurface)
+                                          : (Theme.of(context).brightness == Brightness.dark ? context.colors.onSurface.withValues(alpha: 0.54) : context.customColors.grey900.withOpacity(0.5)),
                                         fontSize: 15,
                                         fontWeight: builderState.playlistName != null ? FontWeight.w700 : FontWeight.normal,
                                       ),
@@ -438,7 +438,7 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                                   if (builderState.playlistName != null)
                                     GestureDetector(
                                       onTap: () => ref.read(workoutBuilderProvider.notifier).clearPlaylist(),
-                                      child: Icon(Icons.close, size: 18, color: Colors.white54),
+                                      child: Icon(Icons.close, size: 18, color: context.colors.onSurface.withValues(alpha: 0.54)),
                                     ),
                                 ],
                               ),
@@ -458,7 +458,7 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                         children: [
                           Text(
                             'EXERCISES ADDED (${builderState.exercises.length})',
-                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70),
+                            style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.70),
                               fontSize: 11,
                               fontWeight: FontWeight.w900,
                               letterSpacing: 1.1,
@@ -466,7 +466,7 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                           ),
                           Text(
                             'Drag to Reorder',
-                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.24),
+                            style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.24),
                               fontSize: 10,
                               fontWeight: FontWeight.w500,
                             ),
@@ -487,17 +487,17 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.playlist_add_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.24), size: 48),
+                              Icon(Icons.playlist_add_rounded, color: context.colors.onSurface.withValues(alpha: 0.24), size: 48),
                               SizedBox(height: 14),
                               Text(
                                 'Your custom routine is empty.',
-                                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontWeight: FontWeight.bold, fontSize: 15),
+                                style: TextStyle(color: context.colors.onSurface, fontWeight: FontWeight.bold, fontSize: 15),
                               ),
                               SizedBox(height: 5),
                               Text(
                                 'Tap add exercises to construct your tactical split.',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38), fontSize: 12),
+                                style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38), fontSize: 12),
                               ),
                               SizedBox(height: 20),
                               GestureDetector(
@@ -508,9 +508,9 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Icon(Icons.add_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70), size: 16),
+                                      Icon(Icons.add_rounded, color: context.colors.onSurface.withValues(alpha: 0.70), size: 16),
                                       SizedBox(width: 6),
-                                      Text('ADD EXERCISE', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70), fontSize: 11, fontWeight: FontWeight.bold)),
+                                      Text('ADD EXERCISE', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.70), fontSize: 11, fontWeight: FontWeight.bold)),
                                     ],
                                   ),
                                 ),
@@ -565,7 +565,7 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                                 SizedBox(width: 8),
                                 Text(
                                   'ADD MORE EXERCISES',
-                                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70),
+                                  style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.70),
                                     fontSize: 12,
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: 1.1,
@@ -596,7 +596,7 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                   child: Center(
                     child: Text(
                       'SAVE WORKOUT ROUTINE',
-                      style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                      style: TextStyle(color: context.colors.onSurface,
                         fontSize: 13,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 1.2,
@@ -636,7 +636,7 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                   top: 20,
                 ),
                 decoration: BoxDecoration(
-                  color: Color(0xFF0F0F0F),
+                  color: context.colors.surface,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
                 ),
                 child: Column(
@@ -645,24 +645,24 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                   children: [
                     Text(
                       'EDIT TARGETS: ${exercise.name.toUpperCase()}',
-                      style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontWeight: FontWeight.w900, fontSize: 14),
+                      style: TextStyle(color: context.colors.onSurface, fontWeight: FontWeight.w900, fontSize: 14),
                     ),
-                    Divider(color: Colors.white.withOpacity(0.12), height: 24),
+                    Divider(color: context.colors.onSurface.withOpacity(0.12), height: 24),
                     
                     // Sets Counter
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Target Sets', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70))),
+                        Text('Target Sets', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.70))),
                         Row(
                           children: [
                             IconButton(
-                              icon: Icon(Icons.remove, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900),
+                              icon: Icon(Icons.remove, color: context.colors.onSurface),
                               onPressed: () {
                                 if (localSets > 1) setModalState(() => localSets--);
                               },
                             ),
-                            Text('$localSets', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 16, fontWeight: FontWeight.bold)),
+                            Text('$localSets', style: TextStyle(color: context.colors.onSurface, fontSize: 16, fontWeight: FontWeight.bold)),
                             IconButton(
                               icon: Icon(Icons.add, color: context.colors.primary),
                               onPressed: () => setModalState(() => localSets++),
@@ -676,16 +676,16 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Target Reps', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70))),
+                        Text('Target Reps', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.70))),
                         Row(
                           children: [
                             IconButton(
-                              icon: Icon(Icons.remove, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900),
+                              icon: Icon(Icons.remove, color: context.colors.onSurface),
                               onPressed: () {
                                 if (localReps > 1) setModalState(() => localReps--);
                               },
                             ),
-                            Text('$localReps', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 16, fontWeight: FontWeight.bold)),
+                            Text('$localReps', style: TextStyle(color: context.colors.onSurface, fontSize: 16, fontWeight: FontWeight.bold)),
                             IconButton(
                               icon: Icon(Icons.add, color: context.colors.primary),
                               onPressed: () => setModalState(() => localReps++),
@@ -699,16 +699,16 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Target Weight (KG)', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70))),
+                        Text('Target Weight (KG)', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.70))),
                         Row(
                           children: [
                             IconButton(
-                              icon: Icon(Icons.remove, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900),
+                              icon: Icon(Icons.remove, color: context.colors.onSurface),
                               onPressed: () {
                                 if (localWeight > 2.5) setModalState(() => localWeight -= 2.5);
                               },
                             ),
-                            Text(localWeight.toStringAsFixed(1), style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 16, fontWeight: FontWeight.bold)),
+                            Text(localWeight.toStringAsFixed(1), style: TextStyle(color: context.colors.onSurface, fontSize: 16, fontWeight: FontWeight.bold)),
                             IconButton(
                               icon: Icon(Icons.add, color: context.colors.primary),
                               onPressed: () => setModalState(() => localWeight += 2.5),
@@ -722,16 +722,16 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Rest Timer (Seconds)', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70))),
+                        Text('Rest Timer (Seconds)', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.70))),
                         Row(
                           children: [
                             IconButton(
-                              icon: Icon(Icons.remove, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900),
+                              icon: Icon(Icons.remove, color: context.colors.onSurface),
                               onPressed: () {
                                 if (localRest > 15) setModalState(() => localRest -= 15);
                               },
                             ),
-                            Text('${localRest}s', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 16, fontWeight: FontWeight.bold)),
+                            Text('${localRest}s', style: TextStyle(color: context.colors.onSurface, fontSize: 16, fontWeight: FontWeight.bold)),
                             IconButton(
                               icon: Icon(Icons.add, color: context.colors.primary),
                               onPressed: () => setModalState(() => localRest += 15),
@@ -764,7 +764,7 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                         height: 48,
                         decoration: AppDecorations.primaryButton(context, borderRadius: 14),
                         child: Center(
-                          child: Text('CONFIRM CHANGES', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontWeight: FontWeight.bold)),
+                          child: Text('CONFIRM CHANGES', style: TextStyle(color: context.colors.onSurface, fontWeight: FontWeight.bold)),
                         ),
                       ),
                     ),
@@ -799,9 +799,9 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                 height: MediaQuery.of(context).size.height * 0.6,
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF0A0A0A).withOpacity(0.96),
+                  color: context.colors.surface.withValues(alpha: 0.96),
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-                  border: Border.all(color: Colors.white.withOpacity(0.08), width: 1.5),
+                  border: Border.all(color: context.glassmorphism.borderColor, width: 1.5),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -811,7 +811,7 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                         width: 48,
                         height: 4.5,
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.24),
+                          color: context.colors.onSurface.withOpacity(0.24),
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
@@ -820,7 +820,7 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                     Text(
                       'SELECT TACTICAL PLAYLIST',
                       style: TextStyle(
-                        color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                        color: context.colors.onSurface,
                         fontSize: 15,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 1.5,
@@ -830,17 +830,17 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                     if (playlistState.isLoading && allPlaylists.isEmpty)
                       Center(child: CircularProgressIndicator(color: context.colors.primary))
                     else if (allPlaylists.isEmpty)
-                      const Center(
+                      Center(
                         child: Padding(
-                          padding: EdgeInsets.all(32.0),
-                          child: Text('No playlists available.', style: TextStyle(color: Colors.white70)),
+                          padding: const EdgeInsets.all(32.0),
+                          child: Text('No playlists available.', style: TextStyle(color: context.colors.onSurface.withOpacity(0.70))),
                         ),
                       )
                     else
                       Expanded(
                         child: ListView.separated(
                           itemCount: allPlaylists.length,
-                          separatorBuilder: (_, __) => const Divider(color: Colors.white12),
+                          separatorBuilder: (_, __) => Divider(color: context.colors.onSurface.withOpacity(0.12)),
                           itemBuilder: (context, index) {
                             final pl = allPlaylists[index];
                             return ListTile(
@@ -848,11 +848,11 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                                 borderRadius: BorderRadius.circular(6),
                                 child: pl.imageUrl.isNotEmpty
                                     ? Image.network(pl.imageUrl, width: 40, height: 40, fit: BoxFit.cover)
-                                    : Container(width: 40, height: 40, color: Colors.black45, child: const Icon(Icons.music_note, color: Colors.white)),
+                                    : Container(width: 40, height: 40, color: context.colors.onSurface.withOpacity(0.1), child: Icon(Icons.music_note, color: context.colors.onSurface)),
                               ),
                               title: Text(
                                 pl.name, 
-                                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                style: TextStyle(color: context.colors.onSurface, fontWeight: FontWeight.bold),
                               ),
                               subtitle: Text(
                                 pl.category,
@@ -908,9 +908,9 @@ class _AddExercisesPickerModalState extends ConsumerState<_AddExercisesPickerMod
     return Container(
       height: MediaQuery.of(context).size.height * 0.8,
       decoration: BoxDecoration(
-        color: Color(0xFF0A0A0A).withOpacity(0.96),
+        color: context.colors.surface.withValues(alpha: 0.96),
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-        border: Border.all(color: Colors.white.withOpacity(0.08), width: 1.5),
+        border: Border.all(color: context.glassmorphism.borderColor, width: 1.5),
       ),
       child: Column(
         children: [
@@ -921,7 +921,7 @@ class _AddExercisesPickerModalState extends ConsumerState<_AddExercisesPickerMod
               width: 48,
               height: 4.5,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.24),
+                color: context.colors.onSurface.withOpacity(0.24),
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
@@ -931,7 +931,7 @@ class _AddExercisesPickerModalState extends ConsumerState<_AddExercisesPickerMod
           // Header title
           Text(
             'SELECT EXERCISE',
-            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 15, fontWeight: FontWeight.w900, letterSpacing: 1.5),
+            style: TextStyle(color: context.colors.onSurface, fontSize: 15, fontWeight: FontWeight.w900, letterSpacing: 1.5),
           ),
           SizedBox(height: 12),
 
@@ -942,11 +942,11 @@ class _AddExercisesPickerModalState extends ConsumerState<_AddExercisesPickerMod
               decoration: AppDecorations.glassInput(context),
               child: TextField(
                 controller: _searchController,
-                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 14),
+                style: TextStyle(color: context.colors.onSurface, fontSize: 14),
                 decoration: InputDecoration(
                   hintText: 'Search exercise library...',
-                  hintStyle: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.24), fontSize: 14),
-                  prefixIcon: Icon(Icons.search_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38)),
+                  hintStyle: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.24), fontSize: 14),
+                  prefixIcon: Icon(Icons.search_rounded, color: context.colors.onSurface.withValues(alpha: 0.38)),
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(vertical: 14),
                 ),
@@ -973,7 +973,7 @@ class _AddExercisesPickerModalState extends ConsumerState<_AddExercisesPickerMod
                     label: Text(
                       category.toUpperCase(),
                       style: TextStyle(
-                        color: isSelected ? Colors.white : Colors.white.withOpacity(0.38),
+                        color: isSelected ? context.colors.onSurface : context.colors.onSurface.withOpacity(0.38),
                         fontSize: 9,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 0.6,
@@ -981,14 +981,14 @@ class _AddExercisesPickerModalState extends ConsumerState<_AddExercisesPickerMod
                     ),
                     selected: isSelected,
                     selectedColor: context.colors.primary,
-                    backgroundColor: Colors.white.withOpacity(0.04),
+                    backgroundColor: context.glassmorphism.cardColor,
                     onSelected: (val) {
                       if (val) ref.read(selectedCategoryProvider.notifier).setCategory(category);
                     },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                       side: BorderSide(
-                        color: isSelected ? context.colors.primary : Colors.white.withOpacity(0.08),
+                        color: isSelected ? context.colors.primary : context.glassmorphism.borderColor,
                       ),
                     ),
                     showCheckmark: false,
@@ -1003,11 +1003,11 @@ class _AddExercisesPickerModalState extends ConsumerState<_AddExercisesPickerMod
           Expanded(
             child: filteredExercises.when(
               loading: () => Center(child: CircularProgressIndicator(color: context.colors.primary)),
-              error: (err, st) => Center(child: Text('Failed to load: $err', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38)))),
+              error: (err, st) => Center(child: Text('Failed to load: $err', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38)))),
               data: (exercises) {
                 if (exercises.isEmpty) {
                   return Center(
-                    child: Text('No matching exercises found', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38), fontSize: 13)),
+                    child: Text('No matching exercises found', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38), fontSize: 13)),
                   );
                 }
                 return ListView.builder(
@@ -1027,7 +1027,7 @@ class _AddExercisesPickerModalState extends ConsumerState<_AddExercisesPickerMod
                               width: 48,
                               height: 48,
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: context.colors.onSurface,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: ClipRRect(
@@ -1044,12 +1044,12 @@ class _AddExercisesPickerModalState extends ConsumerState<_AddExercisesPickerMod
                                     ex.name.toUpperCase(),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 12, fontWeight: FontWeight.bold),
+                                    style: TextStyle(color: context.colors.onSurface, fontSize: 12, fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 3),
                                   Text(
                                     '${ex.muscleGroup} • ${ex.equipment}',
-                                    style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38), fontSize: 10),
+                                    style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38), fontSize: 10),
                                   ),
                                 ],
                               ),
@@ -1093,10 +1093,10 @@ class DottedBorderContainer extends StatelessWidget {
     return Container(
       height: 52,
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.02),
+        color: context.glassmorphism.cardColor,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: Colors.white.withOpacity(0.08),
+          color: context.glassmorphism.borderColor,
           style: BorderStyle.solid,
           width: 1,
         ),

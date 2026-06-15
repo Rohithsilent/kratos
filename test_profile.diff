@@ -1,0 +1,20 @@
+--- lib/features/profile/presentation/controllers/profile_controller.dart
++++ lib/features/profile/presentation/controllers/profile_controller.dart
+@@ -16,7 +16,16 @@
+     final repo = ref.read(authRepositoryProvider);
+     final uid = repo.currentUser?.uid;
+     if (uid == null) return null;
+-    try { print("FETCHING USER"); final res = await repo.getUserData(uid); print("FETCHED USER"); return res; } catch (e) { print("ERROR FETCHING USER: $e"); rethrow; }
++    try {
++      print("FETCHING USER WITH UID: $uid");
++      final res = await repo.getUserData(uid);
++      print("FETCHED USER SUCCESSFULLY");
++      return res;
++    } catch (e) {
++      print("ERROR FETCHING USER. UID WAS: $uid, Exception: $e");
++      // Return a dummy user instead of throwing, to see what happens
++      return UserModel(uid: uid, name: 'Error Recovery', email: '', phone: '', dob: '', sex: '', height: '', weight: '', profileImage: '', authProvider: '', onboardingCompleted: true, emailVerified: true, createdAt: '', lastLogin: '', subscriptionTier: 'FREE', subscriptionExpiry: '');
++    }
+   }
+ 
+   Future<void> updateField(String field, dynamic value) async {

@@ -76,23 +76,23 @@ class _WorkoutSessionScreenState extends ConsumerState<WorkoutSessionScreen> {
       builder: (context) => BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
         child: AlertDialog(
-          backgroundColor: Color(0xFF0F0F0F),
+          backgroundColor: context.colors.surface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
-            side: BorderSide(color: Colors.white.withOpacity(0.08)),
+            side: BorderSide(color: context.glassmorphism.borderColor),
           ),
           title: Text(
             'ABANDON WORKOUT?',
-            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontWeight: FontWeight.bold, fontSize: 15, letterSpacing: 1),
+            style: TextStyle(color: context.colors.onSurface, fontWeight: FontWeight.bold, fontSize: 15, letterSpacing: 1),
           ),
           content: Text(
             'Are you sure you want to quit this active training session? Your current progress stats will not be recorded.',
-            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.60), fontSize: 13, height: 1.4),
+            style: TextStyle(color: context.colors.onSurface.withOpacity(0.60), fontSize: 13, height: 1.4),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: Text('CANCEL', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38))),
+              child: Text('CANCEL', style: TextStyle(color: context.colors.onSurface.withOpacity(0.38))),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context, true),
@@ -167,7 +167,7 @@ class _WorkoutSessionScreenState extends ConsumerState<WorkoutSessionScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Initializing workout controller...', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38))),
+              Text('Initializing workout controller...', style: TextStyle(color: context.colors.onSurface.withOpacity(0.38))),
               SizedBox(height: 12),
               ElevatedButton(
                 onPressed: () {
@@ -213,7 +213,7 @@ class _WorkoutSessionScreenState extends ConsumerState<WorkoutSessionScreen> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.black.withOpacity(0.8),
+                        context.colors.surface.withValues(alpha: 0.8),
                         context.colors.surface.withOpacity(0.95),
                         context.colors.surface,
                       ],
@@ -241,19 +241,19 @@ class _WorkoutSessionScreenState extends ConsumerState<WorkoutSessionScreen> {
                               shape: BoxShape.circle,
                               border: Border.all(color: context.glassmorphism.borderColor),
                             ),
-                            child: Icon(Icons.close_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70), size: 18),
+                            child: Icon(Icons.close_rounded, color: context.colors.onSurface.withOpacity(0.70), size: 18),
                           ),
                         ),
                         Column(
                           children: [
                             Text(
                               sessionState.workout.name.toUpperCase(),
-                              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38), fontSize: 8, fontWeight: FontWeight.bold, letterSpacing: 1.5),
+                              style: TextStyle(color: context.colors.onSurface.withOpacity(0.38), fontSize: 8, fontWeight: FontWeight.bold, letterSpacing: 1.5),
                             ),
                             SizedBox(height: 3),
                             Text(
                               _formatStopwatch(sessionState.elapsedSeconds),
-                              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                              style: TextStyle(color: context.colors.onSurface,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w900,
                                 letterSpacing: 0.5,
@@ -296,7 +296,7 @@ class _WorkoutSessionScreenState extends ConsumerState<WorkoutSessionScreen> {
                           children: [
                             Text(
                               'EXERCISE ${activeExIdx + 1} OF ${sessionState.exercises.length}',
-                              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38), fontSize: 8, fontWeight: FontWeight.bold),
+                              style: TextStyle(color: context.colors.onSurface.withOpacity(0.38), fontSize: 8, fontWeight: FontWeight.bold),
                             ),
                             Text(
                               '${(exerciseProgress * 100).round()}% COMPLETE',
@@ -312,7 +312,7 @@ class _WorkoutSessionScreenState extends ConsumerState<WorkoutSessionScreen> {
                             child: LinearProgressIndicator(
                               value: exerciseProgress,
                               color: context.colors.primary,
-                              backgroundColor: Colors.white.withOpacity(0.04),
+                              backgroundColor: context.glassmorphism.borderColor,
                             ),
                           ),
                         ),
@@ -333,12 +333,12 @@ class _WorkoutSessionScreenState extends ConsumerState<WorkoutSessionScreen> {
                             height: 160,
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: context.colors.onSurface,
                               borderRadius: BorderRadius.circular(24),
-                              border: Border.all(color: Colors.white.withOpacity(0.1)),
+                              border: Border.all(color: context.colors.onSurface.withValues(alpha: 0.1)),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.4),
+                                  color: context.colors.shadow.withValues(alpha: 0.4),
                                   blurRadius: 15,
                                   spreadRadius: -2,
                                 )
@@ -367,7 +367,7 @@ class _WorkoutSessionScreenState extends ConsumerState<WorkoutSessionScreen> {
                           Text(
                             focusedExercise.name.toUpperCase(),
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                            style: TextStyle(color: context.colors.onSurface,
                               fontSize: 18,
                               fontWeight: FontWeight.w900,
                               height: 1.25,
@@ -380,12 +380,12 @@ class _WorkoutSessionScreenState extends ConsumerState<WorkoutSessionScreen> {
                               Container(
                                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.05),
+                                  color: context.colors.onSurface.withValues(alpha: 0.05),
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Text(
                                   focusedExercise.category.toUpperCase(),
-                                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70), fontSize: 8, fontWeight: FontWeight.bold),
+                                  style: TextStyle(color: context.colors.onSurface.withOpacity(0.70), fontSize: 8, fontWeight: FontWeight.bold),
                                 ),
                               ),
                               SizedBox(width: 8),
@@ -444,8 +444,8 @@ class _WorkoutSessionScreenState extends ConsumerState<WorkoutSessionScreen> {
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                     decoration: BoxDecoration(
-                      color: Color(0xFF090909),
-                      border: Border.all(color: Colors.white.withOpacity(0.04)),
+                      color: context.colors.surface,
+                      border: Border.all(color: context.glassmorphism.borderColor),
                     ),
                     child: Row(
                       children: [
@@ -459,11 +459,11 @@ class _WorkoutSessionScreenState extends ConsumerState<WorkoutSessionScreen> {
                             child: Container(
                               padding: EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.04),
+                                color: context.glassmorphism.borderColor,
                                 shape: BoxShape.circle,
-                                border: Border.all(color: Colors.white.withOpacity(0.06)),
+                                border: Border.all(color: context.glassmorphism.borderColor),
                               ),
-                              child: Icon(Icons.arrow_back_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, size: 18),
+                              child: Icon(Icons.arrow_back_rounded, color: context.colors.onSurface, size: 18),
                             ),
                           ),
                         ),
@@ -488,7 +488,7 @@ class _WorkoutSessionScreenState extends ConsumerState<WorkoutSessionScreen> {
                                   activeExIdx < sessionState.exercises.length - 1
                                       ? 'NEXT EXERCISE'
                                       : 'FINISH WORKOUT',
-                                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                                  style: TextStyle(color: context.colors.onSurface,
                                     fontSize: 12,
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: 1.1,
@@ -510,11 +510,11 @@ class _WorkoutSessionScreenState extends ConsumerState<WorkoutSessionScreen> {
                             child: Container(
                               padding: EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.04),
+                                color: context.glassmorphism.borderColor,
                                 shape: BoxShape.circle,
-                                border: Border.all(color: Colors.white.withOpacity(0.06)),
+                                border: Border.all(color: context.glassmorphism.borderColor),
                               ),
-                              child: Icon(Icons.arrow_forward_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, size: 18),
+                              child: Icon(Icons.arrow_forward_rounded, color: context.colors.onSurface, size: 18),
                             ),
                           ),
                         ),

@@ -44,10 +44,10 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
     final historyAsync = ref.watch(workoutHistoryProvider);
 
     return Scaffold(
-      backgroundColor: Color(0xFF090909), // Premium Primary Background #090909
+      backgroundColor: context.colors.surface, // Premium Primary Background #090909
       body: workoutsAsync.when(
         loading: () => Center(child: CircularProgressIndicator(color: context.colors.primary)),
-        error: (err, st) => Center(child: Text('Failed to load: $err', style: TextStyle(color: Color(0xFF8A8A8A)))),
+        error: (err, st) => Center(child: Text('Failed to load: $err', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.6)))),
         data: (workouts) {
           final workout = workouts.firstWhere(
             (w) => w.id == widget.workoutId,
@@ -66,13 +66,13 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Routine not found or deleted', style: TextStyle(color: Color(0xFFF5F5F5))),
+                  Text('Routine not found or deleted', style: TextStyle(color: context.colors.onSurface)),
                   SizedBox(height: 12),
                   ElevatedButton(
                     onPressed: () => context.pop(),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF171717),
-                      foregroundColor: Color(0xFFF5F5F5),
+                      backgroundColor: context.colors.surfaceVariant,
+                      foregroundColor: context.colors.onSurface,
                     ),
                     child: Text('Go Back'),
                   ),
@@ -143,17 +143,17 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                             child: Container(
                               padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                color: Color(0xFF111111), // Surface #111111
+                                color: context.glassmorphism.cardColor, // Surface #111111
                                 shape: BoxShape.circle,
-                                border: Border.all(color: Colors.white.withOpacity(0.04)),
+                                border: Border.all(color: context.glassmorphism.borderColor),
                               ),
-                              child: Icon(Icons.arrow_back_ios_new_rounded, color: Color(0xFFF5F5F5), size: 16),
+                              child: Icon(Icons.arrow_back_ios_new_rounded, color: context.colors.onSurface, size: 16),
                             ),
                           ),
                           Text(
                             'ROUTINE DETAILS',
                             style: TextStyle(
-                              color: Color(0xFF8A8A8A), // Secondary Text #8A8A8A
+                              color: context.colors.onSurface.withValues(alpha: 0.6), // Secondary Text #8A8A8A
                               fontSize: 11,
                               fontWeight: FontWeight.w900,
                               letterSpacing: 1.5,
@@ -167,11 +167,11 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                             child: Container(
                               padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                color: Color(0xFF111111),
+                                color: context.glassmorphism.cardColor,
                                 shape: BoxShape.circle,
-                                border: Border.all(color: Colors.white.withOpacity(0.04)),
+                                border: Border.all(color: context.glassmorphism.borderColor),
                               ),
-                              child: Icon(Icons.edit_rounded, color: Color(0xFFF5F5F5), size: 16),
+                              child: Icon(Icons.edit_rounded, color: context.colors.onSurface, size: 16),
                             ),
                           ),
                         ],
@@ -209,7 +209,7 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                                   Text(
                                     'ASSIGNED AUDIO',
                                     style: TextStyle(
-                                      color: Color(0xFFF5F5F5),
+                                      color: context.colors.onSurface,
                                       fontSize: 11,
                                       fontWeight: FontWeight.w900,
                                       letterSpacing: 1.0,
@@ -261,9 +261,9 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                                     height: 80,
                                     width: 240,
                                     decoration: BoxDecoration(
-                                      color: Color(0xFF111111),
+                                      color: context.glassmorphism.cardColor,
                                       borderRadius: BorderRadius.circular(16),
-                                      border: Border.all(color: Colors.white.withOpacity(0.04)),
+                                      border: Border.all(color: context.glassmorphism.borderColor),
                                     ),
                                     child: Center(
                                       child: Row(
@@ -296,7 +296,7 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                                   Text(
                                     'EXERCISES INCLUDED',
                                     style: TextStyle(
-                                      color: Color(0xFFF5F5F5), // Primary Text #F5F5F5
+                                      color: context.colors.onSurface, // Primary Text #F5F5F5
                                       fontSize: 11,
                                       fontWeight: FontWeight.w900,
                                       letterSpacing: 1.0,
@@ -305,14 +305,14 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                                   Container(
                                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                     decoration: BoxDecoration(
-                                      color: Color(0xFF111111),
+                                      color: context.glassmorphism.cardColor,
                                       borderRadius: BorderRadius.circular(6),
-                                      border: Border.all(color: Colors.white.withOpacity(0.04), width: 0.8),
+                                      border: Border.all(color: context.glassmorphism.borderColor, width: 0.8),
                                     ),
                                     child: Text(
                                       '${workout.exercises.length} TOTAL',
                                       style: TextStyle(
-                                        color: Color(0xFF8A8A8A), // Secondary Text #8A8A8A
+                                        color: context.colors.onSurface.withValues(alpha: 0.6), // Secondary Text #8A8A8A
                                         fontSize: 9,
                                         fontWeight: FontWeight.bold,
                                         letterSpacing: 0.5,
@@ -360,7 +360,7 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                                           Text(
                                             'PAST SESSIONS',
                                             style: TextStyle(
-                                              color: Color(0xFFF5F5F5),
+                                              color: context.colors.onSurface,
                                               fontSize: 11,
                                               fontWeight: FontWeight.w900,
                                               letterSpacing: 1.0,
@@ -369,14 +369,14 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                                           Container(
                                             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                             decoration: BoxDecoration(
-                                              color: Color(0xFF111111),
+                                              color: context.glassmorphism.cardColor,
                                               borderRadius: BorderRadius.circular(6),
-                                              border: Border.all(color: Colors.white.withOpacity(0.04), width: 0.8),
+                                              border: Border.all(color: context.glassmorphism.borderColor, width: 0.8),
                                             ),
                                             child: Text(
                                               '${pastSessions.length} TOTAL',
                                               style: TextStyle(
-                                                color: Color(0xFF8A8A8A),
+                                                color: context.colors.onSurface.withValues(alpha: 0.6),
                                                 fontSize: 9,
                                                 fontWeight: FontWeight.bold,
                                                 letterSpacing: 0.5,
@@ -435,7 +435,7 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                       ),
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: Colors.white.withOpacity(0.08),
+                        color: context.glassmorphism.borderColor,
                         width: 0.8,
                       ),
                       boxShadow: [
@@ -450,19 +450,19 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.play_arrow_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, size: 20),
+                          Icon(Icons.play_arrow_rounded, color: context.colors.onSurface, size: 20),
                           SizedBox(width: 8),
                           Text(
                             'START WORKOUT ROUTINE',
                             style: TextStyle(
-                              color: Color(0xFFF5F5F5),
+                              color: context.colors.onSurface,
                               fontSize: 13.5,
                               fontWeight: FontWeight.w800,
                               letterSpacing: 1.0,
                             ),
                           ),
                           SizedBox(width: 4),
-                          Icon(Icons.chevron_right_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.54), size: 16),
+                          Icon(Icons.chevron_right_rounded, color: context.colors.onSurface.withOpacity(0.54), size: 16),
                         ],
                       ),
                     ),
@@ -481,10 +481,10 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Color(0xFF111111), // Surface #111111
+        color: context.glassmorphism.cardColor, // Surface #111111
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: Colors.white.withOpacity(0.04), // Subtle Border
+          color: context.glassmorphism.borderColor, // Subtle Border
           width: 1,
         ),
       ),
@@ -498,7 +498,7 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Color(0xFF161616),
+                      context.colors.surfaceVariant,
                       Color(0xFFFF3B3B).withOpacity(0.015), // Warm dark crimson wash
                     ],
                     begin: Alignment.topLeft,
@@ -542,10 +542,10 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
                         decoration: BoxDecoration(
-                          color: Color(0xFF171717),
+                          color: context.colors.surfaceVariant,
                           borderRadius: BorderRadius.circular(6),
                           border: Border.all(
-                            color: Colors.white.withOpacity(0.04),
+                            color: context.glassmorphism.borderColor,
                             width: 0.8,
                           ),
                         ),
@@ -574,7 +574,7 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                   Text(
                     workout.name.toUpperCase(),
                     style: TextStyle(
-                      color: Color(0xFFF5F5F5), // Primary Text
+                      color: context.colors.onSurface, // Primary Text
                       fontSize: 22,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.2,
@@ -583,10 +583,10 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                   SizedBox(height: 6),
                   Text(
                     'Created on ${workout.createdAt.day}/${workout.createdAt.month}/${workout.createdAt.year}',
-                    style: TextStyle(color: Color(0xFF8A8A8A), fontSize: 11),
+                    style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.6), fontSize: 11),
                   ),
                   SizedBox(height: 16),
-                  Divider(color: Colors.white.withOpacity(0.10), height: 1),
+                  Divider(color: context.colors.onSurface.withValues(alpha: 0.10), height: 1),
                   SizedBox(height: 12),
                   // Duration & Calories inline
                   Row(
@@ -596,7 +596,7 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                       Text(
                         '${workout.exercises.length} Exercises  •  $estDuration mins  •  $estCalories kcal',
                         style: TextStyle(
-                          color: Color(0xFF8A8A8A),
+                          color: context.colors.onSurface.withValues(alpha: 0.6),
                           fontSize: 11.5,
                           fontWeight: FontWeight.w600,
                         ),
@@ -656,10 +656,10 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
     return Container(
       height: 76,
       decoration: BoxDecoration(
-        color: Color(0xFF111111), // Surface #111111
+        color: context.glassmorphism.cardColor, // Surface #111111
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: Colors.white.withOpacity(0.04), // Subtle Border
+          color: context.glassmorphism.borderColor, // Subtle Border
           width: 1,
         ),
       ),
@@ -688,7 +688,7 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                         Text(
                           value,
                           style: TextStyle(
-                            color: Color(0xFFF5F5F5), // Primary Text
+                            color: context.colors.onSurface, // Primary Text
                             fontSize: 16,
                             fontWeight: FontWeight.w800,
                           ),
@@ -697,7 +697,7 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                         Text(
                           unit,
                           style: TextStyle(
-                            color: Color(0xFFF5F5F5).withOpacity(0.6),
+                            color: context.colors.onSurface.withOpacity(0.6),
                             fontSize: 9,
                             fontWeight: FontWeight.w700,
                           ),
@@ -714,7 +714,7 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  color: Color(0xFF8A8A8A), // Secondary Text
+                  color: context.colors.onSurface.withValues(alpha: 0.6), // Secondary Text
                   fontSize: 9,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 0.2,
@@ -746,9 +746,9 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                 height: MediaQuery.of(context).size.height * 0.6,
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF0A0A0A).withOpacity(0.96),
+                  color: context.colors.surface.withValues(alpha: 0.96),
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-                  border: Border.all(color: Colors.white.withOpacity(0.08), width: 1.5),
+                  border: Border.all(color: context.glassmorphism.borderColor, width: 1.5),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -758,7 +758,7 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                         width: 48,
                         height: 4.5,
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.24),
+                          color: context.colors.onSurface.withValues(alpha: 0.24),
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
@@ -767,7 +767,7 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                     Text(
                       'SELECT TACTICAL PLAYLIST',
                       style: TextStyle(
-                        color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                        color: context.colors.onSurface,
                         fontSize: 15,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 1.5,
@@ -777,17 +777,17 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                     if (playlistState.isLoading && allPlaylists.isEmpty)
                       Center(child: CircularProgressIndicator(color: context.colors.primary))
                     else if (allPlaylists.isEmpty)
-                      const Center(
+                      Center(
                         child: Padding(
-                          padding: EdgeInsets.all(32.0),
-                          child: Text('No playlists available.', style: TextStyle(color: Colors.white70)),
+                          padding: const EdgeInsets.all(32.0),
+                          child: Text('No playlists available.', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.70))),
                         ),
                       )
                     else
                       Expanded(
                         child: ListView.separated(
                           itemCount: allPlaylists.length,
-                          separatorBuilder: (_, __) => const Divider(color: Colors.white12),
+                          separatorBuilder: (_, __) => Divider(color: context.colors.onSurface.withValues(alpha: 0.12)),
                           itemBuilder: (context, index) {
                             final pl = allPlaylists[index];
                             return ListTile(
@@ -795,11 +795,11 @@ class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen> {
                                 borderRadius: BorderRadius.circular(6),
                                 child: pl.imageUrl.isNotEmpty
                                     ? Image.network(pl.imageUrl, width: 40, height: 40, fit: BoxFit.cover)
-                                    : Container(width: 40, height: 40, color: Colors.black45, child: const Icon(Icons.music_note, color: Colors.white)),
+                                    : Container(width: 40, height: 40, color: Colors.black45, child: Icon(Icons.music_note, color: context.colors.onSurface)),
                               ),
                               title: Text(
                                 pl.name, 
-                                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                style: TextStyle(color: context.colors.onSurface, fontWeight: FontWeight.bold),
                               ),
                               subtitle: Text(
                                 pl.category,

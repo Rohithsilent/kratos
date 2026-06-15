@@ -34,7 +34,9 @@ class TacticalPlaylistCard extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.3),
+              color: Theme.of(context).brightness == Brightness.dark 
+                  ? Colors.black.withValues(alpha: 0.3)
+                  : context.colors.onSurface.withValues(alpha: 0.08),
               blurRadius: 15,
               offset: const Offset(0, 8),
             ),
@@ -57,13 +59,13 @@ class TacticalPlaylistCard extends StatelessWidget {
                             errorBuilder: (context, error, stackTrace) {
                               return Container(
                                 color: Colors.black26,
-                                child: const Icon(Icons.music_note, color: Colors.white54, size: 40),
+                                child: Icon(Icons.music_note, color: context.colors.onSurface.withValues(alpha: 0.54), size: 40),
                               );
                             },
                           )
                         : Container(
                             color: Colors.black26,
-                            child: const Icon(Icons.music_note, color: Colors.white54, size: 40),
+                            child: Icon(Icons.music_note, color: context.colors.onSurface.withValues(alpha: 0.54), size: 40),
                           ),
                   ),
                   // Gradient Overlay
@@ -89,7 +91,7 @@ class TacticalPlaylistCard extends StatelessWidget {
                   Positioned(
                     top: 12,
                     right: 12,
-                    child: _buildChip(playlist.difficulty.toUpperCase(), Colors.white54),
+                    child: _buildChip(playlist.difficulty.toUpperCase(), context.colors.onSurface.withValues(alpha: 0.54)),
                   ),
                 ],
               ),

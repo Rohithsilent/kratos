@@ -106,7 +106,7 @@ class WorkoutCompleteScreen extends StatelessWidget {
                   SizedBox(height: 8),
                   Text(
                     'SESSION COMPLETE',
-                    style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                    style: TextStyle(color: context.colors.onSurface,
                       fontSize: 24,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 1,
@@ -115,7 +115,7 @@ class WorkoutCompleteScreen extends StatelessWidget {
                   SizedBox(height: 4),
                   Text(
                     'TEMPLE CONQUERED. STATS RECORDED.',
-                    style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38),
+                    style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38),
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 0.8,
@@ -132,14 +132,14 @@ class WorkoutCompleteScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 18),
                           child: Column(
                             children: [
-                              Icon(Icons.timer_outlined, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.30), size: 18),
+                              Icon(Icons.timer_outlined, color: context.colors.onSurface.withValues(alpha: 0.30), size: 18),
                               SizedBox(height: 6),
                               Text(
                                 _formatDuration(session.totalDurationSeconds),
-                                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 13, fontWeight: FontWeight.bold),
+                                style: TextStyle(color: context.colors.onSurface, fontSize: 13, fontWeight: FontWeight.bold),
                               ),
                               SizedBox(height: 2),
-                              Text('ELAPSED TIME', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38), fontSize: 9)),
+                              Text('ELAPSED TIME', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38), fontSize: 9)),
                             ],
                           ),
                         ),
@@ -151,14 +151,14 @@ class WorkoutCompleteScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 18),
                           child: Column(
                             children: [
-                              Icon(Icons.fitness_center_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.30), size: 18),
+                              Icon(Icons.fitness_center_rounded, color: context.colors.onSurface.withValues(alpha: 0.30), size: 18),
                               SizedBox(height: 6),
                               Text(
                                 '${session.totalVolumeKg.toStringAsFixed(1)} KG',
-                                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 13, fontWeight: FontWeight.bold),
+                                style: TextStyle(color: context.colors.onSurface, fontSize: 13, fontWeight: FontWeight.bold),
                               ),
                               SizedBox(height: 2),
-                              Text('TOTAL VOLUME', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38), fontSize: 9)),
+                              Text('TOTAL VOLUME', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38), fontSize: 9)),
                             ],
                           ),
                         ),
@@ -174,14 +174,14 @@ class WorkoutCompleteScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 18),
                           child: Column(
                             children: [
-                              Icon(Icons.local_fire_department_outlined, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.30), size: 18),
+                              Icon(Icons.local_fire_department_outlined, color: context.colors.onSurface.withValues(alpha: 0.30), size: 18),
                               SizedBox(height: 6),
                               Text(
                                 '${session.caloriesBurned} CAL',
-                                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 13, fontWeight: FontWeight.bold),
+                                style: TextStyle(color: context.colors.onSurface, fontSize: 13, fontWeight: FontWeight.bold),
                               ),
                               SizedBox(height: 2),
-                              Text('EST. CALORIES', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38), fontSize: 9)),
+                              Text('EST. CALORIES', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38), fontSize: 9)),
                             ],
                           ),
                         ),
@@ -197,10 +197,10 @@ class WorkoutCompleteScreen extends StatelessWidget {
                               SizedBox(height: 6),
                               Text(
                                 '$totalCompletedSets Sets Logged',
-                                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 13, fontWeight: FontWeight.bold),
+                                style: TextStyle(color: context.colors.onSurface, fontSize: 13, fontWeight: FontWeight.bold),
                               ),
                               SizedBox(height: 2),
-                              Text('ACHIEVEMENT SUMMARY', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38), fontSize: 9)),
+                              Text('ACHIEVEMENT SUMMARY', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38), fontSize: 9)),
                             ],
                           ),
                         ),
@@ -228,7 +228,7 @@ class WorkoutCompleteScreen extends StatelessWidget {
                               SizedBox(height: 3),
                               Text(
                                 'You conquered ${session.completedExercises.length} tactile splits today. Keep grinding!',
-                                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70), fontSize: 12, height: 1.35),
+                                style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.70), fontSize: 12, height: 1.35),
                               ),
                             ],
                           ),
@@ -251,7 +251,7 @@ class WorkoutCompleteScreen extends StatelessWidget {
                       child: Center(
                         child: Text(
                           'RETURN TO DASHBOARD',
-                          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                          style: TextStyle(color: context.colors.onSurface,
                             fontSize: 13,
                             fontWeight: FontWeight.w900,
                             letterSpacing: 1.2,

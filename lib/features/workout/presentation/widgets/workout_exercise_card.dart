@@ -29,8 +29,8 @@ class WorkoutExerciseCard extends StatelessWidget {
       child: GlassCard(
         borderRadius: 16, // Refined rounded corners
         padding: EdgeInsets.all(12),
-        backgroundColor: Color(0xFF111111), // Surface #111111
-        borderColor: Colors.white.withOpacity(0.04), // Restrained Border Opacity 0.04
+        backgroundColor: context.glassmorphism.cardColor,
+        borderColor: context.glassmorphism.borderColor,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -42,16 +42,16 @@ class WorkoutExerciseCard extends StatelessWidget {
                   width: 68,
                   height: 68,
                   decoration: BoxDecoration(
-                    color: Color(0xFF171717), // elevated dark surface #171717
+                    color: context.colors.surfaceVariant, // elevated dark surface #171717
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.white.withOpacity(0.04)),
+                    border: Border.all(color: context.glassmorphism.borderColor),
                   ),
                   alignment: Alignment.center,
                   child: Container(
                     width: 56,
                     height: 56,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.92), // soft premium white backing for drawing lines visibility
+                      color: context.colors.onSurface.withValues(alpha: 0.92), // soft premium white backing for drawing lines visibility
                       borderRadius: BorderRadius.circular(8),
                     ),
                     padding: EdgeInsets.all(4),
@@ -77,15 +77,15 @@ class WorkoutExerciseCard extends StatelessWidget {
                     width: 18,
                     height: 18,
                     decoration: BoxDecoration(
-                      color: Color(0xFF1E1E1E), // Premium dark theme background
+                      color: context.colors.surface, // Premium dark theme background
                       shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white.withOpacity(0.12), width: 1.0),
+                      border: Border.all(color: context.colors.onSurface.withOpacity(0.12), width: 1.0),
                     ),
                     child: Center(
                       child: Text(
                         '${index + 1}',
                         style: TextStyle(
-                          color: Color(0xFFF5F5F5), // Primary Text
+                          color: context.colors.onSurface, // Primary Text
                           fontSize: 8.5,
                           fontWeight: FontWeight.w900,
                         ),
@@ -112,7 +112,7 @@ class WorkoutExerciseCard extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            color: Color(0xFFF5F5F5), // Primary Text #F5F5F5
+                            color: context.colors.onSurface, // Primary Text #F5F5F5
                             fontSize: 13.5,
                             fontWeight: FontWeight.w800,
                             letterSpacing: 0.1,
@@ -122,7 +122,7 @@ class WorkoutExerciseCard extends StatelessWidget {
                       if (isReorderable)
                         Padding(
                           padding: EdgeInsets.only(left: 8.0, top: 1.0),
-                          child: Icon(Icons.reorder_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.24),
+                          child: Icon(Icons.reorder_rounded, color: context.colors.onSurface.withValues(alpha: 0.24),
                             size: 16,
                           ),
                         ),
@@ -134,7 +134,7 @@ class WorkoutExerciseCard extends StatelessWidget {
                   Text(
                     exercise.category.toUpperCase(),
                     style: TextStyle(
-                      color: Color(0xFF8A8A8A), // Secondary Text #8A8A8A
+                      color: context.colors.onSurface.withOpacity(0.6), // Secondary Text #8A8A8A
                       fontSize: 9,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 0.5,
@@ -173,7 +173,7 @@ class WorkoutExerciseCard extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            color: Color(0xFF8A8A8A), // Secondary Text #8A8A8A
+                            color: context.colors.onSurface.withOpacity(0.6), // Secondary Text #8A8A8A
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 0.1,
@@ -186,7 +186,7 @@ class WorkoutExerciseCard extends StatelessWidget {
                   // Conditionally render actions row if callbacks exist
                   if (onEdit != null || onDelete != null) ...[
                     SizedBox(height: 12),
-                    Divider(color: Colors.white.withOpacity(0.10), height: 1),
+                    Divider(color: context.colors.onSurface.withOpacity(0.10), height: 1),
                     SizedBox(height: 8),
                     Row(
                       children: [
@@ -196,13 +196,13 @@ class WorkoutExerciseCard extends StatelessWidget {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.edit_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.4),
+                                Icon(Icons.edit_rounded, color: context.colors.onSurface.withValues(alpha: 0.4),
                                   size: 11,
                                 ),
                                 SizedBox(width: 4),
                                 Text(
                                   'Edit Targets',
-                                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.45),
+                                  style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.45),
                                     fontSize: 10.5,
                                     fontWeight: FontWeight.bold,
                                   ),

@@ -22,7 +22,7 @@ class HydrationTrackerCard extends ConsumerWidget {
           child: Text(
             'HYDRATION',
             style: AppTypography.labelBold.copyWith(
-              color: Colors.white,
+              color: context.colors.onSurface,
               fontSize: 12,
               letterSpacing: 1.5,
             ),
@@ -34,9 +34,9 @@ class HydrationTrackerCard extends ConsumerWidget {
           child: Container(
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.03),
+              color: context.colors.onSurface.withValues(alpha: 0.03),
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.white.withOpacity(0.05)),
+              border: Border.all(color: context.colors.onSurface.withValues(alpha: 0.05)),
             ),
             child: Column(
               children: [
@@ -48,7 +48,7 @@ class HydrationTrackerCard extends ConsumerWidget {
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: Color(0xFF0A1A2E),
+                        color: Theme.of(context).brightness == Brightness.dark ? Color(0xFF0A1A2E) : Color(0xFF3B82F6).withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                         border: Border.all(
                           color: Color(0xFF3B82F6).withOpacity(0.3),
@@ -78,7 +78,7 @@ class HydrationTrackerCard extends ConsumerWidget {
                               children: [
                                 TextSpan(
                                   text: hydration.litersConsumed.toStringAsFixed(1),
-                                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                                  style: TextStyle(color: context.colors.onSurface,
                                     fontSize: 22,
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: -0.5,
@@ -86,7 +86,7 @@ class HydrationTrackerCard extends ConsumerWidget {
                                 ),
                                 TextSpan(
                                   text: ' / ${hydration.litersTarget.toStringAsFixed(1)} L',
-                                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.3),
+                                  style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.3),
                                     fontSize: 13,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -97,7 +97,7 @@ class HydrationTrackerCard extends ConsumerWidget {
                           SizedBox(height: 2),
                           Text(
                             '${hydration.glassesConsumed} of ${hydration.glassesTarget} glasses',
-                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.2),
+                            style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.2),
                               fontSize: 9,
                               fontWeight: FontWeight.w600,
                             ),
@@ -116,7 +116,7 @@ class HydrationTrackerCard extends ConsumerWidget {
                           vertical: 8,
                         ),
                         decoration: BoxDecoration(
-                          color: Color(0xFF0A1A2E),
+                          color: Theme.of(context).brightness == Brightness.dark ? Color(0xFF0A1A2E) : Color(0xFF3B82F6).withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: Color(0xFF3B82F6).withOpacity(0.25),
@@ -158,7 +158,7 @@ class HydrationTrackerCard extends ConsumerWidget {
                       return LinearProgressIndicator(
                         value: value,
                         color: Color(0xFF3B82F6),
-                        backgroundColor: Colors.white.withOpacity(0.04),
+                        backgroundColor: context.colors.onSurface.withValues(alpha: 0.04),
                         minHeight: 5,
                       );
                     },
@@ -184,12 +184,12 @@ class HydrationTrackerCard extends ConsumerWidget {
                           decoration: BoxDecoration(
                             color: isFilled
                                 ? Color(0xFF3B82F6).withOpacity(0.3)
-                                : Colors.white.withOpacity(0.03),
+                                : context.colors.onSurface.withValues(alpha: 0.03),
                             borderRadius: BorderRadius.circular(4),
                             border: Border.all(
                               color: isFilled
                                   ? Color(0xFF3B82F6).withOpacity(0.5)
-                                  : Colors.white.withOpacity(0.04),
+                                  : context.colors.onSurface.withValues(alpha: 0.04),
                               width: 0.5,
                             ),
                           ),

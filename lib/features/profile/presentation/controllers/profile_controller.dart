@@ -19,7 +19,16 @@ class ProfileController extends AsyncNotifier<UserModel?> {
     final repo = ref.read(authRepositoryProvider);
     final uid = repo.currentUser?.uid;
     if (uid == null) return null;
-    return await repo.getUserData(uid);
+    try {
+      return await repo.getUserData(uid);
+    } catch (e) {
+      if (e.toString().contains('permission-denied')) {
+        // Token is likely revoked or user deleted from console. Force logout.
+        await repo.signOut();
+        return null;
+      }
+      rethrow;
+    }
   }
 
   Future<void> updateField(String field, dynamic value) async {

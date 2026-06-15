@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../../core/theme/theme_ext.dart';
 import '../../../../shared/widgets/glass_card.dart';
 
 /// Simplified recovery card — NO fake metrics (water, sleep, steps removed).
@@ -19,7 +20,7 @@ class RecoveryDayCard extends StatelessWidget {
           child: Text(
             "TODAY'S MISSION",
             style: AppTypography.labelBold.copyWith(
-              color: Colors.white,
+              color: context.colors.onSurface,
               fontSize: 12,
               letterSpacing: 1.5,
             ),
@@ -71,7 +72,7 @@ class RecoveryDayCard extends StatelessWidget {
                           SizedBox(height: 4),
                           Text(
                             'Rest. Repair. Return stronger.',
-                            style: TextStyle(color: Colors.white.withOpacity(0.6),
+                            style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.6),
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                             ),
@@ -82,13 +83,13 @@ class RecoveryDayCard extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 18),
-                Divider(color: Colors.white.withOpacity(0.10), height: 1),
+                Divider(color: context.colors.onSurface.withValues(alpha: 0.10), height: 1),
                 SizedBox(height: 16),
 
                 // Recovery suggestions
                 Text(
                   'FOCUS AREAS',
-                  style: TextStyle(color: Colors.white.withOpacity(0.25),
+                  style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.25),
                     fontSize: 9,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 1.0,
@@ -99,10 +100,10 @@ class RecoveryDayCard extends StatelessWidget {
                   spacing: 8,
                   runSpacing: 8,
                   children: [
-                    _buildFocusChip('Stretching', Icons.self_improvement_rounded),
-                    _buildFocusChip('Hydration', Icons.water_drop_rounded),
-                    _buildFocusChip('Mobility', Icons.accessibility_new_rounded),
-                    _buildFocusChip('Nutrition', Icons.restaurant_rounded),
+                    _buildFocusChip(context, 'Stretching', Icons.self_improvement_rounded),
+                    _buildFocusChip(context, 'Hydration', Icons.water_drop_rounded),
+                    _buildFocusChip(context, 'Mobility', Icons.accessibility_new_rounded),
+                    _buildFocusChip(context, 'Nutrition', Icons.restaurant_rounded),
                   ],
                 ),
               ],
@@ -113,7 +114,7 @@ class RecoveryDayCard extends StatelessWidget {
     );
   }
 
-  Widget _buildFocusChip(String label, IconData icon) {
+  Widget _buildFocusChip(BuildContext context, String label, IconData icon) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7),
       decoration: BoxDecoration(
@@ -130,7 +131,7 @@ class RecoveryDayCard extends StatelessWidget {
           SizedBox(width: 6),
           Text(
             label.toUpperCase(),
-            style: TextStyle(color: Colors.white.withOpacity(0.5),
+            style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.5),
               fontSize: 9,
               fontWeight: FontWeight.w800,
               letterSpacing: 0.5,

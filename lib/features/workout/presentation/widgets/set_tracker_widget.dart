@@ -32,7 +32,7 @@ class SetTrackerWidget extends StatelessWidget {
                 width: 38,
                 child: Text(
                   'SET',
-                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 0.5),
+                  style: TextStyle(color: context.colors.onSurface.withOpacity(0.38), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 0.5),
                 ),
               ),
               Expanded(
@@ -41,7 +41,7 @@ class SetTrackerWidget extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(
                     'WEIGHT (KG)',
-                    style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 0.5),
+                    style: TextStyle(color: context.colors.onSurface.withOpacity(0.38), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 0.5),
                   ),
                 ),
               ),
@@ -52,7 +52,7 @@ class SetTrackerWidget extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(
                     'REPS',
-                    style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 0.5),
+                    style: TextStyle(color: context.colors.onSurface.withOpacity(0.38), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 0.5),
                   ),
                 ),
               ),
@@ -62,13 +62,13 @@ class SetTrackerWidget extends StatelessWidget {
                 child: Text(
                   'STATUS',
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 0.5),
+                  style: TextStyle(color: context.colors.onSurface.withOpacity(0.38), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 0.5),
                 ),
               ),
             ],
           ),
         ),
-        Divider(color: Colors.white.withOpacity(0.10), height: 1, thickness: 1),
+        Divider(color: context.colors.onSurface.withOpacity(0.10), height: 1, thickness: 1),
         SizedBox(height: 6),
 
         // Set Rows List
@@ -96,7 +96,7 @@ class SetTrackerWidget extends StatelessWidget {
                       child: Text(
                         '${setItem.setNumber}',
                         style: TextStyle(
-                          color: isCompleted ? context.colors.primary : Colors.white.withOpacity(0.70),
+                          color: isCompleted ? context.colors.primary : context.colors.onSurface.withOpacity(0.70),
                           fontSize: 13,
                           fontWeight: FontWeight.w900,
                         ),
@@ -110,10 +110,10 @@ class SetTrackerWidget extends StatelessWidget {
                     child: Container(
                       height: 38,
                       decoration: BoxDecoration(
-                        color: isCompleted ? Colors.transparent : Colors.white.withOpacity(0.02),
+                        color: isCompleted ? Colors.transparent : context.colors.onSurface.withValues(alpha: 0.02),
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: isCompleted ? context.colors.primary.withOpacity(0.2) : Colors.white.withOpacity(0.06),
+                          color: isCompleted ? context.colors.primary.withOpacity(0.2) : context.glassmorphism.borderColor,
                         ),
                       ),
                       child: Row(
@@ -123,13 +123,13 @@ class SetTrackerWidget extends StatelessWidget {
                             onTap: isCompleted ? null : () => onWeightChanged(index, setItem.weight - 2.5),
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
-                              child: Icon(Icons.remove, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.24), size: 14),
+                              child: Icon(Icons.remove, color: context.colors.onSurface.withOpacity(0.24), size: 14),
                             ),
                           ),
                           Text(
                             setItem.weight.toStringAsFixed(1),
                             style: TextStyle(
-                              color: isCompleted ? Colors.white.withOpacity(0.70) : Colors.white,
+                              color: isCompleted ? context.colors.onSurface.withOpacity(0.70) : context.colors.onSurface,
                               fontSize: 13,
                               fontWeight: FontWeight.bold,
                             ),
@@ -138,7 +138,7 @@ class SetTrackerWidget extends StatelessWidget {
                             onTap: isCompleted ? null : () => onWeightChanged(index, setItem.weight + 2.5),
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
-                              child: Icon(Icons.add, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.24), size: 14),
+                              child: Icon(Icons.add, color: context.colors.onSurface.withOpacity(0.24), size: 14),
                             ),
                           ),
                         ],
@@ -154,10 +154,10 @@ class SetTrackerWidget extends StatelessWidget {
                     child: Container(
                       height: 38,
                       decoration: BoxDecoration(
-                        color: isCompleted ? Colors.transparent : Colors.white.withOpacity(0.02),
+                        color: isCompleted ? Colors.transparent : context.colors.onSurface.withValues(alpha: 0.02),
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: isCompleted ? context.colors.primary.withOpacity(0.2) : Colors.white.withOpacity(0.06),
+                          color: isCompleted ? context.colors.primary.withOpacity(0.2) : context.glassmorphism.borderColor,
                         ),
                       ),
                       child: Row(
@@ -169,13 +169,13 @@ class SetTrackerWidget extends StatelessWidget {
                             },
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
-                              child: Icon(Icons.remove, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.24), size: 14),
+                              child: Icon(Icons.remove, color: context.colors.onSurface.withOpacity(0.24), size: 14),
                             ),
                           ),
                           Text(
                             '${setItem.reps}',
                             style: TextStyle(
-                              color: isCompleted ? Colors.white.withOpacity(0.70) : Colors.white,
+                              color: isCompleted ? context.colors.onSurface.withOpacity(0.70) : context.colors.onSurface,
                               fontSize: 13,
                               fontWeight: FontWeight.bold,
                             ),
@@ -184,7 +184,7 @@ class SetTrackerWidget extends StatelessWidget {
                             onTap: isCompleted ? null : () => onRepsChanged(index, setItem.reps + 1),
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
-                              child: Icon(Icons.add, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.24), size: 14),
+                              child: Icon(Icons.add, color: context.colors.onSurface.withOpacity(0.24), size: 14),
                             ),
                           ),
                         ],
@@ -205,10 +205,10 @@ class SetTrackerWidget extends StatelessWidget {
                           width: 24,
                           height: 24,
                           decoration: BoxDecoration(
-                            color: isCompleted ? context.colors.primary : Colors.white.withOpacity(0.02),
+                            color: isCompleted ? context.colors.primary : context.colors.onSurface.withOpacity(0.02),
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: isCompleted ? context.colors.primary : Colors.white.withOpacity(0.12),
+                              color: isCompleted ? context.colors.primary : context.colors.onSurface.withOpacity(0.12),
                               width: 1.5,
                             ),
                             boxShadow: isCompleted
@@ -224,7 +224,7 @@ class SetTrackerWidget extends StatelessWidget {
                           child: Center(
                             child: Icon(
                               Icons.check_rounded,
-                              color: isCompleted ? Colors.white : Colors.transparent,
+                              color: isCompleted ? context.colors.onSurface : Colors.transparent,
                               size: 14,
                             ),
                           ),

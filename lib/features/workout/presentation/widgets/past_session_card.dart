@@ -33,10 +33,10 @@ class PastSessionCard extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Color(0xFF111111),
+        color: context.glassmorphism.cardColor,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: Colors.white.withOpacity(0.04),
+          color: context.glassmorphism.borderColor,
           width: 1,
         ),
       ),
@@ -50,7 +50,7 @@ class PastSessionCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Color(0xFFFF3B3B).withOpacity(0.015),
+                      context.colors.primary.withValues(alpha: 0.05),
                       Colors.transparent,
                     ],
                     begin: Alignment.topLeft,
@@ -71,7 +71,7 @@ class PastSessionCard extends StatelessWidget {
                       Text(
                         dateStr.toUpperCase(),
                         style: TextStyle(
-                          color: Color(0xFF8A8A8A),
+                          color: context.colors.onSurface.withValues(alpha: 0.6),
                           fontSize: 10,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 1.0,
@@ -80,10 +80,10 @@ class PastSessionCard extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
-                          color: Color(0xFF171717),
+                          color: context.colors.surfaceVariant,
                           borderRadius: BorderRadius.circular(6),
                           border: Border.all(
-                            color: Colors.white.withOpacity(0.04),
+                            color: context.glassmorphism.borderColor,
                           ),
                         ),
                         child: Row(
@@ -94,7 +94,7 @@ class PastSessionCard extends StatelessWidget {
                             Text(
                               _formatDuration(session.totalDurationSeconds),
                               style: TextStyle(
-                                color: Color(0xFFF5F5F5),
+                                color: context.colors.onSurface,
                                 fontSize: 9.5,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -111,7 +111,7 @@ class PastSessionCard extends StatelessWidget {
                     Text(
                       session.workoutName.toUpperCase(),
                       style: TextStyle(
-                        color: Color(0xFFF5F5F5),
+                        color: context.colors.onSurface,
                         fontSize: 16,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 0.5,
@@ -123,12 +123,12 @@ class PastSessionCard extends StatelessWidget {
                   // Time Range
                   Row(
                     children: [
-                      Icon(Icons.schedule_rounded, color: Color(0xFF8A8A8A), size: 14),
+                      Icon(Icons.schedule_rounded, color: context.colors.onSurface.withValues(alpha: 0.6), size: 14),
                       SizedBox(width: 6),
                       Text(
                         '$startTime - $endTime',
                         style: TextStyle(
-                          color: Color(0xFFE0E0E0),
+                          color: context.colors.onSurface.withValues(alpha: 0.9),
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
                         ),
@@ -137,16 +137,16 @@ class PastSessionCard extends StatelessWidget {
                   ),
                   
                   SizedBox(height: 16),
-                  Divider(color: Colors.white.withOpacity(0.06), height: 1),
+                  Divider(color: context.glassmorphism.borderColor, height: 1),
                   SizedBox(height: 16),
 
                   // Stats Row
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildStatColumn('VOLUME', '${session.totalVolumeKg.toInt()} kg'),
-                      _buildStatColumn('EXERCISES', '${session.completedExercises.length}'),
-                      _buildStatColumn('CALORIES', '${session.caloriesBurned} kcal'),
+                      _buildStatColumn(context, 'VOLUME', '${session.totalVolumeKg.toInt()} kg'),
+                      _buildStatColumn(context, 'EXERCISES', '${session.completedExercises.length}'),
+                      _buildStatColumn(context, 'CALORIES', '${session.caloriesBurned} kcal'),
                     ],
                   ),
                 ],
@@ -158,14 +158,14 @@ class PastSessionCard extends StatelessWidget {
     );
   }
 
-  Widget _buildStatColumn(String label, String value) {
+  Widget _buildStatColumn(BuildContext context, String label, String value) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
           style: TextStyle(
-            color: Color(0xFF8A8A8A),
+            color: context.colors.onSurface.withValues(alpha: 0.6),
             fontSize: 9,
             fontWeight: FontWeight.w800,
             letterSpacing: 1.0,
@@ -175,7 +175,7 @@ class PastSessionCard extends StatelessWidget {
         Text(
           value,
           style: TextStyle(
-            color: Color(0xFFF5F5F5),
+            color: context.colors.onSurface,
             fontSize: 14,
             fontWeight: FontWeight.w900,
           ),

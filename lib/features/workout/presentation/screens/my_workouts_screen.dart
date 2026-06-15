@@ -193,7 +193,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                                             child: Center(
                                               child: Icon(
                                                 cat.icon,
-                                                color: isSelected ? context.colors.primary : Colors.white.withOpacity(0.70),
+                                                color: isSelected ? context.colors.primary : context.colors.onSurface.withOpacity(0.70),
                                                 size: 22,
                                               ),
                                             ),
@@ -202,7 +202,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                                           Text(
                                             cat.name,
                                             style: TextStyle(
-                                              color: isSelected ? context.colors.primary : Colors.white.withOpacity(0.54),
+                                              color: isSelected ? context.colors.primary : context.colors.onSurface.withOpacity(0.54),
                                               fontSize: 11,
                                               fontWeight: isSelected ? FontWeight.w900 : FontWeight.w500,
                                             ),
@@ -254,7 +254,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                             Text(
                               'MY ROUTINES',
                               style: AppTypography.headlineSmall.copyWith(
-                                color: Colors.white,
+                                color: context.colors.onSurface,
                                 letterSpacing: 1.2,
                                 fontSize: 15,
                               ),
@@ -296,7 +296,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                           padding: EdgeInsets.all(24),
                           child: Text(
                             'Failed to sync routines: $err',
-                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38)),
+                            style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38)),
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -356,7 +356,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                             Text(
                               'DISCOVER ROUTINES',
                               style: AppTypography.headlineSmall.copyWith(
-                                color: Colors.white,
+                                color: context.colors.onSurface,
                                 letterSpacing: 1.2,
                                 fontSize: 15,
                               ),
@@ -364,7 +364,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                             Text(
                               'TEMPLATES',
                               style: TextStyle(
-                                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.3),
+                                color: context.colors.onSurface.withValues(alpha: 0.3),
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.0,
@@ -382,7 +382,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                         child: Text(
                           'HYPERTROPHY SPLITS',
                           style: TextStyle(
-                            color: Color(0xFF8A8A8A), // Subtle grey for sub-header
+                            color: context.colors.onSurface.withOpacity(0.6), // Subtle grey for sub-header
                             fontSize: 11,
                             fontWeight: FontWeight.w800,
                             letterSpacing: 1.0,
@@ -438,7 +438,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                         child: Text(
                           'STRENGTH & CORE',
                           style: TextStyle(
-                            color: Color(0xFF8A8A8A), // Subtle grey for sub-header
+                            color: context.colors.onSurface.withOpacity(0.6), // Subtle grey for sub-header
                             fontSize: 11,
                             fontWeight: FontWeight.w800,
                             letterSpacing: 1.0,
@@ -508,7 +508,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
         Expanded(
           child: Text(
             'MY WORKOUTS',
-            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+            style: TextStyle(color: context.colors.onSurface,
               fontSize: 28,
               fontWeight: FontWeight.w900,
               letterSpacing: 1.0,
@@ -546,7 +546,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
             ),
             child: Icon(
               _showSearch ? Icons.close_rounded : Icons.search_rounded,
-              color: _showSearch ? context.colors.primary : Colors.white,
+              color: _showSearch ? context.colors.primary : context.colors.onSurface,
               size: 22,
             ),
           ),
@@ -570,14 +570,14 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
             _searchQuery = val;
           });
         },
-        style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 15),
+        style: TextStyle(color: context.colors.onSurface, fontSize: 15),
         cursorColor: context.colors.primary,
         decoration: InputDecoration(
           hintText: 'Search routines, splits, or exercises...',
-          hintStyle: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.4),
+          hintStyle: TextStyle(color: context.colors.onSurface.withOpacity(0.4),
             fontSize: 15,
           ),
-          prefixIcon: Icon(Icons.search_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.5),
+          prefixIcon: Icon(Icons.search_rounded, color: context.colors.onSurface.withOpacity(0.5),
           ),
           suffixIcon: Padding(
             padding: EdgeInsets.only(right: 4.0),
@@ -586,7 +586,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                 Icons.tune_rounded,
                 color: _showFilters
                     ? context.colors.primary
-                    : Colors.white.withOpacity(0.5),
+                    : context.colors.onSurface.withOpacity(0.5),
                 size: 22,
               ),
               onPressed: () {
@@ -709,9 +709,9 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
       height: 90,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: Color(0xFF131313),
+        color: context.glassmorphism.cardColor,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withOpacity(0.04), width: 1),
+        border: Border.all(color: context.glassmorphism.borderColor, width: 1),
       ),
       child: Stack(
         children: [
@@ -754,7 +754,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                   children: [
                     Text(
                       title,
-                      style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.35),
+                      style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.35),
                         fontSize: 7.5,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 0.5,
@@ -783,7 +783,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                     Text(
                       value,
                       style: AppTypography.display.copyWith(
-                        color: Colors.white,
+                        color: context.colors.onSurface,
                         fontSize: 16,
                         fontWeight: FontWeight.w900,
                         letterSpacing: -0.2,
@@ -792,7 +792,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                     SizedBox(height: 1),
                     Text(
                       subhead.toUpperCase(),
-                      style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.25),
+                      style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.25),
                         fontSize: 7,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 0.5,
@@ -904,13 +904,13 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.play_arrow_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                        Icon(Icons.play_arrow_rounded, color: context.colors.onSurface,
                           size: 14,
                         ),
                         SizedBox(width: 2),
                         Text(
                           'RESUME',
-                          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                          style: TextStyle(color: context.colors.onSurface,
                             fontSize: 10,
                             fontWeight: FontWeight.w900,
                             letterSpacing: 0.5,
@@ -927,7 +927,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
             Text(
               state.workout.name.toUpperCase(),
               style: AppTypography.headlineSmall.copyWith(
-                color: Colors.white,
+                color: context.colors.onSurface,
                 fontSize: 18,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 0.5,
@@ -936,7 +936,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
             SizedBox(height: 4),
             Text(
               '${state.workout.split.toUpperCase()} SPLIT  •  Tactical Fitness Integration',
-              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.35),
+              style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.35),
                 fontSize: 10,
                 fontWeight: FontWeight.bold,
               ),
@@ -951,7 +951,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                   children: [
                     Text(
                       'COMPLETION PROGRESS',
-                      style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.25),
+                      style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.25),
                         fontSize: 8,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 0.5,
@@ -959,7 +959,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                     ),
                     Text(
                       '${(progress * 100).toInt()}%',
-                      style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70),
+                      style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.70),
                         fontSize: 9,
                         fontWeight: FontWeight.w900,
                       ),
@@ -973,7 +973,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                     height: 5,
                     child: LinearProgressIndicator(
                       value: progress,
-                      backgroundColor: Colors.white.withOpacity(0.04),
+                      backgroundColor: context.colors.onSurface.withValues(alpha: 0.04),
                       valueColor: AlwaysStoppedAnimation<Color>(
                         context.colors.primary,
                       ),
@@ -1021,11 +1021,11 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
       children: [
         Row(
           children: [
-            Icon(icon, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38), size: 10),
+            Icon(icon, color: context.colors.onSurface.withValues(alpha: 0.38), size: 10),
             SizedBox(width: 4),
             Text(
               label,
-              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.25),
+              style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.25),
                 fontSize: 8,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 0.5,
@@ -1036,7 +1036,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
         SizedBox(height: 2),
         Text(
           value,
-          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+          style: TextStyle(color: context.colors.onSurface,
             fontSize: 12,
             fontWeight: FontWeight.w900,
             letterSpacing: 0.2,
@@ -1157,7 +1157,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                             SizedBox(height: 4),
                             Text(
                               workout.name,
-                              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                              style: TextStyle(color: context.colors.onSurface,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w800,
                                 letterSpacing: 0.3,
@@ -1233,7 +1233,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                             color: context.colors.primary,
                             shape: BoxShape.circle,
                           ),
-                          child: Icon(Icons.play_arrow_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                          child: Icon(Icons.play_arrow_rounded, color: context.colors.onSurface,
                             size: 14,
                           ),
                         ),
@@ -1254,11 +1254,11 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
       padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: Colors.white.withOpacity(0.12), width: 0.8),
+        border: Border.all(color: context.colors.onSurface.withValues(alpha: 0.12), width: 0.8),
       ),
       child: Text(
         text,
-        style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.5),
+        style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.5),
           fontSize: 9,
           fontWeight: FontWeight.w700,
           letterSpacing: 0.5,
@@ -1283,9 +1283,9 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
       child: Container(
         width: 270,
         decoration: BoxDecoration(
-          color: Color(0xFF111111), // Premium dark surface
+          color: context.glassmorphism.cardColor,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.white.withOpacity(0.04), width: 1),
+          border: Border.all(color: context.glassmorphism.borderColor, width: 1),
         ),
         child: Row(
           children: [
@@ -1345,7 +1345,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                     Text(
                       name,
                       style: TextStyle(
-                        color: Colors.white,
+                        color: context.colors.onSurface,
                         fontSize: 14,
                         fontWeight: FontWeight.w800,
                         letterSpacing: 0.2,
@@ -1358,12 +1358,12 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                     // Footer (Duration & Difficulty)
                     Row(
                       children: [
-                        Icon(Icons.timer_outlined, color: Color(0xFF8A8A8A), size: 10),
+                        Icon(Icons.timer_outlined, color: context.colors.onSurface.withOpacity(0.6), size: 10),
                         SizedBox(width: 3),
                         Text(
                           duration,
                           style: TextStyle(
-                            color: Color(0xFF8A8A8A),
+                            color: context.colors.onSurface.withOpacity(0.6),
                             fontSize: 9,
                             fontWeight: FontWeight.w600,
                           ),
@@ -1416,7 +1416,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
           ],
         ),
         child: Center(
-          child: Icon(Icons.add_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, size: 24),
+          child: Icon(Icons.add_rounded, color: context.colors.onSurface, size: 24),
         ),
       ),
     );
@@ -1439,13 +1439,13 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
             child: Container(
               padding: EdgeInsets.fromLTRB(20, 10, 20, 30),
               decoration: BoxDecoration(
-                color: Color(0xFF0F0F0F).withOpacity(0.92),
+                color: context.colors.surface.withOpacity(0.92),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(24),
                   topRight: Radius.circular(24),
                 ),
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.08),
+                  color: context.colors.onSurface.withValues(alpha: 0.08),
                   width: 1,
                 ),
               ),
@@ -1457,7 +1457,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                     height: 4,
                     width: 38,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.30),
+                      color: context.colors.onSurface.withValues(alpha: 0.30),
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -1486,14 +1486,14 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                             Text(
                               workout.name.toUpperCase(),
                               style: AppTypography.headlineSmall.copyWith(
-                                color: Colors.white,
+                                color: context.colors.onSurface,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w900,
                               ),
                             ),
                             Text(
                               '${workout.split.toUpperCase()} SPLIT  •  ${workout.exercises.length} EXERCISES',
-                              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38),
+                              style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38),
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -1504,13 +1504,13 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                     ],
                   ),
                   SizedBox(height: 20),
-                  Divider(color: Colors.white.withOpacity(0.10)),
+                  Divider(color: context.colors.onSurface.withValues(alpha: 0.10)),
 
                   // Option Actions
                   _buildOptionItem(
                     icon: Icons.edit_rounded,
                     title: 'Edit Routine',
-                    color: Colors.white.withOpacity(0.70),
+                    color: context.colors.onSurface.withValues(alpha: 0.70),
                     onTap: () {
                       Navigator.pop(context);
                       context.push('/workout/create?id=${workout.id}');
@@ -1519,7 +1519,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                   _buildOptionItem(
                     icon: Icons.copy_all_rounded,
                     title: 'Duplicate Routine',
-                    color: Colors.white.withOpacity(0.70),
+                    color: context.colors.onSurface.withValues(alpha: 0.70),
                     onTap: () async {
                       Navigator.pop(context);
                       _triggerDuplicate(workout);
@@ -1528,7 +1528,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                   _buildOptionItem(
                     icon: Icons.share_rounded,
                     title: 'Share Strength routine',
-                    color: Colors.white.withOpacity(0.70),
+                    color: context.colors.onSurface.withValues(alpha: 0.70),
                     onTap: () {
                       Navigator.pop(context);
                       _triggerShare(workout);
@@ -1637,10 +1637,10 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
         return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
           child: AlertDialog(
-            backgroundColor: Color(0xFF0F0F0F).withOpacity(0.92),
+            backgroundColor: context.colors.surface.withOpacity(0.92),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(24),
-              side: BorderSide(color: Colors.white.withOpacity(0.08), width: 1),
+              side: BorderSide(color: context.colors.onSurface.withValues(alpha: 0.08), width: 1),
             ),
             title: Column(
               children: [
@@ -1653,7 +1653,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                 Text(
                   'SHARE STRENGTH ROUTINE',
                   style: AppTypography.headlineSmall.copyWith(
-                    color: Colors.white,
+                    color: context.colors.onSurface,
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
                   ),
@@ -1666,7 +1666,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
               children: [
                 Text(
                   'Share links or export code for: ${workout.name.toUpperCase()}',
-                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.54), fontSize: 11),
+                  style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.54), fontSize: 11),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 16),
@@ -1676,10 +1676,10 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                     vertical: 8,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.03),
+                    color: context.colors.onSurface.withValues(alpha: 0.03),
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                      color: Colors.white.withOpacity(0.06),
+                      color: context.colors.onSurface.withValues(alpha: 0.06),
                       width: 1,
                     ),
                   ),
@@ -1694,7 +1694,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                       Expanded(
                         child: Text(
                           'KRATOS-${workout.id.substring(0, 8).toUpperCase()}',
-                          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70),
+                          style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.70),
                             fontSize: 11,
                             fontFamily: 'monospace',
                           ),
@@ -1712,7 +1712,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                             ),
                           );
                         },
-                        child: Icon(Icons.copy_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70),
+                        child: Icon(Icons.copy_rounded, color: context.colors.onSurface.withValues(alpha: 0.70),
                           size: 16,
                         ),
                       ),
@@ -1726,7 +1726,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                 onPressed: () => Navigator.pop(context),
                 child: Text(
                   'DISMISS',
-                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38),
+                  style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38),
                     fontSize: 11,
                     fontWeight: FontWeight.bold,
                   ),
@@ -1747,10 +1747,10 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
         return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
           child: AlertDialog(
-            backgroundColor: Color(0xFF0F0F0F).withOpacity(0.92),
+            backgroundColor: context.colors.surface.withOpacity(0.92),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(24),
-              side: BorderSide(color: Colors.white.withOpacity(0.08), width: 1),
+              side: BorderSide(color: context.colors.onSurface.withValues(alpha: 0.08), width: 1),
             ),
             title: Column(
               children: [
@@ -1762,7 +1762,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                 SizedBox(height: 8),
                 Text(
                   'DELETE ROUTINE?',
-                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                  style: TextStyle(color: context.colors.onSurface,
                     fontSize: 15,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 1,
@@ -1773,7 +1773,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
             ),
             content: Text(
               'Are you sure you want to permanently delete "${workout.name}"? This action is absolute and cannot be undone.',
-              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.54),
+              style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.54),
                 fontSize: 11,
                 height: 1.5,
               ),
@@ -1784,7 +1784,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                 onPressed: () => Navigator.pop(context),
                 child: Text(
                   'CANCEL',
-                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38),
+                  style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38),
                     fontSize: 11,
                     fontWeight: FontWeight.bold,
                   ),
@@ -1984,9 +1984,9 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
             height: MediaQuery.of(context).size.height * 0.82,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: const Color(0xFF0A0A0A).withOpacity(0.96),
+              color: context.colors.surface.withValues(alpha: 0.96),
               borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-              border: Border.all(color: Colors.white.withOpacity(0.08), width: 1.5),
+              border: Border.all(color: context.glassmorphism.borderColor, width: 1.5),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1996,7 +1996,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                     width: 48,
                     height: 4.5,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.24),
+                      color: context.colors.onSurface.withValues(alpha: 0.24),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
@@ -2005,7 +2005,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                 Text(
                   workout.name.toUpperCase(),
                   style: TextStyle(
-                    color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                    color: context.colors.onSurface,
                     fontSize: 20,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 1.0,
@@ -2060,7 +2060,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                     child: Text(
                       'ADD TO MY ROUTINES',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: context.colors.onSurface,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.0,
@@ -2089,9 +2089,9 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
               width: 100,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withOpacity(0.02),
+                color: context.colors.onSurface.withValues(alpha: 0.02),
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.05),
+                  color: context.colors.onSurface.withValues(alpha: 0.05),
                   width: 1.5,
                 ),
               ),
@@ -2109,7 +2109,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                   ? 'NO WORKOUT ROUTINES YET'
                   : 'NO MATCHES FOUND',
               style: AppTypography.headlineSmall.copyWith(
-                color: Colors.white,
+                color: context.colors.onSurface,
                 fontSize: 16,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 1.0,
@@ -2121,7 +2121,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
               isListTotallyEmpty
                   ? 'Welcome to the tactical fitness command center. Build your elite strength routines from scratch or split templates.'
                   : 'We couldn\'t find any matches for your active filter split or search queries. Clear search to show all.',
-              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38),
+              style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38),
                 fontSize: 11,
                 height: 1.6,
               ),
@@ -2157,7 +2157,7 @@ class _MyWorkoutsScreenState extends ConsumerState<MyWorkoutsScreen> {
                 ),
                 child: Text(
                   isListTotallyEmpty ? 'BUILD ELITE ROUTINE' : 'CLEAR FILTERS',
-                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                  style: TextStyle(color: context.colors.onSurface,
                     fontSize: 11,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 0.5,
@@ -2186,10 +2186,10 @@ class _ShimmerWorkoutsLoader extends StatelessWidget {
             margin: EdgeInsets.only(bottom: 12),
             height: 120,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.02),
+              color: context.colors.onSurface.withValues(alpha: 0.02),
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: Colors.white.withOpacity(0.04),
+                color: context.colors.onSurface.withValues(alpha: 0.04),
                 width: 1,
               ),
             ),
@@ -2199,7 +2199,7 @@ class _ShimmerWorkoutsLoader extends StatelessWidget {
                 Container(
                   width: 110,
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.03),
+                    color: context.colors.onSurface.withValues(alpha: 0.03),
                     borderRadius: BorderRadius.horizontal(
                       left: Radius.circular(16),
                     ),
@@ -2220,19 +2220,19 @@ class _ShimmerWorkoutsLoader extends StatelessWidget {
                             Container(
                               height: 10,
                               width: 80,
-                              color: Colors.white.withOpacity(0.03),
+                              color: context.colors.onSurface.withValues(alpha: 0.03),
                             ),
                             SizedBox(height: 8),
                             Container(
                               height: 14,
                               width: 140,
-                              color: Colors.white.withOpacity(0.03),
+                              color: context.colors.onSurface.withValues(alpha: 0.03),
                             ),
                             SizedBox(height: 6),
                             Container(
                               height: 10,
                               width: 100,
-                              color: Colors.white.withOpacity(0.02),
+                              color: context.colors.onSurface.withValues(alpha: 0.02),
                             ),
                           ],
                         ),
@@ -2242,7 +2242,7 @@ class _ShimmerWorkoutsLoader extends StatelessWidget {
                               height: 16,
                               width: 50,
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.03),
+                                color: context.colors.onSurface.withValues(alpha: 0.03),
                                 borderRadius: BorderRadius.circular(6),
                               ),
                             ),
@@ -2251,7 +2251,7 @@ class _ShimmerWorkoutsLoader extends StatelessWidget {
                               height: 16,
                               width: 50,
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.03),
+                                color: context.colors.onSurface.withValues(alpha: 0.03),
                                 borderRadius: BorderRadius.circular(6),
                               ),
                             ),

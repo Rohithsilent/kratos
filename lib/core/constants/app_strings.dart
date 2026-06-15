@@ -11,6 +11,10 @@ class AppStrings {
   static String getStarted = 'BEGIN YOUR JOURNEY';
   static String signIn = 'Sign In';
   static String alreadyHaveAccount = 'Already a warrior?';
+  static String trustStatement = 'Train smarter. Track better. Become stronger.';
+  static String chipNutrition = 'Smart Nutrition';
+  static String chipTracking = 'Elite Tracking';
+  static String chipPlanner = 'Workout Planner';
 
   // ─── Welcome Feature Pillars ───
   static String featureAiTitle = 'AI-POWERED';

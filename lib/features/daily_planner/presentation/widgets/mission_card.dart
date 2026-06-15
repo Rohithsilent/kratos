@@ -47,7 +47,7 @@ class MissionCard extends ConsumerWidget {
           child: Text(
             "TODAY'S MISSION",
             style: AppTypography.labelBold.copyWith(
-              color: Colors.white,
+              color: context.colors.onSurface,
               fontSize: 12,
               letterSpacing: 1.5,
             ),
@@ -71,9 +71,9 @@ class MissionCard extends ConsumerWidget {
                       width: 110,
                       height: 125,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.12),
+                        color: context.colors.onSurface.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: Colors.white.withOpacity(0.08)),
+                        border: Border.all(color: context.colors.onSurface.withValues(alpha: 0.08)),
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(16),
@@ -83,7 +83,7 @@ class MissionCard extends ConsumerWidget {
                           errorBuilder: (context, error, stackTrace) => Container(
                             color: Color(0xFF171717),
                             child: Center(
-                              child: Icon(Icons.fitness_center_rounded, color: Colors.white.withOpacity(0.38), size: 28),
+                              child: Icon(Icons.fitness_center_rounded, color: context.colors.onSurface.withValues(alpha: 0.38), size: 28),
                             ),
                           ),
                         ),
@@ -115,7 +115,7 @@ class MissionCard extends ConsumerWidget {
                           SizedBox(height: 6),
                           Text(
                             workout.name,
-                            style: TextStyle(color: Colors.white,
+                            style: TextStyle(color: context.colors.onSurface,
                               fontSize: 18,
                               fontWeight: FontWeight.w900,
                               height: 1.2,
@@ -126,7 +126,7 @@ class MissionCard extends ConsumerWidget {
                             workout.exercises.map((e) => e.name).take(3).join(' • '),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: Colors.white.withOpacity(0.38),
+                            style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38),
                               fontSize: 10,
                               fontWeight: FontWeight.w600,
                             ),
@@ -137,9 +137,9 @@ class MissionCard extends ConsumerWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              _buildMiniBadge('$totalExercises', 'Exercises', Icons.library_books_rounded),
-                              _buildMiniBadge('$totalSets', 'Sets', Icons.layers_rounded),
-                              _buildMiniBadge('~$estDurationMins', 'Mins', Icons.timer_outlined),
+                              _buildMiniBadge(context, '$totalExercises', 'Exercises', Icons.library_books_rounded),
+                              _buildMiniBadge(context, '$totalSets', 'Sets', Icons.layers_rounded),
+                              _buildMiniBadge(context, '~$estDurationMins', 'Mins', Icons.timer_outlined),
                             ],
                           ),
                         ],
@@ -148,7 +148,7 @@ class MissionCard extends ConsumerWidget {
                   ],
                 ),
                 SizedBox(height: 18),
-                Divider(color: Colors.white.withOpacity(0.10), height: 1),
+                Divider(color: context.colors.onSurface.withValues(alpha: 0.10), height: 1),
                 SizedBox(height: 14),
 
                 // 2. Progress Slider Indicator
@@ -170,7 +170,7 @@ class MissionCard extends ConsumerWidget {
                         SizedBox(width: 4),
                         Text(
                           '$estCalories kcal est.',
-                          style: TextStyle(color: Colors.white.withOpacity(0.38),
+                          style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38),
                             fontSize: 9,
                             fontWeight: FontWeight.bold,
                           ),
@@ -185,7 +185,7 @@ class MissionCard extends ConsumerWidget {
                   child: LinearProgressIndicator(
                     value: isCompleted ? 1.0 : 0.0,
                     color: isCompleted ? context.customColors.success : context.colors.primary,
-                    backgroundColor: Colors.white.withOpacity(0.04),
+                    backgroundColor: context.colors.onSurface.withValues(alpha: 0.04),
                     minHeight: 4,
                   ),
                 ),
@@ -215,7 +215,7 @@ class MissionCard extends ConsumerWidget {
                       border: Border.all(
                         color: isCompleted 
                             ? context.customColors.success.withOpacity(0.3) 
-                            : Colors.white.withOpacity(0.08),
+                            : context.colors.onSurface.withValues(alpha: 0.08),
                         width: 0.8,
                       ),
                       boxShadow: isCompleted
@@ -234,14 +234,14 @@ class MissionCard extends ConsumerWidget {
                         children: [
                           Icon(
                             isCompleted ? Icons.check_circle_outline_rounded : Icons.play_arrow_rounded,
-                            color: isCompleted ? context.customColors.success : Colors.white,
+                            color: isCompleted ? context.customColors.success : context.colors.onSurface,
                             size: 18,
                           ),
                           SizedBox(width: 8),
                           Text(
                             isCompleted ? 'MISSION ACCOMPLISHED' : 'START WORKOUT ROUTINE',
                             style: TextStyle(
-                              color: isCompleted ? context.customColors.success : Colors.white,
+                              color: isCompleted ? context.customColors.success : context.colors.onSurface,
                               fontSize: 12,
                               fontWeight: FontWeight.w900,
                               letterSpacing: 1.0,
@@ -260,22 +260,22 @@ class MissionCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildMiniBadge(String value, String label, IconData icon) {
+  Widget _buildMiniBadge(BuildContext context, String value, String label, IconData icon) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, color: Colors.white.withOpacity(0.30), size: 10),
+        Icon(icon, color: context.colors.onSurface.withValues(alpha: 0.30), size: 10),
         SizedBox(width: 4),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               value,
-              style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+              style: TextStyle(color: context.colors.onSurface, fontSize: 10, fontWeight: FontWeight.bold),
             ),
             Text(
               label,
-              style: TextStyle(color: Colors.white.withOpacity(0.3), fontSize: 7, fontWeight: FontWeight.bold),
+              style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.3), fontSize: 7, fontWeight: FontWeight.bold),
             ),
           ],
         )

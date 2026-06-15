@@ -36,7 +36,7 @@ class PlannerTimeline extends ConsumerWidget {
               Text(
                 'WEEKLY PLAN',
                 style: AppTypography.labelBold.copyWith(
-                  color: Colors.white,
+                  color: context.colors.onSurface,
                   fontSize: 12,
                   letterSpacing: 1.5,
                 ),
@@ -44,7 +44,7 @@ class PlannerTimeline extends ConsumerWidget {
               SizedBox(width: 10),
               Text(
                 weekStr,
-                style: TextStyle(color: Colors.white.withOpacity(0.25),
+                style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.25),
                   fontSize: 10,
                   fontWeight: FontWeight.w600,
                 ),
@@ -57,11 +57,11 @@ class PlannerTimeline extends ConsumerWidget {
                   width: 28,
                   height: 28,
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.03),
+                    color: context.colors.onSurface.withValues(alpha: 0.03),
                     shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white.withOpacity(0.06)),
+                    border: Border.all(color: context.colors.onSurface.withValues(alpha: 0.06)),
                   ),
-                  child: Icon(Icons.chevron_left_rounded, color: Colors.white.withOpacity(0.38),
+                  child: Icon(Icons.chevron_left_rounded, color: context.colors.onSurface.withValues(alpha: 0.38),
                     size: 16,
                   ),
                 ),
@@ -73,11 +73,11 @@ class PlannerTimeline extends ConsumerWidget {
                   width: 28,
                   height: 28,
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.03),
+                    color: context.colors.onSurface.withValues(alpha: 0.03),
                     shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white.withOpacity(0.06)),
+                    border: Border.all(color: context.colors.onSurface.withValues(alpha: 0.06)),
                   ),
-                  child: Icon(Icons.chevron_right_rounded, color: Colors.white.withOpacity(0.38),
+                  child: Icon(Icons.chevron_right_rounded, color: context.colors.onSurface.withValues(alpha: 0.38),
                     size: 16,
                   ),
                 ),
@@ -111,11 +111,11 @@ class PlannerTimeline extends ConsumerWidget {
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             children: [
-              Icon(Icons.touch_app_rounded, color: Colors.white.withOpacity(0.38), size: 12),
+              Icon(Icons.touch_app_rounded, color: context.colors.onSurface.withValues(alpha: 0.38), size: 12),
               SizedBox(width: 4),
               Text(
                 'Long-press a day to quick-assign workout',
-                style: TextStyle(color: Colors.white.withOpacity(0.4),
+                style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.4),
                   fontSize: 10,
                   fontStyle: FontStyle.italic,
                 ),
@@ -133,7 +133,7 @@ class PlannerTimeline extends ConsumerWidget {
               child: CircularProgressIndicator(color: context.colors.primary, strokeWidth: 2),
             ),
             error: (err, st) => Center(
-              child: Text('$err', style: TextStyle(color: Colors.white.withOpacity(0.24), fontSize: 10)),
+              child: Text('$err', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.24), fontSize: 10)),
             ),
             data: (allItems) {
               final nowFormatted = PlannerHelpers.formatDate(DateTime.now());
@@ -200,7 +200,7 @@ class PlannerTimeline extends ConsumerWidget {
                   SizedBox(width: 6),
                   Text(
                     '${stats.totalWorkoutsThisWeek}/${stats.totalScheduledThisWeek} completed',
-                    style: TextStyle(color: Colors.white.withOpacity(0.3),
+                    style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.3),
                       fontSize: 9,
                       fontWeight: FontWeight.w600,
                     ),
@@ -212,7 +212,7 @@ class PlannerTimeline extends ConsumerWidget {
                 style: TextStyle(
                   color: stats.weeklyCompletionPercentage >= 0.8
                       ? context.colors.primary
-                      : Colors.white.withOpacity(0.25),
+                      : context.colors.onSurface.withValues(alpha: 0.25),
                   fontSize: 9,
                   fontWeight: FontWeight.w700,
                 ),
@@ -228,7 +228,7 @@ class PlannerTimeline extends ConsumerWidget {
       BuildContext context, WidgetRef ref, DateTime referenceDate) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Color(0xFF0F0F0F),
+      backgroundColor: context.colors.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -242,7 +242,7 @@ class PlannerTimeline extends ConsumerWidget {
               children: [
                 Text(
                   'TACTICAL WEEK OPERATIONS',
-                  style: TextStyle(color: Colors.white,
+                  style: TextStyle(color: context.colors.onSurface,
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 1.0,
@@ -253,12 +253,12 @@ class PlannerTimeline extends ConsumerWidget {
                   leading:
                       Icon(Icons.copy_rounded, color: context.colors.primary),
                   title: Text('Duplicate Plan to Next Week',
-                      style: TextStyle(color: Colors.white,
+                      style: TextStyle(color: context.colors.onSurface,
                           fontSize: 13,
                           fontWeight: FontWeight.bold)),
                   subtitle: Text(
                       'Copies this entire week structure into the upcoming week.',
-                      style: TextStyle(color: Colors.white.withOpacity(0.38), fontSize: 10)),
+                      style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38), fontSize: 10)),
                   onTap: () async {
                     Navigator.pop(context);
                     final nextWeek =
@@ -277,16 +277,16 @@ class PlannerTimeline extends ConsumerWidget {
                     }
                   },
                 ),
-                Divider(color: Colors.white.withOpacity(0.10)),
+                Divider(color: context.colors.onSurface.withValues(alpha: 0.10)),
                 ListTile(
-                  leading: Icon(Icons.restart_alt_rounded, color: Colors.white.withOpacity(0.60)),
+                  leading: Icon(Icons.restart_alt_rounded, color: context.colors.onSurface.withValues(alpha: 0.60)),
                   title: Text('Clear This Week\'s Schedules',
-                      style: TextStyle(color: Colors.white,
+                      style: TextStyle(color: context.colors.onSurface,
                           fontSize: 13,
                           fontWeight: FontWeight.bold)),
                   subtitle: Text(
                       'Deletes all scheduled routines to plan fresh.',
-                      style: TextStyle(color: Colors.white.withOpacity(0.38), fontSize: 10)),
+                      style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38), fontSize: 10)),
                   onTap: () async {
                     Navigator.pop(context);
                     final weekDates =
@@ -310,16 +310,16 @@ class PlannerTimeline extends ConsumerWidget {
                     }
                   },
                 ),
-                Divider(color: Colors.white.withOpacity(0.10)),
+                Divider(color: context.colors.onSurface.withValues(alpha: 0.10)),
                 ListTile(
-                  leading: Icon(Icons.today_rounded, color: Colors.white.withOpacity(0.60)),
+                  leading: Icon(Icons.today_rounded, color: context.colors.onSurface.withValues(alpha: 0.60)),
                   title: Text('Jump to Today',
-                      style: TextStyle(color: Colors.white,
+                      style: TextStyle(color: context.colors.onSurface,
                           fontSize: 13,
                           fontWeight: FontWeight.bold)),
                   subtitle: Text(
                       'Reset the calendar view to the current week.',
-                      style: TextStyle(color: Colors.white.withOpacity(0.38), fontSize: 10)),
+                      style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38), fontSize: 10)),
                   onTap: () {
                     Navigator.pop(context);
                     ref.read(plannerWeekProvider.notifier).resetToToday();
@@ -340,7 +340,7 @@ class PlannerTimeline extends ConsumerWidget {
 
     showModalBottomSheet(
       context: context,
-      backgroundColor: Color(0xFF0F0F0F),
+      backgroundColor: context.colors.surface,
       isScrollControlled: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -358,7 +358,7 @@ class PlannerTimeline extends ConsumerWidget {
               children: [
                 Text(
                   'QUICK ASSIGN: $displayDate',
-                  style: TextStyle(color: Colors.white,
+                  style: TextStyle(color: context.colors.onSurface,
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 1.0,
@@ -372,7 +372,7 @@ class PlannerTimeline extends ConsumerWidget {
                         padding: EdgeInsets.symmetric(vertical: 20),
                         child: Text(
                           'No custom workouts available. Create one first.',
-                          style: TextStyle(color: Colors.white.withOpacity(0.60), fontSize: 13),
+                          style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.60), fontSize: 13),
                         ),
                       );
                     }
@@ -380,7 +380,7 @@ class PlannerTimeline extends ConsumerWidget {
                       child: ListView.separated(
                         shrinkWrap: true,
                         itemCount: workouts.length + 1,
-                        separatorBuilder: (context, index) => Divider(color: Colors.white.withOpacity(0.10), height: 1),
+                        separatorBuilder: (context, index) => Divider(color: context.colors.onSurface.withValues(alpha: 0.10), height: 1),
                         itemBuilder: (context, index) {
                           if (index == 0) {
                             // Recovery option
@@ -406,8 +406,8 @@ class PlannerTimeline extends ConsumerWidget {
                           final w = workouts[index - 1];
                           return ListTile(
                             leading: Icon(Icons.fitness_center_rounded, color: context.colors.primary),
-                            title: Text(w.name, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
-                            subtitle: Text(w.split, style: TextStyle(color: Colors.white.withOpacity(0.38), fontSize: 11)),
+                            title: Text(w.name, style: TextStyle(color: context.colors.onSurface, fontSize: 13, fontWeight: FontWeight.bold)),
+                            subtitle: Text(w.split, style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38), fontSize: 11)),
                             onTap: () async {
                               Navigator.pop(context);
                               await ref.read(plannerListProvider.notifier).scheduleWorkout(

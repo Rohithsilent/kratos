@@ -106,7 +106,7 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
             child: Container(
               height: 72,
               decoration: BoxDecoration(
-                color: isDark ? context.colors.surface.withValues(alpha: 0.8) : Colors.white.withValues(alpha: 0.85),
+                color: isDark ? context.colors.surface.withValues(alpha: 0.8) : context.colors.onSurface.withValues(alpha: 0.85),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
                   color: isDark ? context.glassmorphism.borderColor : context.glassmorphism.borderColor,
@@ -119,7 +119,7 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
                   // Progress Bar Background
                   Container(
                     height: 3,
-                    color: isDark ? Colors.white10 : context.customColors.grey300,
+                    color: isDark ? context.colors.onSurface.withValues(alpha: 0.10) : context.customColors.grey300,
                   ),
                   // Live Progress Bar
                   FractionallySizedBox(
@@ -173,7 +173,7 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
                               Text(
                                 track.name,
                                 style: AppTypography.labelBold.copyWith(
-                                  color: isDark ? Colors.white : Colors.black,
+                                  color: isDark ? context.colors.onSurface : Colors.black,
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -182,7 +182,7 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
                               Text(
                                 track.artistName,
                                 style: AppTypography.bodySmall.copyWith(
-                                  color: isDark ? Colors.white54 : context.customColors.grey600,
+                                  color: isDark ? context.colors.onSurface.withValues(alpha: 0.54) : context.customColors.grey600,
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -209,7 +209,7 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
       mainAxisSize: MainAxisSize.min,
       children: [
         IconButton(
-          icon: Icon(Icons.skip_previous_rounded, color: isDark ? Colors.white : Colors.black, size: 28),
+          icon: Icon(Icons.skip_previous_rounded, color: isDark ? context.colors.onSurface : Colors.black, size: 28),
           onPressed: () => ref.read(musicControllerProvider.notifier).previous(),
         ),
         GestureDetector(
@@ -236,7 +236,7 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
           ),
         ),
         IconButton(
-          icon: Icon(Icons.skip_next_rounded, color: isDark ? Colors.white : Colors.black, size: 28),
+          icon: Icon(Icons.skip_next_rounded, color: isDark ? context.colors.onSurface : Colors.black, size: 28),
           onPressed: () => ref.read(musicControllerProvider.notifier).next(),
         ),
       ],
@@ -254,7 +254,7 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
             height: 64,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: isDark ? context.colors.surface.withValues(alpha: 0.8) : Colors.white.withValues(alpha: 0.85),
+              color: isDark ? context.colors.surface.withValues(alpha: 0.8) : context.colors.onSurface.withValues(alpha: 0.85),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: isDark ? context.glassmorphism.borderColor : context.glassmorphism.borderColor,
@@ -269,7 +269,7 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
                   child: Text(
                     "TACTICAL AUDIO",
                     style: AppTypography.labelBold.copyWith(
-                      color: isDark ? Colors.white : Colors.black,
+                      color: isDark ? context.colors.onSurface : Colors.black,
                       letterSpacing: 1.5,
                     ),
                   ),
@@ -279,7 +279,7 @@ class _MiniMusicPlayerState extends ConsumerState<MiniMusicPlayer> with SingleTi
                     ref.read(musicControllerProvider.notifier).connectWithAuth();
                   },
                   style: TextButton.styleFrom(
-                    foregroundColor: Colors.white,
+                    foregroundColor: context.colors.onSurface,
                     backgroundColor: context.colors.primary.withValues(alpha: 0.8),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),

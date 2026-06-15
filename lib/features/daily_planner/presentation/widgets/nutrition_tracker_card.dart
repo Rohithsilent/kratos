@@ -26,7 +26,7 @@ class NutritionTrackerCard extends ConsumerWidget {
               Text(
                 'NUTRITION INTAKE',
                 style: AppTypography.labelBold.copyWith(
-                  color: Colors.white,
+                  color: context.colors.onSurface,
                   fontSize: 12,
                   letterSpacing: 1.5,
                 ),
@@ -135,7 +135,7 @@ class NutritionTrackerCard extends ConsumerWidget {
             children: [
               Text(
                 'QUICK LOG MACROS',
-                style: TextStyle(color: Colors.white,
+                style: TextStyle(color: context.colors.onSurface,
                   fontSize: 14,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 1.0,
@@ -144,17 +144,17 @@ class NutritionTrackerCard extends ConsumerWidget {
               SizedBox(height: 18),
               Row(
                 children: [
-                  Expanded(child: _buildInput('Calories', calCtrl, 'kcal')),
+                  Expanded(child: _buildInput(context, 'Calories', calCtrl, 'kcal')),
                   SizedBox(width: 10),
-                  Expanded(child: _buildInput('Protein', proCtrl, 'g')),
+                  Expanded(child: _buildInput(context, 'Protein', proCtrl, 'g')),
                 ],
               ),
               SizedBox(height: 10),
               Row(
                 children: [
-                  Expanded(child: _buildInput('Carbs', carbCtrl, 'g')),
+                  Expanded(child: _buildInput(context, 'Carbs', carbCtrl, 'g')),
                   SizedBox(width: 10),
-                  Expanded(child: _buildInput('Fats', fatCtrl, 'g')),
+                  Expanded(child: _buildInput(context, 'Fats', fatCtrl, 'g')),
                 ],
               ),
               SizedBox(height: 18),
@@ -194,13 +194,13 @@ class NutritionTrackerCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildInput(String label, TextEditingController ctrl, String suffix) {
+  Widget _buildInput(BuildContext context, String label, TextEditingController ctrl, String suffix) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label.toUpperCase(),
-          style: TextStyle(color: Colors.white.withOpacity(0.35),
+          style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.35),
             fontSize: 8,
             fontWeight: FontWeight.w700,
             letterSpacing: 0.5,
@@ -210,21 +210,21 @@ class NutritionTrackerCard extends ConsumerWidget {
         Container(
           height: 42,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.04),
+            color: context.colors.onSurface.withValues(alpha: 0.04),
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.white.withOpacity(0.06)),
+            border: Border.all(color: context.colors.onSurface.withValues(alpha: 0.06)),
           ),
           child: TextField(
             controller: ctrl,
             keyboardType: TextInputType.number,
-            style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700),
+            style: TextStyle(color: context.colors.onSurface, fontSize: 14, fontWeight: FontWeight.w700),
             decoration: InputDecoration(
               suffixText: suffix,
-              suffixStyle: TextStyle(color: Colors.white.withOpacity(0.3), fontSize: 10),
+              suffixStyle: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.3), fontSize: 10),
               contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               border: InputBorder.none,
               hintText: '0',
-              hintStyle: TextStyle(color: Colors.white.withOpacity(0.15)),
+              hintStyle: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.15)),
             ),
           ),
         ),
@@ -256,9 +256,9 @@ class _MacroCapsule extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 14, horizontal: 8),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.03),
+          color: context.colors.onSurface.withValues(alpha: 0.03),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.white.withOpacity(0.04)),
+          border: Border.all(color: context.colors.onSurface.withValues(alpha: 0.04)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -275,6 +275,7 @@ class _MacroCapsule extends StatelessWidget {
                     painter: _MacroRingPainter(
                       progress: progress,
                       color: color,
+                      bgColor: context.colors.onSurface.withValues(alpha: 0.04),
                     ),
                   ),
                   Text(
@@ -294,7 +295,7 @@ class _MacroCapsule extends StatelessWidget {
               fit: BoxFit.scaleDown,
               child: Text(
                 value,
-                style: TextStyle(color: Colors.white,
+                style: TextStyle(color: context.colors.onSurface,
                   fontSize: 14,
                   fontWeight: FontWeight.w900,
                 ),
@@ -305,7 +306,7 @@ class _MacroCapsule extends StatelessWidget {
               fit: BoxFit.scaleDown,
               child: Text(
                 '/ $target $unit',
-                style: TextStyle(color: Colors.white.withOpacity(0.25),
+                style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.25),
                   fontSize: 8,
                   fontWeight: FontWeight.w600,
                 ),
@@ -314,7 +315,7 @@ class _MacroCapsule extends StatelessWidget {
             SizedBox(height: 4),
             Text(
               label,
-              style: TextStyle(color: Colors.white.withOpacity(0.3),
+              style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.3),
                 fontSize: 7,
                 fontWeight: FontWeight.w800,
                 letterSpacing: 0.5,
@@ -330,8 +331,9 @@ class _MacroCapsule extends StatelessWidget {
 class _MacroRingPainter extends CustomPainter {
   final double progress;
   final Color color;
+  final Color bgColor;
 
-  _MacroRingPainter({required this.progress, required this.color});
+  _MacroRingPainter({required this.progress, required this.color, required this.bgColor});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -340,7 +342,7 @@ class _MacroRingPainter extends CustomPainter {
 
     // Background
     final bgPaint = Paint()
-      ..color = Colors.white.withOpacity(0.04)
+      ..color = bgColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3;
     canvas.drawCircle(center, radius, bgPaint);

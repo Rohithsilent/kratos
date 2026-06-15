@@ -18,9 +18,9 @@ class AppColors {
   static const Color darkElevated = Color(0xFF242424);
 
   // ─── Light Theme ───
-  static const Color lightBg = Color(0xFFFAFAFA);
+  static const Color lightBg = Color(0xFFF2F2F7); // Premium iOS-style off-white
   static const Color lightSurface = Color(0xFFFFFFFF);
-  static const Color lightSurfaceVariant = Color(0xFFF5F5F5);
+  static const Color lightSurfaceVariant = Color(0xFFEAEAEA);
   static const Color lightCard = Color(0xFFFFFFFF);
 
   // ─── Neutrals ───

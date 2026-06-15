@@ -99,7 +99,7 @@ class PlannerDayCard extends StatelessWidget {
       borderColor = context.colors.primary.withOpacity(0.3);
       borderWidth = 1.0;
     } else {
-      borderColor = Colors.white.withOpacity(0.04);
+      borderColor = context.colors.onSurface.withValues(alpha: 0.04);
       borderWidth = 0.5;
     }
 
@@ -113,8 +113,8 @@ class PlannerDayCard extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 14, horizontal: 6),
         decoration: BoxDecoration(
           color: isSelected
-              ? Colors.white.withOpacity(0.04)
-              : Colors.white.withOpacity(0.02),
+              ? context.colors.onSurface.withValues(alpha: 0.04)
+              : context.colors.onSurface.withValues(alpha: 0.02),
           borderRadius: BorderRadius.circular(18),
           border: Border.all(color: borderColor, width: borderWidth),
           boxShadow: isSelected
@@ -136,7 +136,7 @@ class PlannerDayCard extends StatelessWidget {
               style: TextStyle(
                 color: isToday
                     ? context.colors.primary
-                    : Colors.white.withOpacity(0.3),
+                    : context.colors.onSurface.withValues(alpha: 0.3),
                 fontSize: 9,
                 fontWeight: FontWeight.w800,
                 letterSpacing: 0.8,
@@ -148,7 +148,7 @@ class PlannerDayCard extends StatelessWidget {
             Text(
               '${date.day}',
               style: TextStyle(
-                color: isToday ? Colors.white : Colors.white.withOpacity(0.8),
+                color: isToday ? context.colors.onSurface : context.colors.onSurface.withValues(alpha: 0.8),
                 fontSize: 18,
                 fontWeight: FontWeight.w900,
                 letterSpacing: -0.5,
@@ -190,8 +190,8 @@ class PlannerDayCard extends StatelessWidget {
                 displayLabel,
                 style: TextStyle(
                   color: isSelected
-                      ? Colors.white.withOpacity(0.7)
-                      : Colors.white.withOpacity(0.35),
+                      ? context.colors.onSurface.withValues(alpha: 0.7)
+                      : context.colors.onSurface.withValues(alpha: 0.35),
                   fontSize: 7,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 0.8,

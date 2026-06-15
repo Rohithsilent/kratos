@@ -50,10 +50,10 @@ class UpcomingSessionCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.03),
+          color: context.colors.onSurface.withValues(alpha: 0.03),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: Colors.white.withOpacity(0.04),
+            color: context.colors.onSurface.withValues(alpha: 0.04),
           ),
         ),
         child: Row(
@@ -84,9 +84,7 @@ class UpcomingSessionCard extends StatelessWidget {
                   Text(
                     '$dayNum',
                     style: TextStyle(
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : context.customColors.grey900,
+                      color: context.colors.onSurface,
                       fontSize: 15,
                       fontWeight: FontWeight.w900,
                     ),
@@ -128,9 +126,7 @@ class UpcomingSessionCard extends StatelessWidget {
                   Text(
                     workoutName,
                     style: TextStyle(
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : context.customColors.grey900,
+                      color: context.colors.onSurface,
                       fontSize: 14,
                       fontWeight: FontWeight.w800,
                     ),
@@ -142,9 +138,7 @@ class UpcomingSessionCard extends StatelessWidget {
 
             Icon(
               Icons.arrow_forward_ios_rounded,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.white
-                  : context.customColors.grey900.withOpacity(0.15),
+              color: context.colors.onSurface.withValues(alpha: 0.15),
               size: 12,
             ),
           ],

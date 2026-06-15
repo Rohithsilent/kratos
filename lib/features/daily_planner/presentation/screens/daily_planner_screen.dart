@@ -105,10 +105,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                               'DAILY PLANNER',
                               style: TextStyle(
                                 color:
-                                    Theme.of(context).brightness ==
-                                        Brightness.dark
-                                    ? Colors.white
-                                    : context.customColors.grey900,
+                                    context.colors.onSurface,
                                 fontSize: 28,
                                 fontWeight: FontWeight.w900,
                                 letterSpacing: 1.0,
@@ -130,19 +127,16 @@ class DailyPlannerScreen extends ConsumerWidget {
                                     width: 36,
                                     height: 36,
                                     decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.04),
+                                      color: context.colors.onSurface.withValues(alpha: 0.04),
                                       shape: BoxShape.circle,
                                       border: Border.all(
-                                        color: Colors.white.withOpacity(0.06),
+                                        color: context.colors.onSurface.withValues(alpha: 0.06),
                                       ),
                                     ),
                                     child: Icon(
                                       Icons.calendar_today_rounded,
                                       color:
-                                          Theme.of(context).brightness ==
-                                              Brightness.dark
-                                          ? Colors.white
-                                          : context.customColors.grey900.withOpacity(0.54),
+                                          context.colors.onSurface.withValues(alpha: 0.54),
                                       size: 16,
                                     ),
                                   ),
@@ -159,10 +153,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                               _getGreeting(),
                               style: TextStyle(
                                 color:
-                                    Theme.of(context).brightness ==
-                                        Brightness.dark
-                                    ? Colors.white
-                                    : context.customColors.grey900.withOpacity(0.35),
+                                    context.colors.onSurface.withValues(alpha: 0.35),
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -270,7 +261,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                         Text(
                           'UPCOMING SESSIONS',
                           style: AppTypography.labelBold.copyWith(
-                            color: Colors.white,
+                            color: context.colors.onSurface,
                             fontSize: 12,
                             letterSpacing: 1.5,
                           ),
@@ -321,9 +312,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                       child: Text(
                         'Failed to load: $err',
                         style: TextStyle(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Colors.white
-                              : context.customColors.grey900.withOpacity(0.24),
+                          color: context.colors.onSurface.withValues(alpha: 0.24),
                         ),
                       ),
                     ),
@@ -347,10 +336,10 @@ class DailyPlannerScreen extends ConsumerWidget {
                           child: Container(
                             padding: EdgeInsets.all(20),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.02),
+                              color: context.colors.onSurface.withValues(alpha: 0.02),
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
-                                color: Colors.white.withOpacity(0.04),
+                                color: context.colors.onSurface.withValues(alpha: 0.04),
                               ),
                             ),
                             child: Row(
@@ -358,10 +347,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                                 Icon(
                                   Icons.event_note_rounded,
                                   color:
-                                      Theme.of(context).brightness ==
-                                          Brightness.dark
-                                      ? Colors.white
-                                      : context.customColors.grey900.withOpacity(0.15),
+                                      context.colors.onSurface.withValues(alpha: 0.15),
                                   size: 20,
                                 ),
                                 SizedBox(width: 12),
@@ -370,10 +356,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                                     'No upcoming sessions scheduled. Use the weekly planner to plan your training.',
                                     style: TextStyle(
                                       color:
-                                          Theme.of(context).brightness ==
-                                              Brightness.dark
-                                          ? Colors.white
-                                          : context.customColors.grey900.withOpacity(0.25),
+                                          context.colors.onSurface.withValues(alpha: 0.25),
                                       fontSize: 11,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -409,7 +392,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                     child: Text(
                       'RECENT HISTORY',
                       style: AppTypography.labelBold.copyWith(
-                        color: Colors.white,
+                        color: context.colors.onSurface,
                         fontSize: 12,
                         letterSpacing: 1.5,
                       ),
@@ -427,10 +410,10 @@ class DailyPlannerScreen extends ConsumerWidget {
                           child: Container(
                             padding: EdgeInsets.all(20),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.02),
+                              color: context.colors.onSurface.withValues(alpha: 0.02),
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
-                                color: Colors.white.withOpacity(0.04),
+                                color: context.colors.onSurface.withValues(alpha: 0.04),
                               ),
                             ),
                             child: Row(
@@ -438,9 +421,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                                 Icon(
                                   Icons.history_rounded,
                                   color:
-                                      Theme.of(context).brightness == Brightness.dark
-                                          ? Colors.white
-                                          : context.customColors.grey900.withOpacity(0.15),
+                                      context.colors.onSurface.withValues(alpha: 0.15),
                                   size: 20,
                                 ),
                                 SizedBox(width: 12),
@@ -449,9 +430,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                                     'No recent sessions. Start a workout to see history here.',
                                     style: TextStyle(
                                       color:
-                                          Theme.of(context).brightness == Brightness.dark
-                                              ? Colors.white
-                                              : context.customColors.grey900.withOpacity(0.25),
+                                          context.colors.onSurface.withValues(alpha: 0.25),
                                       fontSize: 11,
                                       fontWeight: FontWeight.w500,
                                     ),

@@ -35,7 +35,7 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back, color: context.colors.onSurface),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -65,7 +65,7 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                       children: [
                         Text(
                           'Tactical Music Library',
-                          style: AppTypography.displaySmall.copyWith(color: Colors.white),
+                          style: AppTypography.displaySmall.copyWith(color: context.colors.onSurface),
                         ),
                       ],
                     ),
@@ -81,14 +81,14 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Icon(Icons.info_outline, color: Colors.white54, size: 14),
+                            Icon(Icons.info_outline, color: context.colors.onSurface.withValues(alpha: 0.54), size: 14),
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
                                 playlistState.error!.contains('Spotify Premium')
                                     ? 'Spotify Premium is required for personal playlists. Tactical mixes are fully available.'
                                     : playlistState.error!,
-                                style: AppTypography.bodySmall.copyWith(color: Colors.white54, fontSize: 11),
+                                style: AppTypography.bodySmall.copyWith(color: context.colors.onSurface.withValues(alpha: 0.54), fontSize: 11),
                               ),
                             ),
                           ],
@@ -208,11 +208,7 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                   insetPadding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Container(
                     decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Color(0xFF181818), Color(0xFF0B0B0B)],
-                      ),
+                      color: context.colors.surface,
                       borderRadius: BorderRadius.circular(28),
                       border: Border.all(color: context.colors.primary.withOpacity(0.2), width: 1),
                       boxShadow: [
@@ -233,7 +229,7 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                             Text(
                               'IMPORT PLAYLIST',
                               style: AppTypography.displaySmall.copyWith(
-                                color: Colors.white,
+                                color: context.colors.onSurface,
                                 fontSize: 24,
                                 letterSpacing: 1.2,
                               ),
@@ -260,7 +256,7 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                                 child: Text(
                                   'Make sure the Spotify playlist is public to allow tactical syncing.',
                                   style: AppTypography.bodySmall.copyWith(
-                                    color: Colors.white.withOpacity(0.85),
+                                    color: context.colors.onSurface.withValues(alpha: 0.85),
                                     fontSize: 12,
                                   ),
                                 ),
@@ -273,21 +269,21 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                         // Input Field
                         TextField(
                           controller: controller,
-                          style: const TextStyle(color: Colors.white),
+                          style: TextStyle(color: context.colors.onSurface),
                           cursorColor: context.colors.primary,
                           decoration: InputDecoration(
                             hintText: 'https://open.spotify.com/playlist/...',
-                            hintStyle: TextStyle(color: Colors.white.withOpacity(0.25)),
+                            hintStyle: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.25)),
                             filled: true,
-                            fillColor: const Color(0xFF1A1A1A),
-                            prefixIcon: const Icon(Icons.link, color: Colors.white30),
+                            fillColor: context.colors.onSurface.withValues(alpha: 0.05),
+                            prefixIcon: Icon(Icons.link, color: context.colors.onSurface.withValues(alpha: 0.30)),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: Colors.white10),
+                              borderSide: BorderSide(color: context.colors.onSurface.withValues(alpha: 0.10)),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: Colors.white10),
+                              borderSide: BorderSide(color: context.colors.onSurface.withValues(alpha: 0.10)),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -306,13 +302,13 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                                 onPressed: () => Navigator.pop(context),
                                 style: TextButton.styleFrom(
                                   padding: const EdgeInsets.symmetric(vertical: 16),
-                                  backgroundColor: const Color(0xFF1A1A1A),
+                                  backgroundColor: context.colors.onSurface.withValues(alpha: 0.05),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
-                                    side: const BorderSide(color: Colors.white10),
+                                    side: BorderSide(color: context.colors.onSurface.withValues(alpha: 0.10)),
                                   ),
                                 ),
-                                child: Text('CANCEL', style: AppTypography.labelBold.copyWith(color: Colors.white54)),
+                                child: Text('CANCEL', style: AppTypography.labelBold.copyWith(color: context.colors.onSurface.withValues(alpha: 0.54))),
                               ),
                             ),
                             const SizedBox(width: 12),
@@ -345,7 +341,7 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                                   child: Container(
                                     alignment: Alignment.center,
                                     padding: const EdgeInsets.symmetric(vertical: 16),
-                                    child: Text('IMPORT', style: AppTypography.labelBold.copyWith(color: Colors.white)),
+                                    child: Text('IMPORT', style: AppTypography.labelBold.copyWith(color: context.colors.onSurface)),
                                   ),
                                 ),
                               ),
@@ -388,7 +384,7 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                   insetPadding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: const Color(0xFF121212),
+                      color: context.colors.surface,
                       borderRadius: BorderRadius.circular(24),
                       border: Border.all(color: context.colors.primary.withOpacity(0.3), width: 1),
                       boxShadow: [
@@ -408,7 +404,7 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                         Text(
                           'DELETE PLAYLIST',
                           style: AppTypography.displaySmall.copyWith(
-                            color: Colors.white,
+                            color: context.colors.onSurface,
                             fontSize: 22,
                             letterSpacing: 1.2,
                           ),
@@ -418,7 +414,7 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                           'Are you sure you want to permanently delete "${playlist.name}" from your library?',
                           textAlign: TextAlign.center,
                           style: AppTypography.bodySmall.copyWith(
-                            color: Colors.white70,
+                            color: context.colors.onSurface.withValues(alpha: 0.70),
                             fontSize: 14,
                           ),
                         ),
@@ -430,13 +426,13 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                                 onPressed: () => Navigator.pop(context),
                                 style: TextButton.styleFrom(
                                   padding: const EdgeInsets.symmetric(vertical: 16),
-                                  backgroundColor: const Color(0xFF1A1A1A),
+                                  backgroundColor: context.colors.onSurface.withValues(alpha: 0.05),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
-                                    side: const BorderSide(color: Colors.white10),
+                                    side: BorderSide(color: context.colors.onSurface.withValues(alpha: 0.10)),
                                   ),
                                 ),
-                                child: Text('CANCEL', style: AppTypography.labelBold.copyWith(color: Colors.white54)),
+                                child: Text('CANCEL', style: AppTypography.labelBold.copyWith(color: context.colors.onSurface.withValues(alpha: 0.54))),
                               ),
                             ),
                             const SizedBox(width: 12),
@@ -449,7 +445,7 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text('Playlist deleted.'),
-                                        backgroundColor: const Color(0xFF1A1A1A),
+                                        backgroundColor: context.colors.surface,
                                         behavior: SnackBarBehavior.floating,
                                       ),
                                     );
@@ -460,7 +456,7 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
                                   backgroundColor: context.colors.primary,
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                 ),
-                                child: Text('DELETE', style: AppTypography.labelBold.copyWith(color: Colors.white)),
+                                child: Text('DELETE', style: AppTypography.labelBold.copyWith(color: context.colors.onSurface)),
                               ),
                             ),
                           ],
@@ -489,7 +485,7 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
         Text(
           title,
           style: AppTypography.labelBold.copyWith(
-            color: Colors.white,
+            color: context.colors.onSurface,
             letterSpacing: 1.5,
           ),
         ),

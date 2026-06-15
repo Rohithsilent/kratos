@@ -116,13 +116,13 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70), size: 16),
+          icon: Icon(Icons.arrow_back_ios_new_rounded, color: context.colors.onSurface.withValues(alpha: 0.70), size: 16),
           onPressed: () => context.pop(),
         ),
         title: Text(
           'TACTICAL DAY SCHEDULER',
           style: AppTypography.labelBold.copyWith(
-            color: Colors.white,
+            color: context.colors.onSurface,
             fontSize: 12,
             letterSpacing: 1.5,
           ),
@@ -158,13 +158,13 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
                       children: [
                         Text(
                           '${PlannerHelpers.getDayNameShort(widget.date)}, ${dateStr.toUpperCase()}',
-                          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 18, fontWeight: FontWeight.w900),
+                          style: TextStyle(color: context.colors.onSurface, fontSize: 18, fontWeight: FontWeight.w900),
                           overflow: TextOverflow.ellipsis,
                         ),
                         SizedBox(height: 4),
                         Text(
                           'Define your tactical fitness objectives.',
-                          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.38), fontSize: 11),
+                          style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.38), fontSize: 11),
                         ),
                       ],
                     ),
@@ -177,20 +177,20 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
             // 1. SELECT TARGET WORKOUT
             Text(
               'ASSIGN TRAINING WORKOUT',
-              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.60), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1),
+              style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.60), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1),
             ),
             SizedBox(height: 10),
             workoutsAsync.when(
               loading: () => Center(child: CircularProgressIndicator(color: context.colors.primary)),
-              error: (err, st) => Center(child: Text('Failed to load workouts: $err', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.24)))),
+              error: (err, st) => Center(child: Text('Failed to load workouts: $err', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.24)))),
               data: (workouts) {
                 if (workouts.isEmpty) {
                   return Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.02),
+                      color: context.colors.onSurface.withValues(alpha: 0.02),
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.white.withOpacity(0.04)),
+                      border: Border.all(color: context.colors.onSurface.withValues(alpha: 0.04)),
                     ),
                     child: Row(
                       children: [
@@ -199,7 +199,7 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
                         Expanded(
                           child: Text(
                             'No custom workouts created yet! Build a routine first.',
-                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70), fontSize: 11),
+                            style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.70), fontSize: 11),
                           ),
                         ),
                         TextButton(
@@ -216,14 +216,14 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
                   decoration: BoxDecoration(
                     color: Color(0xFF0F0F0F),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.white.withOpacity(0.04)),
+                    border: Border.all(color: context.colors.onSurface.withValues(alpha: 0.04)),
                   ),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String?>(
                       value: _selectedWorkoutId,
                       dropdownColor: Color(0xFF0F0F0F),
-                      icon: Icon(Icons.arrow_drop_down_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.60)),
-                      hint: Text('Select Routine...', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.30), fontSize: 13)),
+                      icon: Icon(Icons.arrow_drop_down_rounded, color: context.colors.onSurface.withValues(alpha: 0.60)),
+                      hint: Text('Select Routine...', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.30), fontSize: 13)),
                       items: [
                         DropdownMenuItem<String?>(
                           value: null,
@@ -232,7 +232,7 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
                         ...workouts.map((w) {
                           return DropdownMenuItem<String?>(
                             value: w.id,
-                            child: Text(w.name, style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 13)),
+                            child: Text(w.name, style: TextStyle(color: context.colors.onSurface, fontSize: 13)),
                           );
                         }),
                       ],
@@ -256,7 +256,7 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
             // 2. MISSION PLANNER STATUS
             Text(
               'MISSION STATUS OVERRIDE',
-              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.60), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1),
+              style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.60), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1),
             ),
             SizedBox(height: 10),
             Wrap(
@@ -280,17 +280,17 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
                     duration: Duration(milliseconds: 150),
                     padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                     decoration: BoxDecoration(
-                      color: isSelected ? statusColor.withOpacity(0.12) : Colors.white.withOpacity(0.02),
+                      color: isSelected ? statusColor.withOpacity(0.12) : context.colors.onSurface.withValues(alpha: 0.02),
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: isSelected ? statusColor : Colors.white.withOpacity(0.04),
+                        color: isSelected ? statusColor : context.colors.onSurface.withValues(alpha: 0.04),
                         width: isSelected ? 1.0 : 0.8,
                       ),
                     ),
                     child: Text(
                       status.name.toUpperCase(),
                       style: TextStyle(
-                        color: isSelected ? statusColor : Colors.white.withOpacity(0.60),
+                        color: isSelected ? statusColor : context.colors.onSurface.withValues(alpha: 0.60),
                         fontSize: 10,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 0.5,
@@ -305,7 +305,7 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
             // 3. TACTICAL NOTES FOR THE DAY
             Text(
               'PLANNING OR PRE-WORKOUT NOTES',
-              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.60), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1),
+              style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.60), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1),
             ),
             SizedBox(height: 10),
             Container(
@@ -313,12 +313,12 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
               decoration: BoxDecoration(
                 color: Color(0xFF0F0F0F),
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.white.withOpacity(0.04)),
+                border: Border.all(color: context.colors.onSurface.withValues(alpha: 0.04)),
               ),
               child: TextField(
                 controller: _notesController,
                 maxLines: 4,
-                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 13),
+                style: TextStyle(color: context.colors.onSurface, fontSize: 13),
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   enabledBorder: InputBorder.none,
@@ -327,7 +327,7 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
                   focusedErrorBorder: InputBorder.none,
                   disabledBorder: InputBorder.none,
                   hintText: 'Enter targets, energy levels, hydration plans, or notes...',
-                  hintStyle: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.24), fontSize: 12),
+                  hintStyle: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.24), fontSize: 12),
                   contentPadding: EdgeInsets.symmetric(vertical: 16),
                 ),
               ),
@@ -358,7 +358,7 @@ class _PlannerDayDetailScreenState extends ConsumerState<PlannerDayDetailScreen>
                 child: Center(
                   child: Text(
                     'COMMIT OBJECTIVES',
-                    style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                    style: TextStyle(color: context.colors.onSurface,
                       fontSize: 12,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 1.0,

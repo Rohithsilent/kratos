@@ -33,13 +33,11 @@ class UpcomingSessionsBottomSheet extends StatelessWidget {
             filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
             child: Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? context.colors.surface.withOpacity(0.85)
-                    : Colors.white.withOpacity(0.9),
+                color: context.colors.surface.withValues(alpha: 0.96),
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
                 border: Border(
                   top: BorderSide(
-                    color: Colors.white.withOpacity(0.08),
+                    color: context.colors.onSurface.withValues(alpha: 0.08),
                     width: 1,
                   ),
                 ),
@@ -52,9 +50,7 @@ class UpcomingSessionsBottomSheet extends StatelessWidget {
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white.withOpacity(0.2)
-                          : context.customColors.grey900.withOpacity(0.2),
+                      color: context.colors.onSurface.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -68,9 +64,7 @@ class UpcomingSessionsBottomSheet extends StatelessWidget {
                         Text(
                           'ALL UPCOMING SESSIONS',
                           style: TextStyle(
-                            color: Theme.of(context).brightness == Brightness.dark
-                                ? Colors.white
-                                : context.customColors.grey900,
+                            color: context.colors.onSurface,
                             fontSize: 14,
                             fontWeight: FontWeight.w900,
                             letterSpacing: 1.5,
@@ -104,9 +98,7 @@ class UpcomingSessionsBottomSheet extends StatelessWidget {
                             child: Text(
                               'No upcoming sessions scheduled.',
                               style: TextStyle(
-                                color: Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.white.withOpacity(0.5)
-                                    : context.customColors.grey900.withOpacity(0.5),
+                                color: context.colors.onSurface.withValues(alpha: 0.5),
                               ),
                             ),
                           )

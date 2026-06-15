@@ -30,14 +30,14 @@ class ConsistencyHeatmap extends ConsumerWidget {
               Text(
                 'CONSISTENCY MATRIX',
                 style: AppTypography.labelBold.copyWith(
-                  color: Colors.white,
+                  color: context.colors.onSurface,
                   fontSize: 12,
                   letterSpacing: 1.5,
                 ),
               ),
               Text(
                 '12 WEEKS',
-                style: TextStyle(color: Colors.white.withOpacity(0.25),
+                style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.25),
                   fontSize: 9,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 0.5,
@@ -71,7 +71,7 @@ class ConsistencyHeatmap extends ConsumerWidget {
             children: [
               Text(
                 'Less',
-                style: TextStyle(color: Colors.white.withOpacity(0.2),
+                style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.2),
                   fontSize: 8,
                   fontWeight: FontWeight.w600,
                 ),
@@ -83,7 +83,7 @@ class ConsistencyHeatmap extends ConsumerWidget {
                   height: 10,
                   margin: EdgeInsets.symmetric(horizontal: 1),
                   decoration: BoxDecoration(
-                    color: _getIntensityColor(i / 4.0),
+                    color: _getIntensityColor(i / 4.0, context),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 );
@@ -91,7 +91,7 @@ class ConsistencyHeatmap extends ConsumerWidget {
               SizedBox(width: 4),
               Text(
                 'More',
-                style: TextStyle(color: Colors.white.withOpacity(0.2),
+                style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.2),
                   fontSize: 8,
                   fontWeight: FontWeight.w600,
                 ),
@@ -169,7 +169,7 @@ class _HeatmapGrid extends StatelessWidget {
                     padding: EdgeInsets.only(right: 6),
                     child: Text(
                       dayLabels[row],
-                      style: TextStyle(color: Colors.white.withOpacity(0.2),
+                      style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.2),
                         fontSize: 8,
                         fontWeight: FontWeight.w600,
                       ),
@@ -193,7 +193,7 @@ class _HeatmapGrid extends StatelessWidget {
                       height: 16,
                       child: Row(
                         children: _buildMonthLabels(
-                          startMonday, totalWeeks, cellSize, cellSpacing,
+                          context, startMonday, totalWeeks, cellSize, cellSpacing,
                         ),
                       ),
                     ),
@@ -218,8 +218,8 @@ class _HeatmapGrid extends StatelessWidget {
                               margin: EdgeInsets.all(cellSpacing / 2),
                               decoration: BoxDecoration(
                                 color: isFuture
-                                    ? Colors.white.withOpacity(0.02)
-                                    : _getIntensityColor(intensity),
+                                    ? context.colors.onSurface.withValues(alpha: 0.02)
+                                    : _getIntensityColor(intensity, context),
                                 borderRadius: BorderRadius.circular(2.5),
                                 border: isToday
                                     ? Border.all(
@@ -244,7 +244,7 @@ class _HeatmapGrid extends StatelessWidget {
   }
 
   List<Widget> _buildMonthLabels(
-    DateTime start, int totalWeeks, double cellSize, double cellSpacing,
+    BuildContext context, DateTime start, int totalWeeks, double cellSize, double cellSpacing,
   ) {
     final List<Widget> labels = [];
     String? lastMonth;
@@ -260,7 +260,7 @@ class _HeatmapGrid extends StatelessWidget {
             width: colWidth,
             child: Text(
               monthStr,
-              style: TextStyle(color: Colors.white.withOpacity(0.25),
+              style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.25),
                 fontSize: 8,
                 fontWeight: FontWeight.w600,
               ),
@@ -284,10 +284,10 @@ class _HeatmapGrid extends StatelessWidget {
   }
 }
 
-Color _getIntensityColor(double intensity) {
-  if (intensity <= 0.0) return Color(0xFF1A1A1A);
-  if (intensity <= 0.25) return Color(0xFF3D0A0A);
-  if (intensity <= 0.50) return Color(0xFF6B1515);
-  if (intensity <= 0.75) return Color(0xFF9B1E1E);
-  return Color(0xFFE53535);
+Color _getIntensityColor(double intensity, BuildContext context) {
+  if (intensity <= 0.0) return Theme.of(context).brightness == Brightness.dark ? const Color(0xFF1A1A1A) : context.colors.onSurface.withValues(alpha: 0.05);
+  if (intensity <= 0.25) return const Color(0xFF3D0A0A);
+  if (intensity <= 0.50) return const Color(0xFF6B1515);
+  if (intensity <= 0.75) return const Color(0xFF9B1E1E);
+  return const Color(0xFFE53535);
 }

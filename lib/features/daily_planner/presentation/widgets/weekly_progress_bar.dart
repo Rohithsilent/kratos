@@ -26,7 +26,7 @@ class WeeklyProgressBar extends StatelessWidget {
               // Background track line
               Container(
                 height: 2,
-                color: Colors.white.withOpacity(0.08),
+                color: context.colors.onSurface.withValues(alpha: 0.08),
               ),
               // Filled track line up to active day
               FractionallySizedBox(
@@ -65,7 +65,7 @@ class WeeklyProgressBar extends StatelessWidget {
                           : (isPassed ? context.colors.primary.withOpacity(0.6) : Color(0xFF2A2A2A)),
                       border: Border.all(
                         color: isActive 
-                            ? Colors.white 
+                            ? context.colors.onSurface
                             : (isPassed ? context.colors.primary.withOpacity(0.8) : Colors.transparent),
                         width: isActive ? 2 : 1,
                       ),

@@ -43,7 +43,7 @@ class RestTimerOverlay extends ConsumerWidget {
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
       child: Container(
-        color: Color(0xFF070707).withOpacity(0.92),
+        color: context.colors.surface.withValues(alpha: 0.96),
         width: double.infinity,
         height: double.infinity,
         padding: EdgeInsets.symmetric(horizontal: 30),
@@ -64,7 +64,7 @@ class RestTimerOverlay extends ConsumerWidget {
               SizedBox(height: 10),
               Text(
                 'BREATHE & RECOVER',
-                style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                style: TextStyle(color: context.colors.onSurface,
                   fontSize: 20,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 1,
@@ -99,7 +99,7 @@ class RestTimerOverlay extends ConsumerWidget {
                     child: CircularProgressIndicator(
                       value: 1.0,
                       strokeWidth: 4,
-                      color: Colors.white.withOpacity(0.03),
+                      color: context.colors.onSurface.withValues(alpha: 0.03),
                     ),
                   ),
 
@@ -121,7 +121,7 @@ class RestTimerOverlay extends ConsumerWidget {
                     children: [
                       Text(
                         _formatTime(remaining),
-                        style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                        style: TextStyle(color: context.colors.onSurface,
                           fontSize: 48,
                           fontWeight: FontWeight.w900,
                           letterSpacing: -1.0,
@@ -130,7 +130,7 @@ class RestTimerOverlay extends ConsumerWidget {
                       Text(
                         isPaused ? 'PAUSED' : 'REMAINING',
                         style: TextStyle(
-                          color: isPaused ? Colors.amber : Colors.white.withOpacity(0.30),
+                          color: isPaused ? Colors.amber : context.colors.onSurface.withValues(alpha: 0.30),
                           fontSize: 9,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 1.5,
@@ -152,7 +152,7 @@ class RestTimerOverlay extends ConsumerWidget {
                       width: 42,
                       height: 42,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: context.colors.onSurface,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: ClipRRect(
@@ -187,7 +187,7 @@ class RestTimerOverlay extends ConsumerWidget {
                             nextExercise.name.toUpperCase(),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                            style: TextStyle(color: context.colors.onSurface,
                               fontSize: 12,
                               fontWeight: FontWeight.w900,
                             ),
@@ -195,7 +195,7 @@ class RestTimerOverlay extends ConsumerWidget {
                           SizedBox(height: 2),
                           Text(
                             'Set $nextSetNum of ${nextExercise.sets.length}',
-                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.54),
+                            style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.54),
                               fontSize: 10,
                             ),
                           ),
@@ -222,16 +222,16 @@ class RestTimerOverlay extends ConsumerWidget {
                           width: 48,
                           height: 48,
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.04),
+                            color: context.glassmorphism.borderColor,
                             shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white.withOpacity(0.08)),
+                            border: Border.all(color: context.glassmorphism.borderColor),
                           ),
-                          child: Icon(Icons.add_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70), size: 20),
+                          child: Icon(Icons.add_rounded, color: context.colors.onSurface.withValues(alpha: 0.70), size: 20),
                         ),
                         SizedBox(height: 6),
                         Text(
                           '+15 SEC',
-                          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.54), fontSize: 8, fontWeight: FontWeight.bold),
+                          style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.54), fontSize: 8, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -285,16 +285,16 @@ class RestTimerOverlay extends ConsumerWidget {
                           width: 48,
                           height: 48,
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.04),
+                            color: context.glassmorphism.borderColor,
                             shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white.withOpacity(0.08)),
+                            border: Border.all(color: context.glassmorphism.borderColor),
                           ),
-                          child: Icon(Icons.skip_next_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70), size: 20),
+                          child: Icon(Icons.skip_next_rounded, color: context.colors.onSurface.withValues(alpha: 0.70), size: 20),
                         ),
                         SizedBox(height: 6),
                         Text(
                           'SKIP',
-                          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.54), fontSize: 8, fontWeight: FontWeight.bold),
+                          style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.54), fontSize: 8, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),

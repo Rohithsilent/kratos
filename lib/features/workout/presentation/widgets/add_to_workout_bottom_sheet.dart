@@ -138,7 +138,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
         decoration: BoxDecoration(
           color: Color(0xFF0C0C0C).withOpacity(0.92),
           borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
-          border: Border.all(color: Colors.white.withOpacity(0.08), width: 1.5),
+          border: Border.all(color: context.colors.onSurface.withValues(alpha: 0.08), width: 1.5),
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -151,7 +151,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                   width: 48,
                   height: 4.5,
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.24),
+                    color: context.colors.onSurface.withValues(alpha: 0.24),
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
@@ -163,12 +163,12 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                 Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.arrow_back_ios_new_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.70), size: 18),
+                      icon: Icon(Icons.arrow_back_ios_new_rounded, color: context.colors.onSurface.withValues(alpha: 0.70), size: 18),
                       onPressed: () => setState(() => _showWorkoutPicker = false),
                     ),
                     Text(
                       'ADD TO EXISTING ROUTINE',
-                      style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                      style: TextStyle(color: context.colors.onSurface,
                         fontSize: 16,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 1.1,
@@ -185,7 +185,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                     ),
                   ),
                   error: (err, st) => Center(
-                    child: Text('Failed to load workouts: $err', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.54))),
+                    child: Text('Failed to load workouts: $err', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.54))),
                   ),
                   data: (workouts) {
                     if (workouts.isEmpty) {
@@ -193,12 +193,12 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                         padding: EdgeInsets.symmetric(vertical: 40),
                         child: Column(
                           children: [
-                            Icon(Icons.fitness_center_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.24), size: 48),
+                            Icon(Icons.fitness_center_rounded, color: context.colors.onSurface.withValues(alpha: 0.24), size: 48),
                             SizedBox(height: 12),
                             Text(
                               'No routines found.\nCreate a new custom routine instead!',
                               textAlign: TextAlign.center,
-                              style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.54), fontSize: 13, height: 1.4),
+                              style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.54), fontSize: 13, height: 1.4),
                             ),
                             SizedBox(height: 20),
                             GestureDetector(
@@ -209,7 +209,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                                 child: Center(
                                   child: Text(
                                     'CREATE NEW WORKOUT',
-                                    style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontWeight: FontWeight.bold),
+                                    style: TextStyle(color: context.colors.onSurface, fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
@@ -239,7 +239,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                                     children: [
                                       Text(
                                         workout.name.toUpperCase(),
-                                        style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                                        style: TextStyle(color: context.colors.onSurface,
                                           fontSize: 14,
                                           fontWeight: FontWeight.w900,
                                         ),
@@ -247,7 +247,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                                       SizedBox(height: 3),
                                       Text(
                                         '${workout.split}  •  ${workout.exercises.length} Exercises',
-                                        style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.54),
+                                        style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.54),
                                           fontSize: 11,
                                           fontWeight: FontWeight.w600,
                                         ),
@@ -273,9 +273,9 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                       width: 72,
                       height: 72,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: context.colors.onSurface,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: Colors.white.withOpacity(0.1)),
+                        border: Border.all(color: context.colors.onSurface.withValues(alpha: 0.1)),
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(16),
@@ -299,7 +299,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                             widget.exercise.name.toUpperCase(),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                            style: TextStyle(color: context.colors.onSurface,
                               fontSize: 18,
                               fontWeight: FontWeight.w900,
                               height: 1.2,
@@ -316,7 +316,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                                   fontWeight: FontWeight.w900,
                                 ),
                               ),
-                              Text('  •  ', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.24))),
+                              Text('  •  ', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.24))),
                               Container(
                                 padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                                 decoration: BoxDecoration(
@@ -339,26 +339,26 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                     )
                   ],
                 ),
-                Divider(color: Colors.white.withOpacity(0.10), height: 28, thickness: 1),
+                Divider(color: context.colors.onSurface.withValues(alpha: 0.10), height: 28, thickness: 1),
 
                 // SETS SELECTOR
                 Text(
                   'SETS',
-                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.54), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1),
+                  style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.54), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1),
                 ),
                 SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                      icon: Icon(Icons.remove_circle_outline_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.60), size: 28),
+                      icon: Icon(Icons.remove_circle_outline_rounded, color: context.colors.onSurface.withValues(alpha: 0.60), size: 28),
                       onPressed: () {
                         if (_sets > 1) setState(() => _sets--);
                       },
                     ),
                     Text(
                       '$_sets',
-                      style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                      style: TextStyle(color: context.colors.onSurface,
                         fontSize: 24,
                         fontWeight: FontWeight.w900,
                       ),
@@ -374,7 +374,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                 // REPS SELECTOR
                 Text(
                   'REPS TARGET RANGE',
-                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.54), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1),
+                  style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.54), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1),
                 ),
                 SizedBox(height: 8),
                 SingleChildScrollView(
@@ -389,20 +389,20 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                           label: Text(
                             range,
                             style: TextStyle(
-                              color: isSelected ? Colors.white : Colors.white.withOpacity(0.60),
+                              color: isSelected ? context.colors.onSurface : context.colors.onSurface.withValues(alpha: 0.60),
                               fontWeight: isSelected ? FontWeight.w900 : FontWeight.w500,
                             ),
                           ),
                           selected: isSelected,
                           selectedColor: context.colors.primary,
-                          backgroundColor: Colors.white.withOpacity(0.04),
+                          backgroundColor: context.colors.onSurface.withValues(alpha: 0.04),
                           onSelected: (val) {
                             if (val) setState(() => _selectedRepRange = range);
                           },
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                             side: BorderSide(
-                              color: isSelected ? context.colors.primary : Colors.white.withOpacity(0.08),
+                              color: isSelected ? context.colors.primary : context.colors.onSurface.withValues(alpha: 0.08),
                             ),
                           ),
                           showCheckmark: false,
@@ -416,7 +416,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                 // REST SELECTOR
                 Text(
                   'REST TIME BETWEEN SETS',
-                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.54), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1),
+                  style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.54), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1),
                 ),
                 SizedBox(height: 8),
                 Row(
@@ -435,13 +435,13 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                                   label: Text(
                                     '$sec sec',
                                     style: TextStyle(
-                                      color: isSelected ? Colors.white : Colors.white.withOpacity(0.60),
+                                      color: isSelected ? context.colors.onSurface : context.colors.onSurface.withValues(alpha: 0.60),
                                       fontWeight: isSelected ? FontWeight.w900 : FontWeight.w500,
                                     ),
                                   ),
                                   selected: isSelected,
                                   selectedColor: context.colors.primary,
-                                  backgroundColor: Colors.white.withOpacity(0.04),
+                                  backgroundColor: context.colors.onSurface.withValues(alpha: 0.04),
                                   onSelected: (val) {
                                     if (val) {
                                       setState(() {
@@ -453,7 +453,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     side: BorderSide(
-                                      color: isSelected ? context.colors.primary : Colors.white.withOpacity(0.08),
+                                      color: isSelected ? context.colors.primary : context.colors.onSurface.withValues(alpha: 0.08),
                                     ),
                                   ),
                                   showCheckmark: false,
@@ -464,13 +464,13 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                               label: Text(
                                 _isCreatingCustomRest ? '${_restSeconds}s (Custom)' : 'Custom',
                                 style: TextStyle(
-                                  color: _isCreatingCustomRest ? Colors.white : Colors.white.withOpacity(0.60),
+                                  color: _isCreatingCustomRest ? context.colors.onSurface : context.colors.onSurface.withValues(alpha: 0.60),
                                   fontWeight: _isCreatingCustomRest ? FontWeight.w900 : FontWeight.w500,
                                 ),
                               ),
                               selected: _isCreatingCustomRest,
                               selectedColor: context.colors.primary,
-                              backgroundColor: Colors.white.withOpacity(0.04),
+                              backgroundColor: context.colors.onSurface.withValues(alpha: 0.04),
                               onSelected: (val) {
                                 if (val) {
                                   setState(() {
@@ -481,7 +481,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                                 side: BorderSide(
-                                  color: _isCreatingCustomRest ? context.colors.primary : Colors.white.withOpacity(0.08),
+                                  color: _isCreatingCustomRest ? context.colors.primary : context.colors.onSurface.withValues(alpha: 0.08),
                                 ),
                               ),
                               showCheckmark: false,
@@ -502,15 +502,15 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                           child: TextField(
                             controller: _customRestTimerController,
                             keyboardType: TextInputType.number,
-                            style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 13),
+                            style: TextStyle(color: context.colors.onSurface, fontSize: 13),
                             decoration: InputDecoration(
                               hintText: 'Enter rest in seconds...',
-                              hintStyle: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.24), fontSize: 13),
+                              hintStyle: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.24), fontSize: 13),
                               contentPadding: EdgeInsets.symmetric(horizontal: 14),
                               filled: true,
-                              fillColor: Colors.white.withOpacity(0.02),
+                              fillColor: context.colors.onSurface.withValues(alpha: 0.02),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white.withOpacity(0.08)),
+                                borderSide: BorderSide(color: context.colors.onSurface.withValues(alpha: 0.08)),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               focusedBorder: OutlineInputBorder(
@@ -538,14 +538,14 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                   children: [
                     Text(
                       'TARGET WEIGHT',
-                      style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.54), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1),
+                      style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.54), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1),
                     ),
                     Container(
                       height: 24,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.06),
+                        color: context.colors.onSurface.withValues(alpha: 0.06),
                         borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.white.withOpacity(0.08)),
+                        border: Border.all(color: context.colors.onSurface.withValues(alpha: 0.08)),
                       ),
                       child: Row(
                         children: ['KG', 'LBS'].map((unit) {
@@ -562,7 +562,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                                 child: Text(
                                   unit,
                                   style: TextStyle(
-                                    color: isSelected ? Colors.white : Colors.white.withOpacity(0.38),
+                                    color: isSelected ? context.colors.onSurface : context.colors.onSurface.withValues(alpha: 0.38),
                                     fontSize: 10,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -579,7 +579,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                 Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.remove_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.54)),
+                      icon: Icon(Icons.remove_rounded, color: context.colors.onSurface.withValues(alpha: 0.54)),
                       onPressed: () {
                         if (_weight > 2.5) setState(() => _weight -= 2.5);
                       },
@@ -588,8 +588,8 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                       child: SliderTheme(
                         data: SliderThemeData(
                           activeTrackColor: context.colors.primary,
-                          inactiveTrackColor: Colors.white.withOpacity(0.12),
-                          thumbColor: Colors.white,
+                          inactiveTrackColor: context.colors.onSurface.withValues(alpha: 0.12),
+                          thumbColor: context.colors.onSurface,
                           overlayColor: context.colors.primary.withOpacity(0.2),
                         ),
                         child: Slider(
@@ -612,7 +612,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                       alignment: Alignment.centerRight,
                       child: Text(
                         _weight.toStringAsFixed(1),
-                        style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                        style: TextStyle(color: context.colors.onSurface,
                           fontSize: 16,
                           fontWeight: FontWeight.w900,
                         ),
@@ -625,21 +625,21 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                 // NOTES SELECTOR
                 Text(
                   'OPTIONAL NOTES',
-                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.54), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1),
+                  style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.54), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1),
                 ),
                 SizedBox(height: 8),
                 TextField(
                   controller: _notesController,
                   maxLines: 2,
-                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, fontSize: 13),
+                  style: TextStyle(color: context.colors.onSurface, fontSize: 13),
                   decoration: InputDecoration(
                     hintText: 'Add tactical instruction or motivation...',
-                    hintStyle: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.24), fontSize: 13),
+                    hintStyle: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.24), fontSize: 13),
                     contentPadding: EdgeInsets.all(12),
                     filled: true,
-                    fillColor: Colors.white.withOpacity(0.02),
+                    fillColor: context.colors.onSurface.withValues(alpha: 0.02),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white.withOpacity(0.08)),
+                      borderSide: BorderSide(color: context.colors.onSurface.withValues(alpha: 0.08)),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     focusedBorder: OutlineInputBorder(
@@ -667,7 +667,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                                 child: Text(
                                   'ADD TO EXISTING',
                                   maxLines: 1,
-                                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                                  style: TextStyle(color: context.colors.onSurface,
                                     fontSize: 11,
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: 0.5,
@@ -694,7 +694,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                                 child: Text(
                                   'CREATE NEW ROUTINE',
                                   maxLines: 1,
-                                  style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                                  style: TextStyle(color: context.colors.onSurface,
                                     fontSize: 11,
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: 0.5,
