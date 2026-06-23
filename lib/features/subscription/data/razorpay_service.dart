@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../../../core/providers/firebase_providers.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final razorpayServiceProvider = Provider((ref) {
   return RazorpayService(
@@ -19,8 +20,8 @@ class RazorpayService {
   final FirebaseAuth _auth;
   late Razorpay _razorpay;
 
-  // IMPORTANT: Replace this with your actual deployed Vercel URL
-  static const String backendUrl = 'https://your-vercel-app.vercel.app'; 
+  // Backend URL from environment variables
+  static String get backendUrl => dotenv.env['RAZORPAY_BACKEND_URL'] ?? 'http://localhost:3000';
 
   Function(String)? onPaymentSuccessCallback;
   Function(String)? onPaymentErrorCallback;
@@ -57,7 +58,7 @@ class RazorpayService {
 
         // 2. Open Razorpay Checkout using the subscription_id
         var options = {
-          'key': 'rzp_test_YourTestKeyHere', // TODO: Replace with your Razorpay Test Key
+          'key': dotenv.env['RAZORPAY_KEY_ID'], 
           'subscription_id': subscriptionId,
           'name': 'Kratos',
           'description': 'Kratos Subscription',

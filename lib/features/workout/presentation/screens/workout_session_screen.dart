@@ -104,6 +104,9 @@ class _WorkoutSessionScreenState extends ConsumerState<WorkoutSessionScreen> {
     );
 
     if (confirm == true && mounted) {
+      ref
+          .read(activeSessionProvider(_workoutTemplate).notifier)
+          .abandonSession();
       context.pop(); // Route back to detail summary screen
     }
   }

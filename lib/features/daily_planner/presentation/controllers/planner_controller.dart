@@ -8,6 +8,8 @@ import '../../data/repositories/planner_repository.dart';
 import '../../utils/planner_helpers.dart';
 import '../../data/services/planner_sync_service.dart';
 import '../../../workout/presentation/controllers/workout_controller.dart';
+import '../../../workout/data/repositories/workout_repository.dart';
+import '../../../../core/notifications/notification_service.dart';
 
 class PlannerNotifier extends AsyncNotifier<List<PlannerItem>> {
   @override
@@ -26,6 +28,9 @@ class PlannerNotifier extends AsyncNotifier<List<PlannerItem>> {
     });
 
     final items = await repository.fetchPlannerItems();
+    unawaited(NotificationService.instance.syncScheduledWorkouts(items));
+    final sessions = await ref.read(workoutRepositoryProvider).getSessions();
+    unawaited(NotificationService.instance.syncStreakWarning(sessions));
     return items;
   }
 
@@ -69,6 +74,10 @@ class PlannerNotifier extends AsyncNotifier<List<PlannerItem>> {
             );
 
       await repository.savePlannerItem(newItem);
+      await NotificationService.instance.scheduleWorkoutReminder(
+        date: date,
+        workoutName: workoutName,
+      );
       return repository.fetchPlannerItems();
     });
   }
@@ -105,6 +114,7 @@ class PlannerNotifier extends AsyncNotifier<List<PlannerItem>> {
             );
 
       await repository.savePlannerItem(newItem);
+      await NotificationService.instance.cancelWorkoutReminder(date);
       return repository.fetchPlannerItems();
     });
   }
@@ -148,6 +158,7 @@ class PlannerNotifier extends AsyncNotifier<List<PlannerItem>> {
             );
 
       await repository.savePlannerItem(newItem);
+      await NotificationService.instance.cancelWorkoutReminder(date);
       return repository.fetchPlannerItems();
     });
   }
@@ -166,6 +177,7 @@ class PlannerNotifier extends AsyncNotifier<List<PlannerItem>> {
           completedAt: DateTime.now(),
         );
         await repository.savePlannerItem(updated);
+        await NotificationService.instance.cancelWorkoutReminder(updated.date);
       }
       return repository.fetchPlannerItems();
     });
@@ -184,6 +196,7 @@ class PlannerNotifier extends AsyncNotifier<List<PlannerItem>> {
           completed: false,
         );
         await repository.savePlannerItem(updated);
+        await NotificationService.instance.cancelWorkoutReminder(updated.date);
       }
       return repository.fetchPlannerItems();
     });
@@ -193,7 +206,18 @@ class PlannerNotifier extends AsyncNotifier<List<PlannerItem>> {
     state = AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final repository = ref.read(plannerRepositoryProvider);
+      final items = await repository.fetchPlannerItems();
+      PlannerItem? item;
+      for (final entry in items) {
+        if (entry.id == itemId) {
+          item = entry;
+          break;
+        }
+      }
       await repository.deletePlannerItem(itemId);
+      if (item != null) {
+        await NotificationService.instance.cancelWorkoutReminder(item.date);
+      }
       return repository.fetchPlannerItems();
     });
   }
@@ -245,6 +269,9 @@ class PlannerNotifier extends AsyncNotifier<List<PlannerItem>> {
 
       if (duplicatedItems.isNotEmpty) {
         await repository.saveWeeklyPlan(duplicatedItems);
+        await NotificationService.instance.syncScheduledWorkouts(
+          duplicatedItems,
+        );
       }
 
       return repository.fetchPlannerItems();

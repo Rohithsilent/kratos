@@ -267,23 +267,33 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   Expanded(
                     child: _buildQuickAction(
                       icon: Icons.fitness_center_rounded,
-                      label: 'MY WORKOUTS',
+                      label: 'WORKOUTS',
                       color: context.colors.primary,
                       isDark: isDark,
                       onTap: () => setState(() => _currentTabIndex = 1),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: _buildQuickAction(
+                      icon: Icons.auto_awesome_rounded,
+                      label: 'NUTRITION',
+                      color: const Color(0xFF22C55E),
+                      isDark: isDark,
+                      onTap: () => context.push('/nutrition'),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: _buildQuickAction(
                       icon: Icons.calendar_today_rounded,
-                      label: 'WEEKLY PLAN',
+                      label: 'PLANNER',
                       color: Colors.tealAccent.shade400,
                       isDark: isDark,
                       onTap: () => setState(() => _currentTabIndex = 2),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: _buildQuickAction(
                       icon: Icons.headphones_rounded,

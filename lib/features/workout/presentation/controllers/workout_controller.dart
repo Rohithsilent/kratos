@@ -7,6 +7,7 @@ import '../../data/repositories/workout_repository.dart';
 import '../../../music/presentation/controllers/music_controller.dart';
 import '../../../daily_planner/presentation/controllers/planner_controller.dart';
 import '../../../daily_planner/utils/planner_helpers.dart';
+import '../../../../core/notifications/notification_service.dart';
 
 // Lightweight unique ID generator to avoid external dependencies
 String generateUniqueId() {
@@ -223,6 +224,7 @@ class WorkoutSessionNotifier extends Notifier<WorkoutSessionState?> {
   final Workout workout;
   Timer? _globalTimer;
   Timer? _restTimer;
+  DateTime? _restEndsAt;
 
   WorkoutSessionNotifier(this.workout);
 
@@ -238,6 +240,7 @@ class WorkoutSessionNotifier extends Notifier<WorkoutSessionState?> {
   void startSession() {
     _globalTimer?.cancel();
     _restTimer?.cancel();
+    _restEndsAt = null;
 
     final sessionExercises = workout.exercises.map((e) {
       return WorkoutExercise(
@@ -260,6 +263,17 @@ class WorkoutSessionNotifier extends Notifier<WorkoutSessionState?> {
       activeSetIndex: 0,
     );
 
+    if (sessionExercises.isNotEmpty) {
+      final firstExercise = sessionExercises.first;
+      unawaited(NotificationService.instance.startWorkout(
+        workout: workout,
+        startedAt: state!.startedAt,
+        exerciseName: firstExercise.name,
+        setNumber: 1,
+        totalSets: firstExercise.sets.length,
+      ));
+    }
+
     // AUTO-START PLAYLIST IF LINKED
     if (workout.playlistUri != null && workout.playlistUri!.isNotEmpty) {
       ref.read(musicControllerProvider.notifier).playPlaylist(workout.playlistUri!);
@@ -276,7 +290,10 @@ class WorkoutSessionNotifier extends Notifier<WorkoutSessionState?> {
 
     _globalTimer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (state != null) {
-        state = state!.copyWith(elapsedSeconds: state!.elapsedSeconds + 1);
+        state = state!.copyWith(
+          elapsedSeconds:
+              DateTime.now().difference(state!.startedAt).inSeconds,
+        );
       }
     });
   }
@@ -318,12 +335,23 @@ class WorkoutSessionNotifier extends Notifier<WorkoutSessionState?> {
 
   void startRest(int duration) {
     _restTimer?.cancel();
+    _restEndsAt = DateTime.now().add(Duration(seconds: duration));
     state = state!.copyWith(
       isResting: true,
       restTimerSeconds: duration,
       restTimeRemaining: duration,
       isRestPaused: false,
     );
+
+    unawaited(NotificationService.instance.showRest(
+      workout: workout,
+      nextExerciseName: _nextWorkLabel(
+        state!.activeExerciseIndex,
+        state!.activeSetIndex,
+      ),
+      remainingSeconds: duration,
+      isPaused: false,
+    ));
 
     _restTimer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (state == null || !state!.isResting) {
@@ -332,8 +360,11 @@ class WorkoutSessionNotifier extends Notifier<WorkoutSessionState?> {
       }
       if (state!.isRestPaused) return;
 
-      if (state!.restTimeRemaining > 1) {
-        state = state!.copyWith(restTimeRemaining: state!.restTimeRemaining - 1);
+      final milliseconds =
+          _restEndsAt?.difference(DateTime.now()).inMilliseconds ?? 0;
+      final remaining = (milliseconds + 999) ~/ 1000;
+      if (remaining > 0) {
+        state = state!.copyWith(restTimeRemaining: remaining);
       } else {
         timer.cancel();
         endRest();
@@ -343,7 +374,24 @@ class WorkoutSessionNotifier extends Notifier<WorkoutSessionState?> {
 
   void pauseRest() {
     if (state == null) return;
-    state = state!.copyWith(isRestPaused: !state!.isRestPaused);
+    if (state!.isRestPaused) {
+      _restEndsAt =
+          DateTime.now().add(Duration(seconds: state!.restTimeRemaining));
+      state = state!.copyWith(isRestPaused: false);
+    } else {
+      final milliseconds =
+          _restEndsAt?.difference(DateTime.now()).inMilliseconds ?? 0;
+      final remaining = ((milliseconds + 999) ~/ 1000).clamp(
+        0,
+        state!.restTimerSeconds,
+      ).toInt();
+      _restEndsAt = null;
+      state = state!.copyWith(
+        isRestPaused: true,
+        restTimeRemaining: remaining,
+      );
+    }
+    unawaited(_pushRestNotification());
   }
 
   void extendRest(int seconds) {
@@ -352,10 +400,15 @@ class WorkoutSessionNotifier extends Notifier<WorkoutSessionState?> {
       restTimeRemaining: state!.restTimeRemaining + seconds,
       restTimerSeconds: state!.restTimerSeconds + seconds,
     );
+    if (!state!.isRestPaused && _restEndsAt != null) {
+      _restEndsAt = _restEndsAt!.add(Duration(seconds: seconds));
+    }
+    unawaited(_pushRestNotification());
   }
 
   void endRest() {
     _restTimer?.cancel();
+    _restEndsAt = null;
     if (state == null) return;
 
     final currentExerciseIndex = state!.activeExerciseIndex;
@@ -368,7 +421,9 @@ class WorkoutSessionNotifier extends Notifier<WorkoutSessionState?> {
       state = state!.copyWith(activeSetIndex: currentSetIndex + 1);
     } else {
       nextExercise();
+      return;
     }
+    unawaited(_pushActiveNotification());
   }
 
   void nextExercise() {
@@ -378,6 +433,7 @@ class WorkoutSessionNotifier extends Notifier<WorkoutSessionState?> {
         activeExerciseIndex: state!.activeExerciseIndex + 1,
         activeSetIndex: 0,
       );
+      unawaited(_pushActiveNotification());
     }
   }
 
@@ -388,12 +444,14 @@ class WorkoutSessionNotifier extends Notifier<WorkoutSessionState?> {
         activeExerciseIndex: state!.activeExerciseIndex - 1,
         activeSetIndex: 0,
       );
+      unawaited(_pushActiveNotification());
     }
   }
 
   Future<WorkoutSession> completeSession() async {
     _globalTimer?.cancel();
     _restTimer?.cancel();
+    _restEndsAt = null;
     
     if (state == null) throw Exception('No session is active');
 
@@ -408,7 +466,9 @@ class WorkoutSessionNotifier extends Notifier<WorkoutSessionState?> {
       }
     }
 
-    final durationMins = state!.elapsedSeconds / 60.0;
+    final totalDurationSeconds =
+        DateTime.now().difference(state!.startedAt).inSeconds;
+    final durationMins = totalDurationSeconds / 60.0;
     final cal = (setsCompleted * 15 + durationMins * 8).round();
 
     final session = WorkoutSession(
@@ -417,7 +477,7 @@ class WorkoutSessionNotifier extends Notifier<WorkoutSessionState?> {
       workoutName: state!.workout.name,
       startedAt: state!.startedAt,
       completedAt: DateTime.now(),
-      totalDurationSeconds: state!.elapsedSeconds,
+      totalDurationSeconds: totalDurationSeconds,
       totalVolumeKg: totalVol,
       caloriesBurned: cal,
       completedExercises: state!.exercises,
@@ -425,8 +485,60 @@ class WorkoutSessionNotifier extends Notifier<WorkoutSessionState?> {
 
     await ref.read(workoutRepositoryProvider).saveSession(session);
     ref.invalidate(workoutHistoryProvider);
+    await NotificationService.instance.stopWorkout();
+
+    final sessions = await ref.read(workoutRepositoryProvider).getSessions();
+    unawaited(NotificationService.instance.syncStreakWarning(sessions));
     
     return session;
+  }
+
+  void abandonSession() {
+    _globalTimer?.cancel();
+    _restTimer?.cancel();
+    _restEndsAt = null;
+    state = null;
+    unawaited(NotificationService.instance.stopWorkout());
+  }
+
+  Future<void> _pushActiveNotification() async {
+    final current = state;
+    if (current == null || current.exercises.isEmpty) return;
+    final exercise = current.exercises[current.activeExerciseIndex];
+    await NotificationService.instance.showActiveWorkout(
+      workout: workout,
+      startedAt: current.startedAt,
+      exerciseName: exercise.name,
+      setNumber: current.activeSetIndex + 1,
+      totalSets: exercise.sets.length,
+    );
+  }
+
+  Future<void> _pushRestNotification() async {
+    final current = state;
+    if (current == null || !current.isResting) return;
+    await NotificationService.instance.showRest(
+      workout: workout,
+      nextExerciseName: _nextWorkLabel(
+        current.activeExerciseIndex,
+        current.activeSetIndex,
+      ),
+      remainingSeconds: current.restTimeRemaining,
+      isPaused: current.isRestPaused,
+    );
+  }
+
+  String _nextWorkLabel(int exerciseIndex, int setIndex) {
+    final current = state;
+    if (current == null || current.exercises.isEmpty) return workout.name;
+    final exercise = current.exercises[exerciseIndex];
+    if (setIndex < exercise.sets.length - 1) {
+      return '${exercise.name} • Set ${setIndex + 2}';
+    }
+    if (exerciseIndex < current.exercises.length - 1) {
+      return current.exercises[exerciseIndex + 1].name;
+    }
+    return 'Finish strong';
   }
 
   void updateExerciseSets(String exerciseId, List<WorkoutSet> sets) {

@@ -5,6 +5,7 @@ import '../../../shared/widgets/animated_gradient_bg.dart';
 import '../../../shared/widgets/glass_card.dart';
 import '../../auth/data/auth_repository.dart';
 import '../data/razorpay_service.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class SubscriptionScreen extends ConsumerStatefulWidget {
   const SubscriptionScreen({super.key});
@@ -131,7 +132,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
                           isCurrentTier: currentTier == 'pro',
                           onTap: currentTier == 'premium' 
                             ? null 
-                            : () => _upgradeTier(_isYearly ? 'plan_ProYearly_ID_Here' : 'plan_ProMonthly_ID_Here'),
+                            : () => _upgradeTier(_isYearly ? dotenv.env['RAZORPAY_PLAN_PRO_YEARLY']! : dotenv.env['RAZORPAY_PLAN_PRO_MONTHLY']!),
                         ),
                         const SizedBox(height: 24),
                         _buildTierCard(
@@ -152,7 +153,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
                             end: Alignment.bottomRight,
                           ),
                           isCurrentTier: currentTier == 'premium',
-                          onTap: () => _upgradeTier(_isYearly ? 'plan_PremiumYearly_ID_Here' : 'plan_PremiumMonthly_ID_Here'),
+                          onTap: () => _upgradeTier(_isYearly ? dotenv.env['RAZORPAY_PLAN_PREMIUM_YEARLY']! : dotenv.env['RAZORPAY_PLAN_PREMIUM_MONTHLY']!),
                         ),
                         const SizedBox(height: 40),
                       ],

@@ -4,7 +4,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/theme/app_colors.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../features/nutrition/presentation/widgets/food_scanner_sheet.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../controllers/nutrition_controller.dart';
 
@@ -23,40 +24,84 @@ class NutritionTrackerCard extends ConsumerWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'NUTRITION INTAKE',
-                style: AppTypography.labelBold.copyWith(
-                  color: context.colors.onSurface,
-                  fontSize: 12,
-                  letterSpacing: 1.5,
+              GestureDetector(
+                onTap: () => context.push('/nutrition'),
+                child: Row(
+                  children: [
+                    Text(
+                      'NUTRITION INTAKE',
+                      style: AppTypography.labelBold.copyWith(
+                        color: context.colors.onSurface,
+                        fontSize: 12,
+                        letterSpacing: 1.5,
+                      ),
+                    ),
+                    SizedBox(width: 6),
+                    Icon(Icons.arrow_forward_ios_rounded,
+                        color: context.colors.onSurface.withValues(alpha: 0.2),
+                        size: 10),
+                  ],
                 ),
               ),
-              GestureDetector(
-                onTap: () => _showQuickLogSheet(context, ref),
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: context.colors.primary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: context.colors.primary.withOpacity(0.2)),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.add_rounded, color: context.colors.primary, size: 12),
-                      SizedBox(width: 4),
-                      Text(
-                        'LOG',
-                        style: TextStyle(
-                          color: context.colors.primary,
-                          fontSize: 9,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 0.5,
-                        ),
+              Row(
+                children: [
+                  // AI Scan button
+                  GestureDetector(
+                    onTap: () => FoodScannerSheet.show(context),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        gradient: context.customColors.primaryGradient,
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                    ],
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.document_scanner_rounded, color: Colors.white, size: 11),
+                          SizedBox(width: 4),
+                          Text(
+                            'AI SCAN',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 9,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                  SizedBox(width: 8),
+                  // LOG button
+                  GestureDetector(
+                    onTap: () => _showQuickLogSheet(context, ref),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: context.colors.primary.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: context.colors.primary.withValues(alpha: 0.2)),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.add_rounded, color: context.colors.primary, size: 12),
+                          SizedBox(width: 4),
+                          Text(
+                            'LOG',
+                            style: TextStyle(
+                              color: context.colors.primary,
+                              fontSize: 9,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

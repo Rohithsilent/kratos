@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../controllers/planner_controller.dart';
 import '../controllers/planner_week_controller.dart';
@@ -57,7 +56,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    context.colors.primary.withOpacity(0.04),
+                    context.colors.primary.withValues(alpha: 0.04),
                     Colors.transparent,
                   ],
                 ),
@@ -74,7 +73,7 @@ class DailyPlannerScreen extends ConsumerWidget {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    context.colors.primary.withOpacity(0.02),
+                    context.colors.primary.withValues(alpha: 0.02),
                     Colors.transparent,
                   ],
                 ),
