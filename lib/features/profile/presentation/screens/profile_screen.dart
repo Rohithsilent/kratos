@@ -5,6 +5,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_decorations.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/theme/theme_controller.dart';
+import 'package:kratos/core/theme/app_theme_type.dart';
 import '../../../auth/presentation/controllers/auth_controller.dart';
 import '../../../auth/domain/models/user_model.dart';
 import '../../../daily_planner/presentation/controllers/planner_completion_controller.dart';
@@ -343,14 +344,39 @@ class ProfileScreen extends ConsumerWidget {
 
   // ─── PREFERENCES ───
   Widget _prefCard(BuildContext context, WidgetRef ref, bool isDark) {
-    final themeMode = ref.watch(themeControllerProvider);
+    final currentTheme = ref.watch(themeControllerProvider);
+    String themeSubtitle() {
+      switch (currentTheme) {
+        case AppThemeType.light:
+          return 'Light Mode';
+        case AppThemeType.dark:
+          return 'Dark Mode';
+        case AppThemeType.superSaiyan:
+          return 'Super Saiyan Orange';
+        case AppThemeType.cyberpunk:
+          return 'Cyberpunk Iron';
+      }
+    }
+
+    IconData themeIcon() {
+      switch (currentTheme) {
+        case AppThemeType.light:
+          return Icons.wb_sunny;
+        case AppThemeType.dark:
+          return Icons.nights_stay;
+        case AppThemeType.superSaiyan:
+          return Icons.flash_on_rounded;
+        case AppThemeType.cyberpunk:
+          return Icons.memory_rounded;
+      }
+    }
+
     return Container(
       decoration: AppDecorations.glassCard(context),
       child: Column(children: [
         _prefTile(context, isDark, Icons.star_rounded, 'Subscription', 'Upgrade to Pro/Premium', () => context.push('/subscription')),
         _prefDivider(isDark),
-        _prefTile(context, isDark, themeMode == ThemeMode.dark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
-          'Theme', isDark ? 'Dark Mode' : 'Light Mode', () => ref.read(themeControllerProvider.notifier).toggleTheme()),
+        _prefTile(context, isDark, themeIcon(), 'Theme', themeSubtitle(), () => ref.read(themeControllerProvider.notifier).toggleTheme()),
         _prefDivider(isDark),
         _prefTile(context, isDark, Icons.notifications_rounded, 'Notifications', 'Manage alerts', () {}),
         _prefDivider(isDark),

@@ -64,6 +64,20 @@ class AppColors {
     end: Alignment.bottomRight,
   );
 
+  // Super Saiyan gradient (orange → white) for warm background accents
+  static const LinearGradient ssPrimaryGradient = LinearGradient(
+    colors: [Color(0xFFFF5722), Color(0xFFFFFFFF)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  // Cyberpunk gradient (neon volt green → charcoal)
+  static const LinearGradient cpPrimaryGradient = LinearGradient(
+    colors: [Color(0xFFCCFF00), Color(0xFF0F0F12)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
   static const LinearGradient darkOverlay = LinearGradient(
     colors: [Color(0x00000000), Color(0xE6000000)],
     begin: Alignment.topCenter,
@@ -75,4 +89,18 @@ class AppColors {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
+
+  // ─── Super Saiyan Orange (Dragon Ball inspired)
+  // Background tuned to warm orange/white; primary (icons/accents) are blue.
+  static const Color ssScaffold = Color(0xFFFFF3E0); // pale orange / near-white
+  static const Color ssPrimary = Color(0xFF0D47A1); // deep blue for icons/accents
+  static const Color ssSecondary = Color(0xFFFF5722); // energetic orange
+  static const Color ssSurface = Color(0xFFFFFFFF); // white surface for cards
+
+  // ─── Cyberpunk Iron (Neon / Charcoal) ───
+  static const Color cpScaffold = Color(0xFF0F0F12);
+  static const Color cpPrimary = Color(0xFFCCFF00);
+  static const Color cpSecondary = Color(0xFF1E1E24);
+  static const Color cpSurface = Color(0xFF16161A);
+  static const Color cpOnPrimary = Color(0xFF000000);
 }

@@ -14,7 +14,7 @@ class AppThemeFactory {
       colorScheme: ColorScheme(
         brightness: brightness,
         primary: palette.primary,
-        onPrimary: palette.white,
+        onPrimary: palette.onPrimary,
         secondary: palette.primaryLight,
         onSecondary: palette.white,
         surface: palette.surface,
@@ -27,7 +27,7 @@ class AppThemeFactory {
         backgroundColor: Colors.transparent,
         elevation: 0,
         systemOverlayStyle: brightness == Brightness.dark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
-        iconTheme: IconThemeData(color: brightness == Brightness.dark ? palette.white : palette.grey900),
+        iconTheme: IconThemeData(color: palette.primary),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
@@ -68,7 +68,7 @@ class AppThemeFactory {
           ),
         ),
       ),
-      iconTheme: IconThemeData(color: brightness == Brightness.dark ? palette.white : palette.grey900, size: 24),
+      iconTheme: IconThemeData(color: palette.primary, size: 24),
       useMaterial3: true,
       extensions: <ThemeExtension<dynamic>>[
         GlassmorphismExtension(
