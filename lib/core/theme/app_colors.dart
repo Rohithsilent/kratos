@@ -18,10 +18,10 @@ class AppColors {
   static const Color darkElevated = Color(0xFF242424);
 
   // ─── Light Theme ───
-  static const Color lightBg = Color(0xFFF2F2F7); // Premium iOS-style off-white
-  static const Color lightSurface = Color(0xFFFFFFFF);
-  static const Color lightSurfaceVariant = Color(0xFFEAEAEA);
-  static const Color lightCard = Color(0xFFFFFFFF);
+  static const Color lightBg = Color(0xFFF8EBE1); // warmer off-white with a soft orange tint
+  static const Color lightSurface = Color(0xFFFFF8F2);
+  static const Color lightSurfaceVariant = Color(0xFFF3E4D8);
+  static const Color lightCard = Color(0xFFFFF8F2);
 
   // ─── Neutrals ───
   static const Color white = Color(0xFFFFFFFF);
@@ -45,6 +45,8 @@ class AppColors {
   // ─── Glassmorphism (Light) ───
   static Color get glassLight => Colors.white.withOpacity(0.85);
   static Color get glassBorderLight => Colors.black.withOpacity(0.08);
+  static Color get glassBlue => const Color(0xFF5FA8FF).withOpacity(0.24);
+  static Color get glassBlueBorder => const Color(0xFF8EC5FF).withOpacity(0.34);
 
   // ─── Glow Effects ───
   static Color get redGlow => primaryContainer.withOpacity(0.35);

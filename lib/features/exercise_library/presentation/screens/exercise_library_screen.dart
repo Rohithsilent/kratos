@@ -53,9 +53,10 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
   Widget build(BuildContext context) {
     final filteredAsync = ref.watch(filteredExercisesProvider);
     final selectedCategory = ref.watch(selectedCategoryProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: isDark ? Theme.of(context).scaffoldBackgroundColor : Colors.white,
       body: SafeArea(
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +91,9 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                         duration: Duration(milliseconds: 200),
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: _showSearch ? context.colors.primary.withOpacity(0.2) : context.glassmorphism.cardColor,
+                          color: _showSearch
+                              ? context.colors.primary.withOpacity(0.2)
+                              : (isDark ? context.glassmorphism.cardColor : Colors.white),
                           shape: BoxShape.circle,
                           border: Border.all(
                             color: _showSearch ? context.colors.primary : context.glassmorphism.borderColor,
@@ -98,7 +101,7 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                         ),
                         child: Icon(
                           _showSearch ? Icons.close_rounded : Icons.search_rounded,
-                          color: _showSearch ? context.colors.primary : Colors.white,
+                          color: _showSearch ? context.colors.primary : (isDark ? Colors.white : Colors.black),
                           size: 22,
                         ),
                       ),
@@ -119,7 +122,7 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: context.glassmorphism.cardColor,
+                          color: isDark ? context.glassmorphism.cardColor : Colors.white,
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(color: context.glassmorphism.borderColor),
                         ),
@@ -132,14 +135,14 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                           cursorColor: context.colors.primary,
                           decoration: InputDecoration(
                             hintText: 'Search exercises...',
-                            hintStyle: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.4), fontSize: 15),
-                            prefixIcon: Icon(Icons.search_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900.withOpacity(0.5)),
+                            hintStyle: TextStyle(color: isDark ? Colors.white : context.customColors.grey900.withOpacity(0.4), fontSize: 15),
+                            prefixIcon: Icon(Icons.search_rounded, color: isDark ? Colors.white.withOpacity(0.8) : Colors.black.withOpacity(0.7)),
                             suffixIcon: Padding(
                               padding: EdgeInsets.only(right: 4.0),
                               child: IconButton(
                                 icon: Icon(
                                   Icons.tune_rounded,
-                                  color: _showFilters ? context.colors.primary : Colors.white.withOpacity(0.5),
+                                  color: _showFilters ? context.colors.primary : (isDark ? Colors.white.withOpacity(0.7) : Colors.black.withOpacity(0.7)),
                                   size: 22,
                                 ),
                                 onPressed: () {
@@ -195,7 +198,9 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                                     height: 52,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: isSelected ? Colors.transparent : context.glassmorphism.cardColor,
+                                      color: isSelected
+                                          ? Colors.transparent
+                                          : (isDark ? context.glassmorphism.cardColor : Colors.white),
                                       border: Border.all(
                                         color: isSelected ? context.colors.primary : context.glassmorphism.borderColor,
                                         width: isSelected ? 2.0 : 1.0,
@@ -213,7 +218,11 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                                     child: Center(
                                       child: Icon(
                                         cat.icon,
-                                        color: isSelected ? context.colors.primary : Colors.white.withOpacity(0.70),
+                                        color: isSelected
+                                            ? context.colors.primary
+                                            : (Theme.of(context).brightness == Brightness.dark
+                                                ? Colors.white.withOpacity(0.70)
+                                                : Colors.black.withOpacity(0.70)),
                                         size: 22,
                                       ),
                                     ),
@@ -222,7 +231,11 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                                   Text(
                                     cat.name,
                                     style: TextStyle(
-                                      color: isSelected ? context.colors.primary : Colors.white.withOpacity(0.54),
+                                      color: isSelected
+                                          ? context.colors.primary
+                                          : (Theme.of(context).brightness == Brightness.dark
+                                              ? Colors.white.withOpacity(0.54)
+                                              : Colors.black.withOpacity(0.70)),
                                       fontSize: 11,
                                       fontWeight: isSelected ? FontWeight.w900 : FontWeight.w500,
                                     ),
