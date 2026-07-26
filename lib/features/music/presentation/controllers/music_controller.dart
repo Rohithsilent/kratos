@@ -120,7 +120,16 @@ class MusicController extends Notifier<MusicPlaybackState> {
   }
 
   Future<void> toggleRepeat() async {
-    final newMode = state.repeat ? RepeatMode.off : RepeatMode.context;
-    await _spotifyService.setRepeatMode(newMode);
+    final newMode = state.repeat ? RepeatMode.off : RepeatMode.track;
+    try {
+      await _spotifyService.setRepeatMode(newMode);
+    } catch (e) {
+      // Fallback for non-premium users who get CANT_PLAY_ON_DEMAND
+      if (newMode == RepeatMode.track) {
+        try {
+          await _spotifyService.setRepeatMode(RepeatMode.context);
+        } catch (_) {}
+      }
+    }
   }
 }

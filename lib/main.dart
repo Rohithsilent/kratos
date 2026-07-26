@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -12,36 +13,41 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'core/notifications/notification_service.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: 'assets/.env');
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  await NotificationService.instance.initialize();
-  final sharedPreferences = await SharedPreferences.getInstance();
-  await GoogleSignIn.instance.initialize(
-    serverClientId: '382194592458-m3kc7gj121a5lkk9clohpob0hf5elvlr.apps.googleusercontent.com',
-  );
-  SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.light,
-      systemNavigationBarColor: Color(0xFF0A0A0A),
-      systemNavigationBarIconBrightness: Brightness.light,
-    ),
-  );
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
-  runApp(
-    ProviderScope(
-      overrides: [
-        sharedPreferencesProvider.overrideWithValue(sharedPreferences),
-      ],
-      child: KratosApp(),
-    ),
-  );
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    await dotenv.load(fileName: 'assets/.env');
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    await NotificationService.instance.initialize();
+    final sharedPreferences = await SharedPreferences.getInstance();
+    await GoogleSignIn.instance.initialize(
+      clientId: '382194592458-m3kc7gj121a5lkk9clohpob0hf5elvlr.apps.googleusercontent.com',
+      serverClientId: kIsWeb ? null : '382194592458-m3kc7gj121a5lkk9clohpob0hf5elvlr.apps.googleusercontent.com',
+    );
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        systemNavigationBarColor: Color(0xFF0A0A0A),
+        systemNavigationBarIconBrightness: Brightness.light,
+      ),
+    );
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    runApp(
+      ProviderScope(
+        overrides: [
+          sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+        ],
+        child: KratosApp(),
+      ),
+    );
+  } catch (e, stack) {
+    print('Initialization error: $e\n$stack');
+  }
 }
 
 class KratosApp extends ConsumerWidget {
