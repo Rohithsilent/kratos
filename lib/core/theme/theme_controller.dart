@@ -25,8 +25,11 @@ class ThemeController extends Notifier<AppThemeType> {
   }
 
   void toggleTheme() {
-    // For now, toggle between light and dark
-    setTheme(state == AppThemeType.dark ? AppThemeType.light : AppThemeType.dark);
+    // Cycle through all available theme types in order.
+    final values = AppThemeType.values;
+    final currentIndex = values.indexOf(state);
+    final nextIndex = (currentIndex + 1) % values.length;
+    setTheme(values[nextIndex]);
   }
 
   void setTheme(AppThemeType type) {
@@ -51,6 +54,12 @@ final themeDataProvider = Provider<ThemeData>((ref) {
     case AppThemeType.light:
       return AppThemeFactory.buildTheme(LightPalette(), Brightness.light);
     case AppThemeType.dark:
+      return AppThemeFactory.buildTheme(DarkPalette(), Brightness.dark);
+    case AppThemeType.superSaiyan:
+      // Super Saiyan uses a light-style background (orange/white) with blue accents.
+      return AppThemeFactory.buildTheme(SuperSaiyanPalette(), Brightness.light);
+    case AppThemeType.cyberpunk:
+      return AppThemeFactory.buildTheme(CyberpunkPalette(), Brightness.dark);
     default:
       return AppThemeFactory.buildTheme(DarkPalette(), Brightness.dark);
   }

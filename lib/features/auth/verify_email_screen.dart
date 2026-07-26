@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:kratos/core/theme/theme_ext.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -37,22 +40,37 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen>
   }
 
   Future<void> _openEmailApp() async {
-    final Uri emailLaunchUri = Uri(
-      scheme: 'mailto',
-    );
-    if (await canLaunchUrl(emailLaunchUri)) {
-      await launchUrl(emailLaunchUri);
-    } else {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Could not open email app automatically.'),
-            backgroundColor: context.colors.error,
-          ),
-        );
+  try {
+    if (Platform.isAndroid) {
+      // Direct OS-level intent targeting the installed Gmail App's Main Launcher Activity
+      final AndroidIntent intent = const AndroidIntent(
+        action: 'android.intent.action.MAIN',
+        category: 'android.intent.category.LAUNCHER',
+        package: 'com.google.android.gm',
+      );
+      await intent.launch();
+      return;
+    } else if (Platform.isIOS) {
+      final Uri iosGmailScheme = Uri.parse('googlegmail:///');
+      if (await canLaunchUrl(iosGmailScheme)) {
+        await launchUrl(iosGmailScheme, mode: LaunchMode.externalApplication);
+        return;
       }
     }
+  } catch (e) {
+    debugPrint('Native launch failed: $e');
   }
+
+  // Fallback snackbar if the launch fails
+  if (mounted) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Could not open the Gmail App.'),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ),
+    );
+  }
+}
 
   Future<void> _checkVerification() async {
     setState(() => _isChecking = true);

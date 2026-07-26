@@ -36,6 +36,9 @@ abstract class AppColorsPalette {
   Color get error;
   Color get info;
 
+  // Optional override for text color placed on top of `primary`.
+  Color get onPrimary;
+
   // ─── Gradients ───
   LinearGradient get primaryGradient;
   LinearGradient get darkOverlay;
