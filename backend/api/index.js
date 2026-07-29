@@ -1,7 +1,9 @@
 const express = require('express');
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
-const admin = require('firebase-admin');
+const { initializeApp, getApps, cert } = require('firebase-admin/app');
+const { getFirestore, FieldValue } = require('firebase-admin/firestore');
+const { getAuth } = require('firebase-admin/auth');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -10,12 +12,12 @@ app.use(cors());
 app.use(express.json());
 
 // Initialize Firebase Admin (Only initialize once)
-if (!admin.apps.length) {
+if (getApps().length === 0) {
   try {
     if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
       const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
-      admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount)
+      initializeApp({
+        credential: cert(serviceAccount)
       });
     } else {
       console.warn("FIREBASE_SERVICE_ACCOUNT_KEY is missing. Database operations will fail.");
@@ -25,7 +27,8 @@ if (!admin.apps.length) {
   }
 }
 
-const db = admin.apps.length ? admin.firestore() : null;
+const db = getApps().length > 0 ? getFirestore() : null;
+const auth = getApps().length > 0 ? getAuth() : null;
 
 // Initialize Razorpay
 const razorpay = new Razorpay({
@@ -44,7 +47,7 @@ const validateFirebaseIdToken = async (req, res, next) => {
   const idToken = req.headers.authorization.split('Bearer ')[1];
 
   try {
-    const decodedIdToken = await admin.auth().verifyIdToken(idToken);
+    const decodedIdToken = await auth.verifyIdToken(idToken);
     req.user = decodedIdToken;
     next();
   } catch (error) {
@@ -132,7 +135,7 @@ app.post('/api/webhook', async (req, res) => {
       eventId: eventId,
       event: event,
       payload: payload,
-      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      timestamp: FieldValue.serverTimestamp(),
       status: 'received'
     });
 
@@ -160,7 +163,7 @@ app.post('/api/webhook', async (req, res) => {
         userId: uid,
         planId: planId,
         provider: 'razorpay',
-        updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+        updatedAt: FieldValue.serverTimestamp(),
         status: subscriptionInfo.status
       };
 
@@ -198,7 +201,7 @@ app.post('/api/webhook', async (req, res) => {
 
     // Mark as processed
     await processedRef.set({
-      processedAt: admin.firestore.FieldValue.serverTimestamp(),
+      processedAt: FieldValue.serverTimestamp(),
       event: event
     });
 
