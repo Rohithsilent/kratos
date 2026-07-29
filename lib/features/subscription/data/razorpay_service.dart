@@ -42,13 +42,31 @@ class RazorpayService {
     required String email,
   }) async {
     try {
+      final user = _auth.currentUser;
+      if (user == null) {
+        if (onPaymentErrorCallback != null) {
+          onPaymentErrorCallback!('User not authenticated.');
+        }
+        return;
+      }
+      
+      final idToken = await user.getIdToken();
+      if (idToken == null) {
+         if (onPaymentErrorCallback != null) {
+          onPaymentErrorCallback!('Authentication error. Please sign in again.');
+        }
+        return;
+      }
+
       // 1. Call your backend to generate a Razorpay Subscription ID
       final response = await http.post(
         Uri.parse('$backendUrl/api/create-subscription'),
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $idToken',
+        },
         body: jsonEncode({
           'plan_id': planId,
-          'uid': uid,
         }),
       );
 

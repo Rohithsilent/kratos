@@ -5,6 +5,7 @@ import '../../../shared/widgets/animated_gradient_bg.dart';
 import '../../../shared/widgets/glass_card.dart';
 import '../../auth/data/auth_repository.dart';
 import '../data/razorpay_service.dart';
+import '../data/subscription_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class SubscriptionScreen extends ConsumerStatefulWidget {
@@ -92,71 +93,90 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
               ),
             ),
             SliverToBoxAdapter(
-              child: FutureBuilder(
-                future: ref.read(authRepositoryProvider).getUserData(
-                  ref.read(authRepositoryProvider).currentUser?.uid ?? ''
-                ),
-                builder: (context, snapshot) {
-                  final currentTier = snapshot.data?.subscriptionTier ?? 'base';
+              child: Consumer(
+                builder: (context, ref, child) {
+                  final subscriptionAsync = ref.watch(currentSubscriptionProvider);
+                  
+                  return subscriptionAsync.when(
+                    data: (subscription) {
+                      final service = ref.watch(subscriptionServiceProvider);
+                      String currentTier = 'base';
+                      if (subscription != null && subscription.isActive) {
+                        if (service.isPlanPro(subscription.planId)) {
+                           currentTier = 'pro';
+                        } else if (service.isPlanPremium(subscription.planId)) {
+                           currentTier = 'premium';
+                        }
+                      }
 
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        _buildTierCard(
-                          title: 'Base',
-                          price: '₹0',
-                          duration: 'Forever',
-                          features: [
-                            'Basic workout tracking',
-                            'Standard exercise library',
-                            'Limited history',
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            _buildTierCard(
+                              title: 'Base',
+                              price: '₹0',
+                              duration: 'Forever',
+                              features: [
+                                'Basic workout tracking',
+                                'Standard exercise library',
+                                'Limited history',
+                              ],
+                              isCurrentTier: currentTier == 'free' || currentTier == 'base',
+                              onTap: null,
+                            ),
+                            const SizedBox(height: 24),
+                            _buildTierCard(
+                              title: 'Pro',
+                              price: _isYearly ? '₹40' : '₹5',
+                              duration: _isYearly ? '/ year' : '/ month',
+                              originalPrice: _isYearly ? '₹60' : null,
+                              features: [
+                                'Unlimited history tracking',
+                                'Premium workout plans',
+                                'Advanced analytics',
+                                'Ad-free experience',
+                              ],
+                              isPopular: true,
+                              isCurrentTier: currentTier == 'pro',
+                              onTap: currentTier == 'premium' 
+                                ? null 
+                                : () => _upgradeTier(_isYearly ? dotenv.env['RAZORPAY_PLAN_PRO_YEARLY']! : dotenv.env['RAZORPAY_PLAN_PRO_MONTHLY']!),
+                            ),
+                            const SizedBox(height: 24),
+                            _buildTierCard(
+                              title: 'Premium',
+                              price: _isYearly ? '₹90' : '₹10',
+                              duration: _isYearly ? '/ year' : '/ month',
+                              originalPrice: _isYearly ? '₹120' : null,
+                              features: [
+                                'All Pro features',
+                                'Save big annually',
+                                'Early access to new features',
+                                'Priority support',
+                                'Personalized AI insights',
+                              ],
+                              gradient: const LinearGradient(
+                                colors: [Color(0xFFD4AF37), Color(0xFFFFDF73)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              isCurrentTier: currentTier == 'premium',
+                              onTap: () => _upgradeTier(_isYearly ? dotenv.env['RAZORPAY_PLAN_PREMIUM_YEARLY']! : dotenv.env['RAZORPAY_PLAN_PREMIUM_MONTHLY']!),
+                            ),
+                            const SizedBox(height: 40),
                           ],
-                          isCurrentTier: currentTier == 'free' || currentTier == 'base',
-                          onTap: null,
                         ),
-                        const SizedBox(height: 24),
-                        _buildTierCard(
-                          title: 'Pro',
-                          price: _isYearly ? '₹40' : '₹5',
-                          duration: _isYearly ? '/ year' : '/ month',
-                          originalPrice: _isYearly ? '₹60' : null,
-                          features: [
-                            'Unlimited history tracking',
-                            'Premium workout plans',
-                            'Advanced analytics',
-                            'Ad-free experience',
-                          ],
-                          isPopular: true,
-                          isCurrentTier: currentTier == 'pro',
-                          onTap: currentTier == 'premium' 
-                            ? null 
-                            : () => _upgradeTier(_isYearly ? dotenv.env['RAZORPAY_PLAN_PRO_YEARLY']! : dotenv.env['RAZORPAY_PLAN_PRO_MONTHLY']!),
-                        ),
-                        const SizedBox(height: 24),
-                        _buildTierCard(
-                          title: 'Premium',
-                          price: _isYearly ? '₹90' : '₹10',
-                          duration: _isYearly ? '/ year' : '/ month',
-                          originalPrice: _isYearly ? '₹120' : null,
-                          features: [
-                            'All Pro features',
-                            'Save big annually',
-                            'Early access to new features',
-                            'Priority support',
-                            'Personalized AI insights',
-                          ],
-                          gradient: const LinearGradient(
-                            colors: [Color(0xFFD4AF37), Color(0xFFFFDF73)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          isCurrentTier: currentTier == 'premium',
-                          onTap: () => _upgradeTier(_isYearly ? dotenv.env['RAZORPAY_PLAN_PREMIUM_YEARLY']! : dotenv.env['RAZORPAY_PLAN_PREMIUM_MONTHLY']!),
-                        ),
-                        const SizedBox(height: 40),
-                      ],
+                      );
+                    },
+                    loading: () => const Padding(
+                      padding: EdgeInsets.all(48.0),
+                      child: Center(child: CircularProgressIndicator(color: Colors.redAccent)),
+                    ),
+                    error: (error, stack) => Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Center(child: Text('Error loading subscription: $error', style: const TextStyle(color: Colors.white))),
                     ),
                   );
                 }
