@@ -286,6 +286,7 @@ class SpotifyService {
       await SpotifySdk.setRepeatMode(repeatMode: repeatMode);
     } catch (e) {
       _logger.e("Failed to set repeat: $e");
+      rethrow;
     }
   }
 }
