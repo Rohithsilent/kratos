@@ -1,9 +1,7 @@
 const express = require('express');
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
-const { initializeApp, getApps, cert } = require('firebase-admin/app');
-const { getFirestore, FieldValue } = require('firebase-admin/firestore');
-const { getAuth } = require('firebase-admin/auth');
+const admin = require('firebase-admin');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -17,12 +15,12 @@ app.get('/', (req, res) => {
 });
 
 // Initialize Firebase Admin (Only initialize once)
-if (getApps().length === 0) {
+if (!admin.apps.length) {
   try {
     if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
       const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
-      initializeApp({
-        credential: cert(serviceAccount)
+      admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount)
       });
     } else {
       console.warn("FIREBASE_SERVICE_ACCOUNT_KEY is missing. Database operations will fail.");
@@ -32,8 +30,7 @@ if (getApps().length === 0) {
   }
 }
 
-const db = getApps().length > 0 ? getFirestore() : null;
-const auth = getApps().length > 0 ? getAuth() : null;
+const db = admin.apps.length ? admin.firestore() : null;
 
 // Initialize Razorpay
 const razorpay = new Razorpay({
@@ -52,7 +49,7 @@ const validateFirebaseIdToken = async (req, res, next) => {
   const idToken = req.headers.authorization.split('Bearer ')[1];
 
   try {
-    const decodedIdToken = await auth.verifyIdToken(idToken);
+    const decodedIdToken = await admin.auth().verifyIdToken(idToken);
     req.user = decodedIdToken;
     next();
   } catch (error) {
@@ -75,108 +72,103 @@ app.post('/api/create-subscription', validateFirebaseIdToken, async (req, res) =
     const subscription = await razorpay.subscriptions.create({
       plan_id: plan_id,
       total_count: 1200, // A large number ensures it keeps renewing indefinitely
-      customer_notify: 1, // Let Razorpay handle email notifications
+      customer_notify: 1, // Razorpay handles email notifications
       notes: {
-        uid: uid // Attach user ID so we know who is paying inside the webhook
+        userId: uid, // VERY IMPORTANT: Pass the user ID so the webhook knows who paid!
       }
     });
 
-    res.json({
-      subscription_id: subscription.id
-    });
+    res.status(200).json(subscription);
   } catch (error) {
-    console.error('Error creating subscription:', error);
-    res.status(500).json({ error: 'Failed to create subscription', details: error.message });
+    console.error('Error creating Razorpay subscription:', error);
+    res.status(500).json({ error: 'Failed to create subscription', details: error });
   }
 });
 
-// Razorpay Webhook Endpoint
+// Webhook endpoint (Public, but secured via secret validation)
 app.post('/api/webhook', async (req, res) => {
+  // 1. Verify Webhook Signature
+  const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
+  const signature = req.headers['x-razorpay-signature'];
+  const eventId = req.headers['x-razorpay-event-id'];
+  const payload = req.body;
+
+  if (!webhookSecret) {
+    console.error('Missing RAZORPAY_WEBHOOK_SECRET in environment variables.');
+    return res.status(500).json({ error: 'Server configuration error' });
+  }
+
+  const generatedSignature = crypto
+    .createHmac('sha256', webhookSecret)
+    .update(JSON.stringify(payload))
+    .digest('hex');
+
+  if (generatedSignature !== signature) {
+    console.error('Invalid webhook signature!');
+    return res.status(400).json({ error: 'Invalid signature' });
+  }
+
+  // 2. Idempotency Check (Prevent processing the same event twice)
+  if (!db) {
+    return res.status(500).json({ error: 'Database not initialized' });
+  }
+
+  const processedRef = db.collection('processed_webhooks').doc(eventId);
+  const processedDoc = await processedRef.get();
+  
+  if (processedDoc.exists) {
+    console.log(`Webhook ${eventId} already processed. Skipping.`);
+    return res.status(200).json({ status: 'ok', message: 'Already processed' });
+  }
+
   try {
-    const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
-
-    if (!secret) {
-      console.error('Webhook secret not configured on server');
-      return res.status(500).json({ error: 'Webhook secret not configured on server' });
-    }
-
-    if (!db) {
-      console.error('Firestore is not initialized.');
-      return res.status(500).json({ error: 'Database error' });
-    }
-
-    // Verify signature
-    const signature = req.headers['x-razorpay-signature'];
-    const eventId = req.headers['x-razorpay-event-id'];
+    const event = payload.event;
     
-    if (!signature || !eventId) {
-        return res.status(400).json({ error: 'Missing headers' });
-    }
-
-    const expectedSignature = crypto
-      .createHmac('sha256', secret)
-      .update(JSON.stringify(req.body))
-      .digest('hex');
-
-    if (expectedSignature !== signature) {
-      console.error('Invalid webhook signature');
-      return res.status(400).json({ error: 'Invalid signature' });
-    }
-
-    // Idempotency Check
-    const processedRef = db.collection('processed_webhooks').doc(eventId);
-    const doc = await processedRef.get();
-    
-    if (doc.exists) {
-      console.log(`Webhook ${eventId} already processed. Skipping.`);
-      return res.status(200).json({ status: 'ok', message: 'Already processed' });
-    }
-
-    const event = req.body.event;
-    const payload = req.body.payload;
-
-    // Log the event to payment_logs
+    // 3. Log the webhook event for auditing
     await db.collection('payment_logs').add({
       eventId: eventId,
       event: event,
       payload: payload,
-      timestamp: FieldValue.serverTimestamp(),
+      timestamp: admin.firestore.FieldValue.serverTimestamp(),
       status: 'received'
     });
 
-    // Process specific events
-    let subscriptionInfo = null;
-    let paymentInfo = null;
-    
-    if (payload.subscription && payload.subscription.entity) {
-        subscriptionInfo = payload.subscription.entity;
-    }
-    
-    if (payload.payment && payload.payment.entity) {
-        paymentInfo = payload.payment.entity;
-    }
-
-    if (subscriptionInfo && subscriptionInfo.notes && subscriptionInfo.notes.uid) {
-      const uid = subscriptionInfo.notes.uid;
-      const planId = subscriptionInfo.plan_id;
+    // 4. Process Subscription Events
+    if (event.startsWith('subscription.')) {
+      const subscriptionInfo = payload.payload.subscription.entity;
       const subId = subscriptionInfo.id;
-      
+      const planId = subscriptionInfo.plan_id;
+      const uid = subscriptionInfo.notes?.userId;
+
+      if (!uid) {
+         console.error(`Received subscription event ${eventId} but no userId in notes!`);
+         return res.status(400).json({ error: 'Missing userId in notes' });
+      }
+
       const subRef = db.collection('subscriptions').doc(subId);
       
-      let updateData = {
-        subscriptionId: subId,
+      const updateData = {
         userId: uid,
         planId: planId,
         provider: 'razorpay',
-        updatedAt: FieldValue.serverTimestamp(),
+        updatedAt: admin.firestore.FieldValue.serverTimestamp(),
         status: subscriptionInfo.status
       };
 
-      if (event === 'subscription.activated') {
+      // Add start and end dates if available
+      if (subscriptionInfo.start_at) {
          updateData.startDate = new Date(subscriptionInfo.start_at * 1000);
-         updateData.renewalDate = new Date(subscriptionInfo.charge_at * 1000);
-      } else if (event === 'subscription.charged') {
-         updateData.renewalDate = new Date(subscriptionInfo.charge_at * 1000);
+      }
+      if (subscriptionInfo.current_end) {
+         updateData.renewalDate = new Date(subscriptionInfo.current_end * 1000);
+      }
+      if (subscriptionInfo.charge_at) {
+         updateData.nextChargeDate = new Date(subscriptionInfo.charge_at * 1000);
+      }
+
+      // If it's a successful charge, record the payment ID
+      if (event === 'subscription.charged') {
+         const paymentInfo = payload.payload.payment?.entity;
          if (paymentInfo) {
              updateData.lastPaymentId = paymentInfo.id;
          }
@@ -184,29 +176,16 @@ app.post('/api/webhook', async (req, res) => {
 
       // Write to subscriptions collection
       await subRef.set(updateData, { merge: true });
-      
-      // Update the user's tier for convenience if needed, though single source of truth is subscriptions collection.
-      // We'll update a 'hasActiveSubscription' flag on the user.
-      if (['active', 'authenticated'].includes(subscriptionInfo.status)) {
-         await db.collection('users').doc(uid).update({
-             hasActiveSubscription: true,
-             currentSubscriptionId: subId
-         }).catch(err => console.warn('Failed to update user doc:', err));
-      } else if (['halted', 'cancelled', 'completed'].includes(subscriptionInfo.status)) {
-         await db.collection('users').doc(uid).update({
-             hasActiveSubscription: false
-         }).catch(err => console.warn('Failed to update user doc:', err));
-      }
     }
 
     if (event === 'payment.failed') {
         console.warn(`Payment failed for event ${eventId}`);
-        // Additional handling for failed payments could go here (e.g., email notification)
+        // Additional handling for failed payments could go here
     }
 
     // Mark as processed
     await processedRef.set({
-      processedAt: FieldValue.serverTimestamp(),
+      processedAt: admin.firestore.FieldValue.serverTimestamp(),
       event: event
     });
 
