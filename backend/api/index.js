@@ -11,6 +11,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Simple health check for the Vercel preview window
+app.get('/', (req, res) => {
+  res.status(200).send('Kratos Backend is running perfectly! 🚀');
+});
+
 // Initialize Firebase Admin (Only initialize once)
 if (getApps().length === 0) {
   try {
