@@ -33,5 +33,12 @@ service cloud.firestore {
       // Any authenticated user can read or write playlists
       allow read, write: if request.auth != null;
     }
+    
+    // Subscriptions (Root collection)
+    match /subscriptions/{subscriptionId} {
+      // Users can only read their own subscriptions
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      // Writing is handled securely via the backend (Admin SDK)
+    }
   }
 }

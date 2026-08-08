@@ -72,7 +72,7 @@ class RazorpayService {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        final subscriptionId = data['subscription_id'];
+        final subscriptionId = data['id']; // Razorpay returns 'id', not 'subscription_id'
 
         // 2. Open Razorpay Checkout using the subscription_id
         var options = {
@@ -88,13 +88,15 @@ class RazorpayService {
 
         _razorpay.open(options);
       } else {
+        print('Backend Error: ${response.statusCode} - ${response.body}');
         if (onPaymentErrorCallback != null) {
-          onPaymentErrorCallback!('Failed to start subscription. Please try again.');
+          onPaymentErrorCallback!('Failed to start subscription. Please try again. (${response.statusCode})');
         }
       }
     } catch (e) {
+      print('Razorpay Subscription Error: $e');
       if (onPaymentErrorCallback != null) {
-        onPaymentErrorCallback!('Network error: Unable to connect to payment server.');
+        onPaymentErrorCallback!('Network error: Unable to connect to payment server. Details: $e');
       }
     }
   }
