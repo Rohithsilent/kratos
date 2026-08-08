@@ -52,7 +52,3 @@ app.*.map.json
 *.pem
 *service*account*.json
 *api*key*.json
-
-# Node/Backend
-node_modules/
-backend/node_modules/
