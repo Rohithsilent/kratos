@@ -18,6 +18,8 @@ class SubscriptionScreen extends ConsumerStatefulWidget {
 class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
   bool _isYearly = false;
 
+  bool _isProcessing = false;
+
   @override
   void initState() {
     super.initState();
@@ -25,6 +27,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
       final razorpayService = ref.read(razorpayServiceProvider);
       razorpayService.onPaymentSuccessCallback = (message) {
         if (!mounted) return;
+        setState(() => _isProcessing = false);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(message),
           backgroundColor: Colors.green,
@@ -32,6 +35,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
       };
       razorpayService.onPaymentErrorCallback = (error) {
         if (!mounted) return;
+        setState(() => _isProcessing = false);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(error),
           backgroundColor: Colors.redAccent,
@@ -41,8 +45,12 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
   }
 
   void _upgradeTier(String planId) async {
+    if (_isProcessing) return;
+    setState(() => _isProcessing = true);
+
     final user = ref.read(authRepositoryProvider).currentUser;
     if (user == null) {
+      setState(() => _isProcessing = false);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please sign in to upgrade.'), backgroundColor: Colors.redAccent),
       );
@@ -51,12 +59,15 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
 
     final userData = await ref.read(authRepositoryProvider).getUserData(user.uid);
 
-    ref.read(razorpayServiceProvider).createSubscription(
+    await ref.read(razorpayServiceProvider).createSubscription(
       planId: planId,
       uid: user.uid,
       contact: userData?.phone ?? '',
       email: userData?.email ?? user.email ?? '',
     );
+    
+    // Note: We don't set _isProcessing = false here because the Razorpay popup is now open.
+    // It will be reset in the success/error callbacks above.
   }
 
   @override
