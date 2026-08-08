@@ -191,6 +191,23 @@ app.post('/api/webhook', async (req, res) => {
 
       // Write to subscriptions collection
       await subRef.set(updateData, { merge: true });
+
+      // Synchronize the tier with the user's profile document so the UI updates globally
+      if (subscriptionInfo.status === 'active' || subscriptionInfo.status === 'authenticated') {
+        let newTier = 'base';
+        if (planId === process.env.PLAN_PRO_MONTHLY || planId === process.env.PLAN_PRO_YEARLY) {
+            newTier = 'pro';
+        } else if (planId === process.env.PLAN_PREMIUM_MONTHLY || planId === process.env.PLAN_PREMIUM_YEARLY) {
+            newTier = 'premium';
+        }
+        
+        await db.collection('users').doc(uid).set({
+          subscriptionTier: newTier,
+          updatedAt: admin.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+        
+        console.log(`Successfully upgraded user ${uid} to ${newTier} tier`);
+      }
     }
 
     if (event === 'payment.failed') {
