@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 });
 
 // Initialize Firebase Admin (Only initialize once)
-if (!admin.apps.length) {
+if (!admin.apps?.length) {
   try {
     if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
       const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
@@ -36,7 +36,7 @@ if (!admin.apps.length) {
   }
 }
 
-const db = admin.apps.length ? admin.firestore() : null;
+const db = admin.apps?.length ? admin.firestore() : null;
 
 // Initialize Razorpay
 const razorpay = new Razorpay({
