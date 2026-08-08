@@ -77,11 +77,11 @@ app.post('/api/create-subscription', validateFirebaseIdToken, async (req, res) =
     // Determine if the plan is yearly to safely calculate the maximum allowed billing cycles
     const isYearly = (plan_id === process.env.PLAN_PRO_YEARLY) || (plan_id === process.env.PLAN_PREMIUM_YEARLY);
     
-    // Production Solution: Razorpay & UPI have a strict max expiry year of 2120.
-    // 50 cycles for a Yearly plan = 50 years.
-    // 600 cycles for a Monthly plan = 50 years. 
-    // This gives the absolute maximum uninterrupted subscription life without crashing the bank APIs.
-    const safeTotalCount = isYearly ? 50 : 600;
+    // Production Solution: UPI has a strict maximum expiration of exactly 30 years.
+    // 25 cycles for a Yearly plan = 25 years.
+    // 300 cycles for a Monthly plan = 25 years.
+    // This gives the absolute maximum uninterrupted subscription life safely under the 30-year limit.
+    const safeTotalCount = isYearly ? 25 : 300;
 
     // Create a subscription in Razorpay
     const subscription = await razorpay.subscriptions.create({
