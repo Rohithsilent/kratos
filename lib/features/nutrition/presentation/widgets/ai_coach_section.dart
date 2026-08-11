@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../../core/theme/app_typography.dart';
-import '../controllers/ai_coach_controller.dart';
+import '../controllers/nutrition_workflow_controller.dart';
 
 class AiCoachSection extends ConsumerWidget {
   const AiCoachSection({super.key});

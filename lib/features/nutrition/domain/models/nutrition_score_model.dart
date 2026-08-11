@@ -6,12 +6,16 @@ class NutritionScore {
   final double proteinAdherence;
   final double hydrationAdherence;
   final int score; // 0 – 100
+  final String? customGrade;
+  final String? customMessage;
 
   NutritionScore({
     required this.calorieAdherence,
     required this.proteinAdherence,
     required this.hydrationAdherence,
     required this.score,
+    this.customGrade,
+    this.customMessage,
   });
 
   /// Compute score from current intake vs targets.
@@ -50,6 +54,7 @@ class NutritionScore {
   }
 
   String get grade {
+    if (customGrade != null) return customGrade!;
     if (score >= 90) return 'A+';
     if (score >= 80) return 'A';
     if (score >= 70) return 'B';
@@ -59,6 +64,7 @@ class NutritionScore {
   }
 
   String get message {
+    if (customMessage != null) return customMessage!;
     if (score >= 90) return 'Outstanding nutrition today.';
     if (score >= 80) return 'Solid day. Keep pushing.';
     if (score >= 70) return 'Good progress. Room to improve.';

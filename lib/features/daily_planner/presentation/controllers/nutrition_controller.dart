@@ -106,7 +106,11 @@ class NutritionLogNotifier extends Notifier<void> {
       fatsConsumed: todayItem.fatsConsumed + fats,
     );
 
-    await repository.savePlannerItem(updated);
+    try {
+      await repository.savePlannerItem(updated);
+    } catch (e) {
+      print('Failed to sync planner item to remote: $e');
+    }
     ref.invalidate(plannerListProvider);
   }
 }

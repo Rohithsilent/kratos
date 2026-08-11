@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -192,8 +193,16 @@ class NotificationService {
     required String workoutName,
   }) async {
     await _ensureInitialized();
+    final prefs = await SharedPreferences.getInstance();
+    final enabled = prefs.getBool('notif_workout_reminders') ?? true;
+
     final day = DateTime.tryParse(date);
     if (day == null) return;
+
+    if (!enabled) {
+      await cancelWorkoutReminder(date);
+      return;
+    }
 
     final now = tz.TZDateTime.now(tz.local);
     var delivery = tz.TZDateTime(tz.local, day.year, day.month, day.day, 8);
@@ -261,71 +270,59 @@ class NotificationService {
     }
   }
 
-  /// Schedules the warning on the evening when skipping the day would break
-  /// the current streak. A completed workout moves the warning to tomorrow.
+  /// Schedules a daily reminder on the evening if the user hasn't worked out today.
   Future<void> syncStreakWarning(List<WorkoutSession> sessions) async {
     await _ensureInitialized();
-    if (sessions.isEmpty) {
+    final prefs = await SharedPreferences.getInstance();
+    final enabled = prefs.getBool('notif_streak_alerts') ?? true;
+    
+    if (!enabled) {
       await _cancelStreakWarning();
       return;
     }
-
-    final workoutDays = sessions
-        .map((s) => DateTime(
-              s.completedAt.year,
-              s.completedAt.month,
-              s.completedAt.day,
-            ))
-        .toSet()
-        .toList()
-      ..sort((a, b) => b.compareTo(a));
 
     final today = DateTime.now();
     final todayDate = DateTime(today.year, today.month, today.day);
-    final yesterday = todayDate.subtract(const Duration(days: 1));
-    final latest = workoutDays.first;
 
-    if (latest != todayDate && latest != yesterday) {
+    bool workedOutToday = false;
+    for (final s in sessions) {
+      final sDate = DateTime(s.completedAt.year, s.completedAt.month, s.completedAt.day);
+      if (sDate == todayDate) {
+        workedOutToday = true;
+        break;
+      }
+    }
+
+    if (workedOutToday) {
       await _cancelStreakWarning();
       return;
     }
 
-    var streak = 1;
-    var cursor = latest;
-    for (final day in workoutDays.skip(1)) {
-      final expected = cursor.subtract(const Duration(days: 1));
-      if (day != expected) break;
-      streak++;
-      cursor = day;
-    }
-
-    final warningDay =
-        latest == todayDate ? todayDate.add(const Duration(days: 1)) : todayDate;
     final now = tz.TZDateTime.now(tz.local);
     var delivery = tz.TZDateTime(
       tz.local,
-      warningDay.year,
-      warningDay.month,
-      warningDay.day,
+      todayDate.year,
+      todayDate.month,
+      todayDate.day,
       20,
     );
     if (!delivery.isAfter(now)) {
-      delivery = now.add(const Duration(seconds: 5));
+      delivery = delivery.add(const Duration(days: 1));
     }
 
     try {
       await _plugin.cancel(id: streakNotificationId);
       await _plugin.zonedSchedule(
         id: streakNotificationId,
-        title: 'Your $streak-day streak needs you ⚔️',
-        body: 'The day is almost over. One workout keeps the chain alive.',
+        title: 'Time to move! ⚡',
+        body: 'You haven\'t worked out today. There is still time to crush it.',
         scheduledDate: delivery,
         notificationDetails: const NotificationDetails(
           android: AndroidNotificationDetails(
             _streakChannelId,
-            'Streak guard',
+            'Daily Reminders',
             channelDescription:
-                'A final reminder before an active workout streak expires',
+                'A daily reminder if you haven\'t worked out yet',
             importance: Importance.high,
             priority: Priority.high,
             visibility: NotificationVisibility.public,
@@ -336,7 +333,7 @@ class NotificationService {
             presentList: true,
             presentSound: true,
             interruptionLevel: InterruptionLevel.timeSensitive,
-            threadIdentifier: 'kratos_streak_guard',
+            threadIdentifier: 'kratos_daily_reminder',
           ),
         ),
         androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,

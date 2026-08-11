@@ -1,7 +1,10 @@
 """Nutrition API — REST endpoints for macro calculation and meal planning."""
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, UploadFile, File
 from pydantic import BaseModel, Field
 from loguru import logger
+
+from app.ai.gateway.gemini_gateway import gemini
+from app.agents.nutrition_agent import NutritionAgent
 
 router = APIRouter(prefix="/nutrition", tags=["Nutrition"])
 
@@ -20,7 +23,7 @@ class MacroTargetsResponse(BaseModel):
     protein_g: int
     carbs_g: int
     fat_g: int
-    water_ml: int
+    water_ml: int = 3000  # Default
 
 
 class MealPlanRequest(BaseModel):
@@ -29,18 +32,69 @@ class MealPlanRequest(BaseModel):
     meals_per_day: int = Field(default=3, ge=2, le=6)
 
 
+class NutritionScoreRequest(BaseModel):
+    intake: dict
+    targets: dict
+
+
+class NutritionCoachRequest(BaseModel):
+    intake: dict
+    targets: dict
+
+
 @router.post("/macros", response_model=MacroTargetsResponse)
 async def calculate_macros(user_id: str, body: NutritionProfileRequest):
     """Calculate personalised daily macro targets via NutritionAgent."""
     logger.info("POST /nutrition/macros | user={} goal={}", user_id, body.goal)
-    raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail="Phase 2 — NutritionAgent pending")
+    agent = NutritionAgent(llm=gemini)
+    targets = await agent.calculate_macros(user_id=user_id, profile=body.model_dump())
+    targets["water_ml"] = 3000
+    return targets
 
 
 @router.post("/meal-plan")
 async def generate_meal_plan(user_id: str, body: MealPlanRequest):
     """Generate a structured daily meal plan from macro targets."""
     logger.info("POST /nutrition/meal-plan | user={}", user_id)
-    raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail="Phase 2 — NutritionAgent pending")
+    raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail="Phase 3 — Generate meal plan pending")
+
+
+@router.post("/analyze-image")
+async def analyze_food_image(file: UploadFile = File(...)):
+    """Analyze an uploaded food image using Vision AI."""
+    logger.info("POST /nutrition/analyze-image | filename={}", file.filename)
+    if not file.content_type.startswith("image/"):
+        raise HTTPException(status_code=400, detail="File must be an image")
+    
+    image_bytes = await file.read()
+    agent = NutritionAgent(llm=gemini)
+    
+    try:
+        result = await agent.analyze_food_image(image_bytes=image_bytes, mime_type=file.content_type)
+        return result
+    except Exception as e:
+        logger.error(f"Image analysis failed: {e}")
+        raise HTTPException(status_code=500, detail="Failed to analyze image")
+
+
+@router.post("/score")
+async def calculate_nutrition_score(body: NutritionScoreRequest):
+    """Calculate deterministic nutrition score based on adherence."""
+    logger.info("POST /nutrition/score")
+    agent = NutritionAgent(llm=gemini)
+    return agent.calculate_nutrition_score(intake=body.intake, targets=body.targets)
+
+
+@router.post("/coach")
+async def generate_coach_insight(body: NutritionCoachRequest):
+    """Generate conversational AI coach insight based on today's intake."""
+    logger.info("POST /nutrition/coach")
+    agent = NutritionAgent(llm=gemini)
+    try:
+        return await agent.generate_coach_insight(intake=body.intake, targets=body.targets)
+    except Exception as e:
+        logger.error(f"Coach insight generation failed: {e}")
+        raise HTTPException(status_code=500, detail="Failed to generate coach insight")
 
 
 @router.get("/log/{user_id}")

@@ -4,14 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kratos/core/theme/theme_ext.dart';
 import '../widgets/nutrition_score_section.dart';
-import '../widgets/macro_dashboard_section.dart';
 import '../widgets/hydration_intelligence_section.dart';
-import '../widgets/protein_analysis_section.dart';
 import '../widgets/ai_coach_section.dart';
 import '../widgets/meal_history_section.dart';
-import '../widgets/macro_pie_chart.dart';
-import '../widgets/weekly_calories_chart.dart';
-import '../widgets/ai_meal_suggestions_section.dart';
+
 import '../widgets/food_scanner_sheet.dart';
 
 class NutritionIntelligenceScreen extends ConsumerWidget {
@@ -193,23 +189,9 @@ class NutritionIntelligenceScreen extends ConsumerWidget {
 
                 const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
-                // ──── Section 2: Daily Macro Dashboard ────
-                const SliverToBoxAdapter(
-                  child: MacroDashboardSection(),
-                ),
-
-                const SliverToBoxAdapter(child: SizedBox(height: 24)),
-
-                // ──── Section 3: Hydration Intelligence ────
+                // ──── Section 2: Hydration Intelligence ────
                 const SliverToBoxAdapter(
                   child: HydrationIntelligenceSection(),
-                ),
-
-                const SliverToBoxAdapter(child: SizedBox(height: 24)),
-
-                // ──── Section 4: Protein Analysis ────
-                const SliverToBoxAdapter(
-                  child: ProteinAnalysisSection(),
                 ),
 
                 const SliverToBoxAdapter(child: SizedBox(height: 24)),
@@ -226,26 +208,7 @@ class NutritionIntelligenceScreen extends ConsumerWidget {
                   child: MealHistorySection(),
                 ),
 
-                const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
-                // ──── Section 7: Macro Pie Chart ────
-                const SliverToBoxAdapter(
-                  child: MacroPieChart(),
-                ),
-
-                const SliverToBoxAdapter(child: SizedBox(height: 24)),
-
-                // ──── Section 8: Weekly Calories Chart ────
-                const SliverToBoxAdapter(
-                  child: WeeklyCaloriesChart(),
-                ),
-
-                const SliverToBoxAdapter(child: SizedBox(height: 24)),
-
-                // ──── Section 9: AI Meal Suggestions ────
-                const SliverToBoxAdapter(
-                  child: AiMealSuggestionsSection(),
-                ),
 
                 // Bottom safe space
                 const SliverToBoxAdapter(child: SizedBox(height: 40)),

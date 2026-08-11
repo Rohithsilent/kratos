@@ -15,18 +15,12 @@ from loguru import logger
 class RouteTarget(str, Enum):
     FLASH = "flash"
     PRO = "pro"
-    RECOVERY_AGENT = "recovery_agent"
-    PLANNER_AGENT = "planner_agent"
     NUTRITION_AGENT = "nutrition_agent"
-    PROGRESSION_AGENT = "progression_agent"
 
 
 # Keywords that signal a specialist agent is needed
 _ROUTING_MAP: dict[RouteTarget, list[str]] = {
-    RouteTarget.RECOVERY_AGENT: ["recovery", "sore", "rest", "fatigue", "sleep", "hrv", "deload"],
-    RouteTarget.PLANNER_AGENT: ["plan", "program", "schedule", "week", "split", "periodis"],
     RouteTarget.NUTRITION_AGENT: ["macro", "calorie", "diet", "meal", "protein", "eat", "nutrition"],
-    RouteTarget.PROGRESSION_AGENT: ["plateau", "progress", "overload", "strength", "1rm", "pr"],
 }
 
 # Prompts that need deep reasoning → Pro model

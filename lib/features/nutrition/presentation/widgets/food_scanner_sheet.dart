@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../../core/theme/app_typography.dart';
-import '../controllers/meal_log_controller.dart';
+import '../controllers/nutrition_workflow_controller.dart';
 
 class FoodScannerSheet extends ConsumerStatefulWidget {
   const FoodScannerSheet({super.key});
@@ -27,6 +27,15 @@ class FoodScannerSheet extends ConsumerStatefulWidget {
 class _FoodScannerSheetState extends ConsumerState<FoodScannerSheet> {
   Uint8List? _imageBytes;
   final ImagePicker _picker = ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+    // Ensure the scanner state is reset when the sheet is opened
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(mealScanProvider.notifier).reset();
+    });
+  }
 
   Future<void> _pickImage(ImageSource source) async {
     final file = await _picker.pickImage(source: source, maxWidth: 1024, imageQuality: 85);
@@ -158,7 +167,10 @@ class _FoodScannerSheetState extends ConsumerState<FoodScannerSheet> {
                 Expanded(
                   flex: 2,
                   child: GestureDetector(
-                    onTap: () { ref.read(mealScanProvider.notifier).confirmAndLog(); Navigator.pop(context); },
+                    onTap: () async { 
+                      await ref.read(mealScanProvider.notifier).confirmAndLog(); 
+                      if (context.mounted) Navigator.pop(context); 
+                    },
                     child: Container(
                       height: 48,
                       decoration: BoxDecoration(gradient: context.customColors.primaryGradient, borderRadius: BorderRadius.circular(14)),

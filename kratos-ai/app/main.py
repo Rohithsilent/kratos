@@ -13,8 +13,6 @@ from app.core.logging import setup_logging
 
 # Routers
 from app.api.chat import router as chat_router
-from app.api.recovery import router as recovery_router
-from app.api.planner import router as planner_router
 from app.api.nutrition import router as nutrition_router
 
 # WebSocket handler
@@ -39,8 +37,11 @@ async def lifespan(app: FastAPI):
     logger.info("🚀 {} v{} starting …", settings.APP_NAME, settings.APP_VERSION)
 
     # Startup
-    await get_redis()
-    logger.info("✅ Redis ready")
+    try:
+        await get_redis()
+        logger.info("✅ Redis ready")
+    except Exception as exc:
+        logger.warning("⚠️  Redis init skipped (not configured?): {}", exc)
 
     # DB init — verify connectivity (tables managed by Alembic)
     try:
@@ -53,8 +54,14 @@ async def lifespan(app: FastAPI):
     yield
 
     # Shutdown
-    await close_redis()
-    await close_db()
+    try:
+        await close_redis()
+    except Exception:
+        pass
+    try:
+        await close_db()
+    except Exception:
+        pass
     logger.info("🛑 KRATOS AI shut down cleanly")
 
 
@@ -84,8 +91,6 @@ def create_application() -> FastAPI:
     # ── REST routers ─────────────────────────────────────────────────────────
     PREFIX = settings.API_V1_PREFIX
     app.include_router(chat_router, prefix=PREFIX)
-    app.include_router(recovery_router, prefix=PREFIX)
-    app.include_router(planner_router, prefix=PREFIX)
     app.include_router(nutrition_router, prefix=PREFIX)
 
     # ── WebSocket ─────────────────────────────────────────────────────────────

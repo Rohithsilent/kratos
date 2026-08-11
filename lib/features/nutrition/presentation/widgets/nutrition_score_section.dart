@@ -5,16 +5,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../../core/theme/app_typography.dart';
-import '../controllers/nutrition_intelligence_controller.dart';
+import '../controllers/nutrition_workflow_controller.dart';
 
 class NutritionScoreSection extends ConsumerWidget {
   const NutritionScoreSection({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final score = ref.watch(nutritionScoreProvider);
+    final scoreAsync = ref.watch(nutritionScoreProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
+    return scoreAsync.when(
+      data: (score) => _buildScoreCard(context, score, isDark),
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, stack) => Center(child: Text('Error loading score')),
+    );
+  }
+
+  Widget _buildScoreCard(BuildContext context, var score, bool isDark) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(24),

@@ -12,51 +12,6 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 
-# ── Recovery ──────────────────────────────────────────────────────────────────
-
-class RecoveryOutput(BaseModel):
-    recovery_score: int = Field(..., ge=0, le=100, description="Overall recovery score")
-    status: Literal["optimal", "good", "caution", "rest"] = Field(...)
-    recommendation: str = Field(..., description="Primary action recommendation")
-    training_adjustment: str = Field(..., description="How today's training should change")
-    soreness_areas: list[str] = Field(default_factory=list)
-    sleep_quality: Literal["poor", "fair", "good", "excellent"] = Field(...)
-    tips: list[str] = Field(default_factory=list, max_length=3)
-
-
-# ── Workout Plan ──────────────────────────────────────────────────────────────
-
-class ExerciseSet(BaseModel):
-    reps: int
-    weight_kg: float | None = None
-    rest_seconds: int = 60
-
-
-class Exercise(BaseModel):
-    name: str
-    muscle_group: str
-    sets: list[ExerciseSet]
-    notes: str = ""
-
-
-class WorkoutSession(BaseModel):
-    day: str                        # "Monday", "Wednesday", etc.
-    name: str                       # "Push A", "Leg Day", etc.
-    duration_minutes: int
-    intensity: Literal["light", "moderate", "hard", "max"]
-    exercises: list[Exercise]
-
-
-class WorkoutPlanOutput(BaseModel):
-    plan_name: str
-    goal: str
-    weeks: int
-    sessions_per_week: int
-    sessions: list[WorkoutSession]
-    periodisation_notes: str
-    deload_week: int | None = None
-
-
 # ── Nutrition ─────────────────────────────────────────────────────────────────
 
 class MacroOutput(BaseModel):
@@ -86,24 +41,19 @@ class MealPlanOutput(BaseModel):
     supplements: list[str] = Field(default_factory=list)
 
 
-# ── Progression ───────────────────────────────────────────────────────────────
-
-class ExerciseProgressionOutput(BaseModel):
-    exercise: str
-    trend: Literal["progressing", "plateau", "regressing", "insufficient_data"]
-    weeks_at_plateau: int = 0
-    recommended_weight_kg: float
-    recommended_reps: int
-    strategy: Literal["increase_weight", "increase_reps", "deload", "technique_focus", "maintain"]
-    explanation: str
+class FoodAnalysisOutput(BaseModel):
+    food_name: str = Field(..., description="Name of the food identified")
+    calories: int = Field(..., description="Estimated calories")
+    protein_g: int = Field(..., description="Estimated protein in grams")
+    carbs_g: int = Field(..., description="Estimated carbs in grams")
+    fats_g: int = Field(..., description="Estimated fats in grams")
+    confidence: float = Field(..., ge=0.0, le=1.0, description="Confidence in analysis (0-1)")
 
 
-class ProgressionReportOutput(BaseModel):
-    overall_trend: Literal["improving", "plateau", "declining"]
-    exercises: list[ExerciseProgressionOutput]
-    weekly_volume_change_pct: float
-    plateau_detected: bool
-    next_session_focus: str
+class NutritionCoachOutput(BaseModel):
+    insight: str = Field(..., description="A short, conversational coaching insight based on today's intake.")
+    actionable_advice: str = Field(..., description="What the user should do next (e.g., eat more protein).")
+
 
 
 # ── Assistant Chat ────────────────────────────────────────────────────────────

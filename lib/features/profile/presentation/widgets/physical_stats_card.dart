@@ -12,6 +12,8 @@ class PhysicalStatsCard extends StatelessWidget {
   final ValueChanged<String> onHeightChanged;
   final ValueChanged<String> onWeightChanged;
   final ValueChanged<String> onSexChanged;
+  final VoidCallback? onHeightTap;
+  final VoidCallback? onWeightTap;
 
   const PhysicalStatsCard({
     super.key,
@@ -21,6 +23,8 @@ class PhysicalStatsCard extends StatelessWidget {
     required this.onHeightChanged,
     required this.onWeightChanged,
     required this.onSexChanged,
+    this.onHeightTap,
+    this.onWeightTap,
   });
 
   @override
@@ -41,7 +45,8 @@ class PhysicalStatsCard extends StatelessWidget {
             icon: Icons.straighten_rounded,
             color: const Color(0xFF22D3EE), // cyan
             isDark: isDark,
-            onTap: () => _showHeightEditor(context),
+            onEditTap: () => _showHeightEditor(context),
+            onValueTap: onHeightTap,
           ),
           _buildDivider(isDark),
           _buildStatColumn(
@@ -52,7 +57,8 @@ class PhysicalStatsCard extends StatelessWidget {
             icon: Icons.fitness_center_rounded,
             color: const Color(0xFFFBBF24), // amber
             isDark: isDark,
-            onTap: () => _showWeightEditor(context),
+            onEditTap: () => _showWeightEditor(context),
+            onValueTap: onWeightTap,
           ),
           _buildDivider(isDark),
           _buildStatColumn(
@@ -63,7 +69,7 @@ class PhysicalStatsCard extends StatelessWidget {
             icon: _sexIcon(sex),
             color: const Color(0xFFA78BFA), // violet
             isDark: isDark,
-            onTap: () => _showSexPicker(context),
+            onEditTap: () => _showSexPicker(context),
           ),
         ],
       ),
@@ -78,11 +84,12 @@ class PhysicalStatsCard extends StatelessWidget {
     required IconData icon,
     required Color color,
     required bool isDark,
-    required VoidCallback onTap,
+    required VoidCallback onEditTap,
+    VoidCallback? onValueTap,
   }) {
     return Expanded(
       child: GestureDetector(
-        onTap: onTap,
+        onTap: onValueTap ?? onEditTap,
         behavior: HitTestBehavior.opaque,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -135,33 +142,36 @@ class PhysicalStatsCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             // Edit indicator
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-              decoration: BoxDecoration(
-                color: isDark
-                    ? Colors.white.withOpacity(0.04)
-                    : Colors.black.withOpacity(0.03),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.edit_rounded,
-                    size: 10,
-                    color: isDark ? context.customColors.grey500 : context.customColors.grey400,
-                  ),
-                  const SizedBox(width: 3),
-                  Text(
-                    'EDIT',
-                    style: TextStyle(
-                      fontSize: 8,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 0.8,
+            GestureDetector(
+              onTap: onEditTap,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: isDark
+                      ? Colors.white.withOpacity(0.04)
+                      : Colors.black.withOpacity(0.03),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.edit_rounded,
+                      size: 10,
                       color: isDark ? context.customColors.grey500 : context.customColors.grey400,
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 3),
+                    Text(
+                      'EDIT',
+                      style: TextStyle(
+                        fontSize: 8,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.8,
+                        color: isDark ? context.customColors.grey500 : context.customColors.grey400,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

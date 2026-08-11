@@ -6,7 +6,7 @@ import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../domain/enums/meal_type.dart';
 import '../../domain/models/meal_entry_model.dart';
-import '../controllers/meal_log_controller.dart';
+import '../controllers/nutrition_workflow_controller.dart';
 
 class MealHistorySection extends ConsumerWidget {
   const MealHistorySection({super.key});
