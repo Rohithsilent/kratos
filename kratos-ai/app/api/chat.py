@@ -40,7 +40,15 @@ async def send_message(body: ChatRequest):
 
 
 @router.get("/history/{user_id}")
-async def get_chat_history(user_id: str, limit: int = 20):
+async def get_chat_history_api(user_id: str, limit: int = 20):
     """Retrieve recent chat history for a user."""
+    from app.cache.redis_client import get_chat_history
     logger.info("GET /chat/history | user={} limit={}", user_id, limit)
-    raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail="Phase 2 — DB layer pending")
+    
+    try:
+        history = await get_chat_history(user_id)
+        # Limit to the requested number of messages, mostly recent
+        return history[-limit:] if history else []
+    except Exception as e:
+        logger.error(f"Failed to fetch chat history: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch chat history")

@@ -94,6 +94,23 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 ),
               ),
             ),
+            
+            // Floating AI Chat Button (only visible on Home tab)
+            if (_currentTabIndex == 0)
+              Positioned(
+                right: 20,
+                bottom: 80 + MediaQuery.of(context).padding.bottom,
+                child: FloatingActionButton.extended(
+                  onPressed: () => context.push('/chat'),
+                  backgroundColor: context.colors.primary,
+                  elevation: 8,
+                  icon: const Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 20),
+                  label: Text(
+                    'Kratos AI',
+                    style: AppTypography.labelBold.copyWith(color: Colors.white),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

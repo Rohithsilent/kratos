@@ -18,6 +18,7 @@ import '../../features/workout/domain/models/workout_model.dart';
 import '../../features/daily_planner/presentation/screens/planner_day_detail_screen.dart';
 import '../../features/subscription/presentation/subscription_screen.dart';
 import '../../features/nutrition/presentation/screens/nutrition_intelligence_screen.dart';
+import '../../features/chat/presentation/screens/chat_screen.dart';
 import 'router_notifier.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -127,6 +128,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/nutrition',
         builder: (context, state) => const NutritionIntelligenceScreen(),
+      ),
+      GoRoute(
+        path: '/chat',
+        builder: (context, state) => const ChatScreen(),
       ),
     ],
   );

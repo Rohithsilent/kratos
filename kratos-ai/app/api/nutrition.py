@@ -87,11 +87,34 @@ async def calculate_nutrition_score(body: NutritionScoreRequest):
 
 @router.post("/coach")
 async def generate_coach_insight(body: NutritionCoachRequest):
-    """Generate conversational AI coach insight based on today's intake."""
+    """Generate conversational AI coach insight based on today's intake and save to Postgres."""
     logger.info("POST /nutrition/coach")
     agent = NutritionAgent(llm=gemini)
     try:
-        return await agent.generate_coach_insight(intake=body.intake, targets=body.targets)
+        result = await agent.generate_coach_insight(intake=body.intake, targets=body.targets)
+        
+        # Save to Postgres
+        from app.database.postgres import AsyncSessionLocal
+        from app.database.models.ai_insight import AIInsight
+        
+        # Attempt to get user_id from body if present, else fallback
+        user_id = body.intake.get("user_id", "anonymous")
+        
+        async with AsyncSessionLocal() as session:
+            insight = AIInsight(
+                firebase_uid=user_id,
+                category="nutrition",
+                title="Daily Nutrition Insight",
+                content=result.get("insight", "No insight generated"),
+                priority="medium",
+                model_used="gemini-2.5-flash",
+                source_data={"intake": body.intake, "targets": body.targets},
+                tags=["nutrition", "daily_coach"]
+            )
+            session.add(insight)
+            await session.commit()
+            
+        return result
     except Exception as e:
         logger.error(f"Coach insight generation failed: {e}")
         raise HTTPException(status_code=500, detail="Failed to generate coach insight")
@@ -99,6 +122,32 @@ async def generate_coach_insight(body: NutritionCoachRequest):
 
 @router.get("/log/{user_id}")
 async def get_nutrition_log(user_id: str):
-    """Retrieve the user's recent nutrition log."""
+    """Retrieve the user's recent nutrition insights from PostgreSQL."""
     logger.info("GET /nutrition/log | user={}", user_id)
-    raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail="Phase 2 — DB layer pending")
+    from app.database.postgres import AsyncSessionLocal
+    from app.database.models.ai_insight import AIInsight
+    from sqlalchemy import select
+    
+    try:
+        async with AsyncSessionLocal() as session:
+            stmt = select(AIInsight).where(
+                AIInsight.firebase_uid == user_id,
+                AIInsight.category == "nutrition"
+            ).order_by(AIInsight.created_at.desc()).limit(20)
+            
+            result = await session.execute(stmt)
+            insights = result.scalars().all()
+            
+            return [
+                {
+                    "id": str(i.id),
+                    "created_at": i.created_at.isoformat(),
+                    "title": i.title,
+                    "content": i.content,
+                    "priority": i.priority
+                }
+                for i in insights
+            ]
+    except Exception as e:
+        logger.error(f"Failed to fetch nutrition logs: {e}")
+        raise HTTPException(status_code=500, detail="Database fetch failed")

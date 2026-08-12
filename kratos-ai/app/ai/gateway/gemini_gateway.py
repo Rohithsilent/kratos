@@ -322,7 +322,7 @@ class GeminiGateway:
 
     async def stream(
         self,
-        prompt: str,
+        contents: Any,
         *,
         model: GeminiModel = GeminiModel.FLASH,
         system_instruction: str | None = None,
@@ -331,8 +331,11 @@ class GeminiGateway:
         """
         Stream Gemini response token-by-token for WebSocket delivery.
 
-        Note: Streaming uses plain text — parse the final accumulated
-        response into a schema after streaming completes.
+        Args:
+            contents: Can be a prompt string or a list of genai_types.Content for history.
+            model: Gemini model to use.
+            system_instruction: Optional system instruction.
+            temperature: LLM temperature.
         """
         self._rate_limiter.check()
         model_name = self._resolve_model(model)
@@ -347,7 +350,7 @@ class GeminiGateway:
         def _stream_sync():
             return self._client.models.generate_content_stream(
                 model=model_name,
-                contents=prompt,
+                contents=contents,
                 config=config,
             )
 

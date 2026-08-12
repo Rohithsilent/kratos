@@ -56,15 +56,6 @@ class Settings(BaseSettings):
     GEMINI_RPM_LIMIT: int = 60          # requests per minute
     GEMINI_TPM_LIMIT: int = 1_000_000   # tokens per minute
 
-    # ── Pinecone ─────────────────────────────────────────────────────────────
-    PINECONE_API_KEY: str = Field(..., description="Pinecone API key")
-    PINECONE_INDEX_NAME: str = "kratos-fitness"
-    PINECONE_ENVIRONMENT: str = "us-east-1"
-
-    # ── Firebase Auth ────────────────────────────────────────────────────────
-    FIREBASE_PROJECT_ID: str = Field(..., description="Firebase project ID")
-    FIREBASE_SERVICE_ACCOUNT_PATH: str = "firebase-service-account.json"
-
     # ── Observability ────────────────────────────────────────────────────────
     SENTRY_DSN: str = ""
 
