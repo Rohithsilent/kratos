@@ -20,13 +20,31 @@ class MealHistorySection extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'MEAL HISTORY',
-            style: AppTypography.labelBold.copyWith(
-              color: context.colors.onSurface.withValues(alpha: 0.5),
-              fontSize: 11,
-              letterSpacing: 1.8,
-            ),
+          Row(
+            children: [
+              Text(
+                'MEAL HISTORY',
+                style: AppTypography.labelBold.copyWith(
+                  color: context.colors.onSurface.withValues(alpha: 0.5),
+                  fontSize: 11,
+                  letterSpacing: 1.8,
+                ),
+              ),
+              const Spacer(),
+              groupedAsync.whenOrNull(
+                data: (grouped) {
+                  final total = grouped.values.fold<int>(0, (s, l) => s + l.length);
+                  return Text(
+                    '$total items today',
+                    style: TextStyle(
+                      color: context.colors.onSurface.withValues(alpha: 0.25),
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  );
+                },
+              ) ?? const SizedBox.shrink(),
+            ],
           ),
           const SizedBox(height: 14),
           groupedAsync.when(
@@ -40,7 +58,7 @@ class MealHistorySection extends ConsumerWidget {
                     .toList(),
               );
             },
-            loading: () => const SizedBox(height: 40, child: Center(child: CircularProgressIndicator(strokeWidth: 2))),
+            loading: () => _buildLoadingShimmer(context),
             error: (err, st) => _empty(context),
           ),
         ],
@@ -59,13 +77,29 @@ class MealHistorySection extends ConsumerWidget {
       child: Row(children: [
         Icon(Icons.restaurant_menu_rounded, color: context.colors.onSurface.withValues(alpha: 0.12), size: 20),
         const SizedBox(width: 12),
-        Expanded(child: Text('No meals logged today.', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.25), fontSize: 11, fontWeight: FontWeight.w500))),
+        Expanded(child: Text('No meals logged today. Scan or manually add your first meal.', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.25), fontSize: 11, fontWeight: FontWeight.w500))),
       ]),
+    );
+  }
+
+  Widget _buildLoadingShimmer(BuildContext context) {
+    final baseColor = Theme.of(context).brightness == Brightness.dark
+        ? Colors.white.withValues(alpha: 0.03)
+        : Colors.black.withValues(alpha: 0.04);
+    return Column(
+      children: List.generate(2, (i) => Container(
+        height: 60,
+        margin: const EdgeInsets.only(bottom: 10),
+        decoration: BoxDecoration(
+          color: baseColor,
+          borderRadius: BorderRadius.circular(16),
+        ),
+      )),
     );
   }
 }
 
-class _CategoryCard extends StatelessWidget {
+class _CategoryCard extends ConsumerWidget {
   final MealType type;
   final List<MealEntry> meals;
   const _CategoryCard({required this.type, required this.meals});
@@ -85,7 +119,7 @@ class _CategoryCard extends StatelessWidget {
   };
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final totalCals = meals.fold<double>(0, (s, m) => s + m.calories);
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
@@ -108,19 +142,44 @@ class _CategoryCard extends StatelessWidget {
             Text('${totalCals.round()} kcal', style: TextStyle(color: _color, fontSize: 11, fontWeight: FontWeight.w800)),
           ]),
         ),
-        ...meals.map((meal) => Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-          decoration: BoxDecoration(border: Border(top: BorderSide(color: context.colors.onSurface.withValues(alpha: 0.03)))),
-          child: Row(children: [
-            Container(width: 6, height: 6, decoration: BoxDecoration(color: meal.source == 'ai_scan' ? const Color(0xFF8B5CF6) : context.colors.primary, shape: BoxShape.circle)),
-            const SizedBox(width: 10),
-            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(meal.foodName, style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.7), fontSize: 12, fontWeight: FontWeight.w700), maxLines: 1, overflow: TextOverflow.ellipsis),
-              const SizedBox(height: 2),
-              Text('P: ${meal.protein.round()}g · C: ${meal.carbs.round()}g · F: ${meal.fats.round()}g', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.25), fontSize: 9, fontWeight: FontWeight.w600)),
-            ])),
-            Text('${meal.calories.round()} kcal', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.5), fontSize: 11, fontWeight: FontWeight.w800)),
-          ]),
+        ...meals.map((meal) => Dismissible(
+          key: ValueKey(meal.id),
+          direction: DismissDirection.endToStart,
+          onDismissed: (_) {
+            ref.read(manualMealProvider.notifier).deleteMeal(meal);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('${meal.foodName} removed'),
+                backgroundColor: const Color(0xFFEF4444),
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                duration: const Duration(seconds: 2),
+              ),
+            );
+          },
+          background: Container(
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.only(right: 20),
+            decoration: BoxDecoration(
+              color: const Color(0xFFEF4444).withValues(alpha: 0.08),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Icon(Icons.delete_outline_rounded, color: Color(0xFFEF4444), size: 18),
+          ),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            decoration: BoxDecoration(border: Border(top: BorderSide(color: context.colors.onSurface.withValues(alpha: 0.03)))),
+            child: Row(children: [
+              Container(width: 6, height: 6, decoration: BoxDecoration(color: meal.source == 'ai_scan' ? const Color(0xFF8B5CF6) : context.colors.primary, shape: BoxShape.circle)),
+              const SizedBox(width: 10),
+              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(meal.foodName, style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.7), fontSize: 12, fontWeight: FontWeight.w700), maxLines: 1, overflow: TextOverflow.ellipsis),
+                const SizedBox(height: 2),
+                Text('P: ${meal.protein.round()}g · C: ${meal.carbs.round()}g · F: ${meal.fats.round()}g', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.25), fontSize: 9, fontWeight: FontWeight.w600)),
+              ])),
+              Text('${meal.calories.round()} kcal', style: TextStyle(color: context.colors.onSurface.withValues(alpha: 0.5), fontSize: 11, fontWeight: FontWeight.w800)),
+            ]),
+          ),
         )),
       ]),
     );

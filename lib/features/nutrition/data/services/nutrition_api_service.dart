@@ -8,7 +8,7 @@ import 'package:http_parser/http_parser.dart';
 class NutritionApiService {
   // Use local network IP for physical device testing
   String get _baseUrl {
-    return 'http://172.31.0.176:8000/api/v1';
+    return 'http://10.252.42.49:8000/api/v1';
   }
 
   /// Analyze a food image by uploading it to the Python backend.

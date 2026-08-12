@@ -78,6 +78,12 @@ def plan_key(user_id: str) -> str:
 def chat_session_key(user_id: str) -> str:
     return f"kratos:chat:{user_id}"
 
+def active_session_key(conversation_id: str) -> str:
+    """Key for caching the active conversation history."""
+    return f"kratos:session_buffer:{conversation_id}"
+
+def session_list_key(user_id: str) -> str:
+    return f"kratos:sessions:{user_id}"
 
 async def get_cached_recovery(user_id: str) -> dict | None:
     return await cache_get(recovery_key(user_id))
@@ -87,18 +93,3 @@ async def set_cached_recovery(user_id: str, data: dict, ttl: int = 43200) -> Non
     """Cache recovery score for 12 hours."""
     await cache_set(recovery_key(user_id), data, ttl)
 
-
-async def get_chat_history(user_id: str) -> list[dict]:
-    """Retrieve in-memory chat history (last N messages)."""
-    r = await get_redis()
-    raw = await r.lrange(chat_session_key(user_id), 0, 49)  # last 50 messages
-    return [json.loads(msg) for msg in raw]
-
-
-async def append_chat_message(user_id: str, role: str, content: str) -> None:
-    """Append a message to the Redis-backed chat history list."""
-    r = await get_redis()
-    key = chat_session_key(user_id)
-    msg = json.dumps({"role": role, "content": content})
-    await r.rpush(key, msg)
-    await r.expire(key, 86400)  # 24h TTL

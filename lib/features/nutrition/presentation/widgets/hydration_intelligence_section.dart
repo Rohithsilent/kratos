@@ -107,50 +107,23 @@ class HydrationIntelligenceSection extends ConsumerWidget {
           ),
           const SizedBox(height: 20),
 
-          // Animated progress bar
-          ClipRRect(
-            borderRadius: BorderRadius.circular(6),
-            child: TweenAnimationBuilder<double>(
-              tween: Tween(begin: 0, end: hydration.progress),
-              duration: const Duration(milliseconds: 800),
-              curve: Curves.easeOutCubic,
-              builder: (context, value, _) {
-                return Stack(
-                  children: [
-                    Container(
-                      height: 8,
-                      decoration: BoxDecoration(
-                        color: context.colors.onSurface
-                            .withValues(alpha: 0.04),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                    ),
-                    FractionallySizedBox(
-                      widthFactor: value,
-                      child: Container(
-                        height: 8,
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [
-                              Color(0xFF3B82F6),
-                              Color(0xFF60A5FA),
-                            ],
-                          ),
-                          borderRadius: BorderRadius.circular(6),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xFF3B82F6)
-                                  .withValues(alpha: 0.3),
-                              blurRadius: 8,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+          // Water Glasses UI
+          SizedBox(
+            height: 28,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(10, (index) {
+                // Calculate how many glasses should be filled based on percentage (each glass is 10%)
+                final isFilled = (hydrationPercent / 100) > (index / 10);
+                
+                return Icon(
+                  isFilled ? Icons.local_drink_rounded : Icons.local_drink_outlined,
+                  color: isFilled
+                      ? const Color(0xFF60A5FA)
+                      : context.colors.onSurface.withValues(alpha: 0.15),
+                  size: 22,
                 );
-              },
+              }),
             ),
           ),
           const SizedBox(height: 6),

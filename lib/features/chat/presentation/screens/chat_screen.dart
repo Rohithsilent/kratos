@@ -8,6 +8,7 @@ import '../../../../core/theme/app_typography.dart';
 import '../controllers/chat_controller.dart';
 import '../../../../shared/widgets/glass_card.dart';
 import '../widgets/chat_workout_card.dart';
+import '../../../../core/providers/network_provider.dart';
 
 class ChatScreen extends ConsumerStatefulWidget {
   const ChatScreen({super.key});
@@ -19,6 +20,7 @@ class ChatScreen extends ConsumerStatefulWidget {
 class _ChatScreenState extends ConsumerState<ChatScreen> {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  String _searchQuery = '';
 
   @override
   void dispose() {
@@ -41,6 +43,8 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   Widget build(BuildContext context) {
     final chatState = ref.watch(chatNotifierProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isOnlineAsync = ref.watch(connectivityProvider);
+    final isOnline = isOnlineAsync.value ?? true;
 
     // Auto-scroll when new messages arrive
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -82,11 +86,15 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                   ),
                 ),
                 Text(
-                  chatState.isConnecting ? 'Connecting...' : 'Online',
+                  !isOnline 
+                      ? 'Offline - No Connection' 
+                      : (chatState.isConnecting ? 'Connecting...' : 'Online'),
                   style: AppTypography.caption.copyWith(
-                    color: chatState.isConnecting 
-                        ? context.customColors.warning 
-                        : context.customColors.success,
+                    color: !isOnline
+                        ? Theme.of(context).colorScheme.error
+                        : (chatState.isConnecting 
+                            ? context.customColors.warning 
+                            : context.customColors.success),
                     fontSize: 10,
                   ),
                 ),
@@ -94,6 +102,32 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
             ),
           ],
         ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.add_comment_rounded,
+              color: isDark ? Colors.white : context.customColors.grey900,
+              size: 20,
+            ),
+            onPressed: () {
+              ref.read(chatNotifierProvider.notifier).startNewChat();
+            },
+          ),
+          Builder(
+            builder: (context) => IconButton(
+              icon: Icon(
+                Icons.history_rounded,
+                color: isDark ? Colors.white : context.customColors.grey900,
+                size: 20,
+              ),
+              onPressed: () {
+                ref.read(chatNotifierProvider.notifier).fetchSessions();
+                Scaffold.of(context).openEndDrawer();
+              },
+            ),
+          ),
+          const SizedBox(width: 8),
+        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
           child: Container(
@@ -102,6 +136,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           ),
         ),
       ),
+      endDrawer: _buildHistoryDrawer(context, ref, chatState, isDark, isOnline),
       body: Column(
         children: [
           if (chatState.error != null)
@@ -129,6 +164,151 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                   ),
           ),
           _buildInputArea(isDark, chatState.isGenerating),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHistoryDrawer(BuildContext context, WidgetRef ref, ChatState state, bool isDark, bool isOnline) {
+    return Drawer(
+      backgroundColor: isDark ? const Color(0xFF151515) : Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          DrawerHeader(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: isDark ? Colors.white.withValues(alpha: 0.1) : Colors.black.withValues(alpha: 0.1),
+                ),
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.history_rounded, color: context.colors.primary, size: 28),
+                    const SizedBox(width: 12),
+                    Text(
+                      'Chat History',
+                      style: AppTypography.headlineSmall.copyWith(
+                        color: isDark ? Colors.white : Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Your past conversations',
+                  style: AppTypography.caption.copyWith(color: isDark ? Colors.white54 : Colors.black54),
+                ),
+              ],
+            ),
+          ),
+          if (!isOnline)
+            Container(
+              padding: const EdgeInsets.all(16),
+              color: Theme.of(context).colorScheme.error.withValues(alpha: 0.1),
+              child: Row(
+                children: [
+                  Icon(Icons.wifi_off_rounded, color: Theme.of(context).colorScheme.error, size: 20),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      'You are offline. Reconnect to view and search chat history.',
+                      style: AppTypography.caption.copyWith(color: Theme.of(context).colorScheme.error),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          else ...[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: isDark ? Colors.white.withValues(alpha: 0.05) : Colors.black.withValues(alpha: 0.04),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      _searchQuery = value;
+                    });
+                  },
+                  style: AppTypography.bodyMedium.copyWith(color: isDark ? Colors.white : Colors.black),
+                  decoration: InputDecoration(
+                    hintText: 'Search chats...',
+                    hintStyle: AppTypography.bodyMedium.copyWith(color: isDark ? Colors.white38 : Colors.black38),
+                    prefixIcon: Icon(Icons.search_rounded, color: isDark ? Colors.white38 : Colors.black38, size: 20),
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: state.sessions.isEmpty
+                  ? Center(
+                      child: Text(
+                        'No past sessions found.',
+                        style: AppTypography.bodyMedium.copyWith(color: isDark ? Colors.white54 : Colors.black54),
+                      ),
+                    )
+                  : Builder(builder: (context) {
+                      final filteredSessions = state.sessions.where((session) {
+                        return session.summary.toLowerCase().contains(_searchQuery.toLowerCase());
+                      }).toList();
+
+                      if (filteredSessions.isEmpty) {
+                        return Center(
+                          child: Text(
+                            'No matches found.',
+                            style: AppTypography.bodyMedium.copyWith(color: isDark ? Colors.white54 : Colors.black54),
+                          ),
+                        );
+                      }
+
+                      return ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemCount: filteredSessions.length,
+                        itemBuilder: (context, index) {
+                          final session = filteredSessions[index];
+                          final isSelected = session.id == state.conversationId;
+                          return ListTile(
+                            selected: isSelected,
+                            selectedTileColor: context.colors.primary.withValues(alpha: 0.1),
+                            leading: Icon(
+                              Icons.chat_bubble_outline_rounded,
+                              color: isSelected ? context.colors.primary : (isDark ? Colors.white54 : Colors.black54),
+                              size: 20,
+                            ),
+                            title: Text(
+                              session.summary.isEmpty ? "Empty chat" : session.summary,
+                              style: AppTypography.bodyMedium.copyWith(
+                                color: isSelected ? context.colors.primary : (isDark ? Colors.white : Colors.black),
+                                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            subtitle: Text(
+                              '${session.createdAt.day}/${session.createdAt.month}/${session.createdAt.year}',
+                              style: AppTypography.caption.copyWith(color: isDark ? Colors.white38 : Colors.black38),
+                            ),
+                            onTap: () {
+                              Navigator.pop(context); // close drawer
+                              ref.read(chatNotifierProvider.notifier).loadSession(session.id);
+                            },
+                          );
+                        },
+                      );
+                    }),
+            ),
+          ],
         ],
       ),
     );

@@ -17,6 +17,7 @@ from app.api.nutrition import router as nutrition_router
 
 # WebSocket handler
 from app.websocket.chat_socket import chat_socket_handler
+from app.websocket.nutrition_socket import nutrition_socket_handler
 
 # DB + Cache
 from app.database.postgres import init_db, close_db
@@ -98,6 +99,11 @@ def create_application() -> FastAPI:
     async def ws_chat(user_id: str, websocket: WebSocket):
         """Real-time AI chat stream for Flutter clients."""
         await chat_socket_handler(user_id, websocket)
+
+    @app.websocket("/ws/nutrition/{user_id}")
+    async def ws_nutrition(user_id: str, websocket: WebSocket):
+        """Real-time AI nutrition intelligence stream for Flutter clients."""
+        await nutrition_socket_handler(user_id, websocket)
 
     # ── Health — deep check with DB ping ──────────────────────────────────────
     @app.get("/health", tags=["System"])

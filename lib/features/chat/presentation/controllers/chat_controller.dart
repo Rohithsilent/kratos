@@ -1,8 +1,17 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:http/http.dart' as http;
 import '../../../../core/providers/firebase_providers.dart';
 import '../../../nutrition/data/services/nutrition_api_service.dart';
+
+class ChatSession {
+  final String id;
+  final String summary;
+  final DateTime createdAt;
+
+  ChatSession({required this.id, required this.summary, required this.createdAt});
+}
 
 class ChatMessage {
   final String id;
@@ -29,12 +38,16 @@ class ChatMessage {
 
 class ChatState {
   final List<ChatMessage> messages;
+  final List<ChatSession> sessions;
+  final String? conversationId;
   final bool isConnecting;
   final bool isGenerating;
   final String? error;
 
   ChatState({
     this.messages = const [],
+    this.sessions = const [],
+    this.conversationId,
     this.isConnecting = true,
     this.isGenerating = false,
     this.error,
@@ -42,12 +55,16 @@ class ChatState {
 
   ChatState copyWith({
     List<ChatMessage>? messages,
+    List<ChatSession>? sessions,
+    String? conversationId,
     bool? isConnecting,
     bool? isGenerating,
     String? error,
   }) {
     return ChatState(
       messages: messages ?? this.messages,
+      sessions: sessions ?? this.sessions,
+      conversationId: conversationId ?? this.conversationId,
       isConnecting: isConnecting ?? this.isConnecting,
       isGenerating: isGenerating ?? this.isGenerating,
       error: error,
@@ -58,13 +75,13 @@ class ChatState {
 class ChatNotifier extends Notifier<ChatState> {
   WebSocketChannel? _channel;
   String _currentAiMessageId = '';
-  late String _userId;
+
+  String get _userId {
+    return ref.read(firebaseAuthProvider).currentUser?.uid ?? 'guest';
+  }
 
   @override
   ChatState build() {
-    final user = ref.watch(firebaseAuthProvider).currentUser;
-    _userId = user?.uid ?? 'guest';
-    
     ref.onDispose(() {
       _channel?.sink.close();
     });
@@ -77,16 +94,22 @@ class ChatNotifier extends Notifier<ChatState> {
     state = state.copyWith(isConnecting: true, error: null);
     try {
       // Hardcode base url or read from config
-      final wsUrl = 'ws://172.31.0.176:8000/ws/chat/$_userId';
-      _channel = WebSocketChannel.connect(Uri.parse(wsUrl));
+      String wsUrl = 'ws://10.252.42.49:8000/ws/chat/$_userId';
+      if (state.conversationId != null) {
+        wsUrl += '?conversation_id=${state.conversationId}';
+      }
+      final currentChannel = WebSocketChannel.connect(Uri.parse(wsUrl));
+      _channel = currentChannel;
       
-      _channel!.stream.listen(
+      currentChannel.stream.listen(
         (data) => _handleMessage(data),
         onError: (err) {
+          if (_channel != currentChannel) return; // Ignore if we intentionally reconnected
           state = state.copyWith(isConnecting: false, error: "Connection lost.");
           _reconnect();
         },
         onDone: () {
+          if (_channel != currentChannel) return; // Ignore if we intentionally reconnected
           state = state.copyWith(isConnecting: false, error: "Disconnected.");
           _reconnect();
         },
@@ -113,6 +136,7 @@ class ChatNotifier extends Notifier<ChatState> {
       final type = payload['type'];
 
       if (type == 'history') {
+        final cid = payload['conversation_id'] as String?;
         final List<dynamic> msgs = payload['messages'];
         final parsed = msgs.map((m) {
           return ChatMessage(
@@ -122,7 +146,7 @@ class ChatNotifier extends Notifier<ChatState> {
             timestamp: DateTime.now(),
           );
         }).toList();
-        state = state.copyWith(messages: parsed);
+        state = state.copyWith(messages: parsed, conversationId: cid);
       } else if (type == 'stream_start') {
         _currentAiMessageId = DateTime.now().millisecondsSinceEpoch.toString();
         final newMsg = ChatMessage(
@@ -167,6 +191,62 @@ class ChatNotifier extends Notifier<ChatState> {
 
     // Send to backend
     _channel!.sink.add(jsonEncode({'message': text}));
+    
+    // Refresh sessions after sending a message to ensure it appears in the history list
+    if (state.messages.length <= 2) {
+      Future.delayed(const Duration(seconds: 2), fetchSessions);
+    }
+  }
+
+  Future<void> fetchSessions() async {
+    try {
+      final response = await http.get(Uri.parse('http://10.252.42.49:8000/api/v1/chat/sessions/$_userId'));
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        final sessions = data.map((s) => ChatSession(
+          id: s['id'],
+          summary: s['summary'],
+          createdAt: DateTime.parse(s['created_at']),
+        )).toList();
+        state = state.copyWith(sessions: sessions);
+      }
+    } catch (e) {
+      print("Failed to fetch sessions: $e");
+    }
+  }
+
+  void startNewChat() {
+    final oldChannel = _channel;
+    _channel = null;
+    oldChannel?.sink.close();
+    
+    state = ChatState(
+      messages: [],
+      sessions: state.sessions,
+      conversationId: null, // explicitly null
+      isConnecting: true,
+      isGenerating: false,
+      error: null,
+    );
+    _connect();
+  }
+
+  void loadSession(String conversationId) {
+    if (state.conversationId == conversationId) return;
+    
+    final oldChannel = _channel;
+    _channel = null;
+    oldChannel?.sink.close();
+    
+    state = ChatState(
+      messages: [],
+      sessions: state.sessions,
+      conversationId: conversationId,
+      isConnecting: true,
+      isGenerating: false,
+      error: null,
+    );
+    _connect();
   }
 }
 

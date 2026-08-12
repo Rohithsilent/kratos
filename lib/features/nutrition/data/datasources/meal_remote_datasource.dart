@@ -1,6 +1,7 @@
 // lib/features/nutrition/data/datasources/meal_remote_datasource.dart
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/providers/firebase_providers.dart';
 import '../../domain/models/meal_entry_model.dart';
@@ -24,38 +25,65 @@ class MealRemoteDataSourceImpl implements MealRemoteDataSource {
 
   @override
   Future<List<MealEntry>> getMeals(String uid, {String? date}) async {
-    Query<Map<String, dynamic>> query = _collection(uid);
-    if (date != null) {
-      query = query.where('date', isEqualTo: date);
+    try {
+      Query<Map<String, dynamic>> query = _collection(uid);
+      if (date != null) {
+        query = query.where('date', isEqualTo: date);
+      }
+      // Avoid composite index requirement: only orderBy when NOT filtering by date
+      if (date == null) {
+        query = query.orderBy('loggedAt', descending: true);
+      }
+      final snapshot = await query.get();
+      debugPrint('[MealDataSource] getMeals uid=$uid date=$date → ${snapshot.docs.length} docs');
+      return snapshot.docs
+          .map((doc) => MealEntry.fromJson(doc.data()))
+          .toList();
+    } catch (e, st) {
+      debugPrint('[MealDataSource] ERROR getMeals: $e\n$st');
+      // Rethrow so the repository layer can handle it properly
+      rethrow;
     }
-    query = query.orderBy('loggedAt', descending: true);
-    final snapshot = await query.get();
-    return snapshot.docs
-        .map((doc) => MealEntry.fromJson(doc.data()))
-        .toList();
   }
 
   @override
   Future<void> saveMeal(String uid, MealEntry meal) async {
-    await _collection(uid).doc(meal.id).set(meal.toJson());
+    try {
+      await _collection(uid).doc(meal.id).set(meal.toJson());
+      debugPrint('[MealDataSource] saveMeal OK: ${meal.foodName} → ${meal.id}');
+    } catch (e, st) {
+      debugPrint('[MealDataSource] ERROR saveMeal: $e\n$st');
+      rethrow;
+    }
   }
 
   @override
   Future<void> deleteMeal(String uid, String mealId) async {
-    await _collection(uid).doc(mealId).delete();
+    try {
+      await _collection(uid).doc(mealId).delete();
+      debugPrint('[MealDataSource] deleteMeal OK: $mealId');
+    } catch (e, st) {
+      debugPrint('[MealDataSource] ERROR deleteMeal: $e\n$st');
+      rethrow;
+    }
   }
 
   @override
   Future<List<MealEntry>> getMealsForDateRange(
       String uid, String startDate, String endDate) async {
-    final snapshot = await _collection(uid)
-        .where('date', isGreaterThanOrEqualTo: startDate)
-        .where('date', isLessThanOrEqualTo: endDate)
-        .orderBy('date', descending: true)
-        .get();
-    return snapshot.docs
-        .map((doc) => MealEntry.fromJson(doc.data()))
-        .toList();
+    try {
+      final snapshot = await _collection(uid)
+          .where('date', isGreaterThanOrEqualTo: startDate)
+          .where('date', isLessThanOrEqualTo: endDate)
+          .get();
+      debugPrint('[MealDataSource] getMealsForDateRange $startDate→$endDate: ${snapshot.docs.length} docs');
+      return snapshot.docs
+          .map((doc) => MealEntry.fromJson(doc.data()))
+          .toList();
+    } catch (e, st) {
+      debugPrint('[MealDataSource] ERROR getMealsForDateRange: $e\n$st');
+      rethrow;
+    }
   }
 }
 

@@ -199,7 +199,7 @@ final mealScanProvider = NotifierProvider<MealScanNotifier, MealScanState>(
 
 final todayMealsProvider = FutureProvider<List<MealEntry>>((ref) async {
   final today = PlannerHelpers.formatDate(DateTime.now());
-  return ref.read(mealRepositoryProvider).fetchMeals(date: today);
+  return ref.watch(mealRepositoryProvider).fetchMeals(date: today);
 });
 
 final groupedMealsProvider = FutureProvider<Map<MealType, List<MealEntry>>>((ref) async {

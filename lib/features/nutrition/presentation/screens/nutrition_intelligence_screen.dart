@@ -3,18 +3,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kratos/core/theme/theme_ext.dart';
+import '../controllers/nutrition_ws_controller.dart';
 import '../widgets/nutrition_score_section.dart';
 import '../widgets/hydration_intelligence_section.dart';
 import '../widgets/ai_coach_section.dart';
 import '../widgets/meal_history_section.dart';
 
-import '../widgets/food_scanner_sheet.dart';
+import '../widgets/log_meal_sheet.dart';
 
-class NutritionIntelligenceScreen extends ConsumerWidget {
+class NutritionIntelligenceScreen extends ConsumerStatefulWidget {
   const NutritionIntelligenceScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<NutritionIntelligenceScreen> createState() =>
+      _NutritionIntelligenceScreenState();
+}
+
+class _NutritionIntelligenceScreenState
+    extends ConsumerState<NutritionIntelligenceScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _fabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _fabController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+
+    // Connect nutrition WebSocket when screen opens
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(nutritionWsProvider.notifier).connect();
+      _fabController.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    _fabController.dispose();
+    // Disconnect nutrition WebSocket when screen closes
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Stack(
@@ -136,33 +171,6 @@ class NutritionIntelligenceScreen extends ConsumerWidget {
                                 ],
                               ),
                             ),
-                            // AI Scan FAB
-                            GestureDetector(
-                              onTap: () =>
-                                  FoodScannerSheet.show(context),
-                              child: Container(
-                                width: 44,
-                                height: 44,
-                                decoration: BoxDecoration(
-                                  gradient:
-                                      context.customColors.primaryGradient,
-                                  borderRadius: BorderRadius.circular(14),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: context.colors.primary
-                                          .withValues(alpha: 0.3),
-                                      blurRadius: 12,
-                                      offset: const Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
-                                child: const Icon(
-                                  Icons.document_scanner_rounded,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              ),
-                            ),
                           ],
                         ),
                         const SizedBox(height: 6),
@@ -196,27 +204,88 @@ class NutritionIntelligenceScreen extends ConsumerWidget {
 
                 const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
-                // ──── Section 5: AI Nutrition Coach ────
+                // ──── Section 3: AI Nutrition Coach ────
                 const SliverToBoxAdapter(
                   child: AiCoachSection(),
                 ),
 
                 const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
-                // ──── Section 6: Meal History ────
+                // ──── Section 4: Meal History ────
                 const SliverToBoxAdapter(
                   child: MealHistorySection(),
                 ),
 
-
-
-                // Bottom safe space
-                const SliverToBoxAdapter(child: SizedBox(height: 40)),
+                // Bottom safe space for FAB
+                const SliverToBoxAdapter(child: SizedBox(height: 100)),
               ],
+            ),
+          ),
+
+          // ═══ Premium Floating Log Meal Button ═══
+          Positioned(
+            bottom: MediaQuery.of(context).padding.bottom + 24,
+            left: 20,
+            right: 20,
+            child: ScaleTransition(
+              scale: CurvedAnimation(
+                parent: _fabController,
+                curve: Curves.elasticOut,
+              ),
+              child: GestureDetector(
+                onTap: () => _showLogMealOptions(context),
+                child: Container(
+                  height: 56,
+                  decoration: BoxDecoration(
+                    gradient: context.customColors.primaryGradient,
+                    borderRadius: BorderRadius.circular(18),
+                    boxShadow: [
+                      BoxShadow(
+                        color: context.colors.primary.withValues(alpha: 0.35),
+                        blurRadius: 20,
+                        offset: const Offset(0, 8),
+                        spreadRadius: -2,
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 28,
+                        height: 28,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Icon(
+                          Icons.add_rounded,
+                          color: Colors.white,
+                          size: 18,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      const Text(
+                        'LOG MEAL',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  void _showLogMealOptions(BuildContext context) {
+    LogMealSheet.show(context);
   }
 }
