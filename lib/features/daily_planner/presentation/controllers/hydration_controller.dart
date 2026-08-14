@@ -57,11 +57,10 @@ class HydrationLogNotifier extends Notifier<void> {
   void build() {}
 
   Future<void> addWater(int ml) async {
-    final repository = ref.read(plannerRepositoryProvider);
-    final items = await repository.fetchPlannerItems();
+    final plannerItems = ref.read(plannerListProvider).value ?? [];
     final todayStr = PlannerHelpers.formatDate(DateTime.now());
 
-    final todayItem = items.firstWhere(
+    final todayItem = plannerItems.firstWhere(
       (item) => item.date == todayStr,
       orElse: () => PlannerItem(
         id: PlannerHelpers.generateId(),
@@ -76,8 +75,18 @@ class HydrationLogNotifier extends Notifier<void> {
       waterConsumed: (todayItem.waterConsumed + ml).clamp(0, todayItem.waterTarget * 2),
     );
 
-    await repository.savePlannerItem(updated);
-    ref.invalidate(plannerListProvider);
+    // 1. Optimistic Update (instant UI response)
+    ref.read(plannerListProvider.notifier).updateItemOptimistically(updated);
+
+    // 2. Background Save
+    try {
+      final repository = ref.read(plannerRepositoryProvider);
+      await repository.savePlannerItem(updated);
+    } catch (e) {
+      // If save fails, we should ideally revert the optimistic update,
+      // but invalidating will force a fresh fetch to heal the state.
+      ref.invalidate(plannerListProvider);
+    }
   }
 }
 

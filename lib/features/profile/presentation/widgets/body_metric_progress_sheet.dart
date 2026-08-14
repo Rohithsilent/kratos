@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../../core/theme/app_decorations.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../data/services/body_metric_history_service.dart';
 
 /// Shows weight/height progress when the body metric value is tapped.
-/// Uses theme-aware colors so it looks correct in all themes (dark, cyberpunk, etc.).
-/// Includes a mini progress graph for visual context.
-class BodyMetricProgressSheet extends StatelessWidget {
+/// Uses theme-aware colors so it looks correct in all themes.
+/// Includes a mini progress graph powered by BodyMetricHistoryService.
+class BodyMetricProgressSheet extends StatefulWidget {
   final String metric; // 'Height' or 'Weight'
   final String currentValue;
 
@@ -18,24 +19,66 @@ class BodyMetricProgressSheet extends StatelessWidget {
   });
 
   @override
+  State<BodyMetricProgressSheet> createState() => _BodyMetricProgressSheetState();
+}
+
+class _BodyMetricProgressSheetState extends State<BodyMetricProgressSheet> {
+  List<double>? _trendData;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTrendData();
+  }
+
+  @override
+  void didUpdateWidget(covariant BodyMetricProgressSheet oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.currentValue != widget.currentValue || oldWidget.metric != widget.metric) {
+      _loadTrendData();
+    }
+  }
+
+  Future<void> _loadTrendData() async {
+    final numericValue = double.tryParse(
+      widget.currentValue.replaceAll(RegExp(r'[^0-9.]'), ''),
+    ) ?? 0;
+    final isWeight = widget.metric.toLowerCase() == 'weight';
+    final unit = isWeight
+        ? (widget.currentValue.toLowerCase().contains('lbs') ? 'lbs' : 'kg')
+        : (widget.currentValue.toLowerCase().contains('ft') ? 'ft' : 'cm');
+
+    final data = await BodyMetricHistoryService.get7DayTrend(
+      metric: widget.metric,
+      currentValue: numericValue,
+      unit: unit,
+    );
+
+    if (mounted) {
+      setState(() {
+        _trendData = data;
+        _isLoading = false;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final isWeight = metric.toLowerCase() == 'weight';
-    // Use theme primary color instead of hardcoded amber/cyan
+    final isWeight = widget.metric.toLowerCase() == 'weight';
     final accentColor = context.colors.primary;
 
-    // Parse the numeric value
     final numericValue = double.tryParse(
-      currentValue.replaceAll(RegExp(r'[^0-9.]'), ''),
+      widget.currentValue.replaceAll(RegExp(r'[^0-9.]'), ''),
     ) ?? 0;
 
     final unit = isWeight
-        ? (currentValue.toLowerCase().contains('lbs') ? 'lbs' : 'kg')
-        : (currentValue.toLowerCase().contains('ft') ? 'ft' : 'cm');
+        ? (widget.currentValue.toLowerCase().contains('lbs') ? 'lbs' : 'kg')
+        : (widget.currentValue.toLowerCase().contains('ft') ? 'ft' : 'cm');
 
     return Container(
       decoration: BoxDecoration(
-        // Use theme surface color for proper contrast in all themes
         color: context.colors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
         border: Border.all(
@@ -73,7 +116,7 @@ class BodyMetricProgressSheet extends StatelessWidget {
               ),
               const SizedBox(width: 14),
               Text(
-                '${metric.toUpperCase()} PROGRESS',
+                '${widget.metric.toUpperCase()} PROGRESS',
                 style: AppTypography.labelBold.copyWith(
                   color: isDark ? Colors.white : context.customColors.grey900,
                   letterSpacing: 2,
@@ -96,7 +139,7 @@ class BodyMetricProgressSheet extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  'CURRENT ${metric.toUpperCase()}',
+                  'CURRENT ${widget.metric.toUpperCase()}',
                   style: TextStyle(
                     color: isDark ? context.customColors.grey500 : context.customColors.grey400,
                     fontSize: 9,
@@ -179,29 +222,14 @@ class BodyMetricProgressSheet extends StatelessWidget {
     );
   }
 
-  /// Mini sparkline-style progress graph showing simulated trend data.
+  /// Mini sparkline-style progress graph using historical logs or smooth physiological trends.
   Widget _buildProgressGraph(
     BuildContext context, bool isDark, bool isWeight,
     double currentValue, String unit, Color accentColor,
   ) {
     if (currentValue <= 0) return const SizedBox.shrink();
 
-    // Generate realistic trend data around the current value
-    // For weight: show small fluctuations (±2 kg or ±5 lbs)
-    // For height: show near-static values (height rarely changes)
-    final random = Random(currentValue.toInt()); // deterministic seed
-    final variance = isWeight
-        ? (unit == 'lbs' ? 4.0 : 2.0)
-        : 0.5; // height barely changes
-
-    final List<double> trendData = List.generate(7, (i) {
-      if (i == 6) return currentValue; // latest is the actual value
-      final offset = (random.nextDouble() * 2 - 1) * variance;
-      // For weight, create a subtle downward trend
-      final trendOffset = isWeight ? (6 - i) * (variance * 0.15) : 0.0;
-      return currentValue + offset + trendOffset;
-    });
-
+    final trendData = _trendData ?? List.filled(7, currentValue);
     final dayLabels = _getWeekLabels();
 
     return Container(
@@ -254,19 +282,30 @@ class BodyMetricProgressSheet extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Expanded(
-            child: CustomPaint(
-              size: const Size(double.infinity, double.infinity),
-              painter: _MiniChartPainter(
-                values: trendData,
-                labels: dayLabels,
-                accentColor: accentColor,
-                isDark: isDark,
-                greyColor: isDark ? context.customColors.grey500 : context.customColors.grey400,
-                gridColor: isDark
-                    ? Colors.white.withValues(alpha: 0.04)
-                    : Colors.black.withValues(alpha: 0.04),
-              ),
-            ),
+            child: _isLoading
+                ? Center(
+                    child: SizedBox(
+                      width: 16, height: 16,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: accentColor.withValues(alpha: 0.5),
+                      ),
+                    ),
+                  )
+                : CustomPaint(
+                    size: const Size(double.infinity, double.infinity),
+                    painter: _MiniChartPainter(
+                      values: trendData,
+                      labels: dayLabels,
+                      accentColor: accentColor,
+                      isDark: isDark,
+                      isWeight: isWeight,
+                      greyColor: isDark ? context.customColors.grey500 : context.customColors.grey400,
+                      gridColor: isDark
+                          ? Colors.white.withValues(alpha: 0.04)
+                          : Colors.black.withValues(alpha: 0.04),
+                    ),
+                  ),
           ),
         ],
       ),
@@ -296,7 +335,7 @@ class BodyMetricProgressSheet extends StatelessWidget {
             Icon(Icons.add_circle_outline_rounded, size: 18, color: accentColor),
             const SizedBox(width: 10),
             Text(
-              'Tap EDIT on the card to set your ${metric.toLowerCase()}',
+              'Tap EDIT on the card to set your ${widget.metric.toLowerCase()}',
               style: TextStyle(
                 color: isDark ? context.customColors.grey400 : context.customColors.grey600,
                 fontSize: 12, fontWeight: FontWeight.w500,
@@ -434,6 +473,7 @@ class _MiniChartPainter extends CustomPainter {
   final List<String> labels;
   final Color accentColor;
   final bool isDark;
+  final bool isWeight;
   final Color greyColor;
   final Color gridColor;
 
@@ -442,6 +482,7 @@ class _MiniChartPainter extends CustomPainter {
     required this.labels,
     required this.accentColor,
     required this.isDark,
+    required this.isWeight,
     required this.greyColor,
     required this.gridColor,
   });
@@ -454,10 +495,23 @@ class _MiniChartPainter extends CustomPainter {
     final maxVal = values.reduce(max);
     final minVal = values.reduce(min);
     final range = maxVal - minVal;
-    final effectiveRange = range < 0.1 ? 1.0 : range;
-    // Add 20% padding above and below
-    final paddedMin = minVal - effectiveRange * 0.2;
-    final paddedRange = effectiveRange * 1.4;
+
+    double paddedMin;
+    double paddedRange;
+
+    if (range < 0.001) {
+      // Flat line case (e.g. height constant across all 7 days)
+      // Center the horizontal line vertically in the middle of the chart canvas
+      paddedMin = minVal - 1.0;
+      paddedRange = 2.0;
+    } else {
+      // Scale with minimum window so minor micro-fluctuations don't get expanded edge-to-edge
+      final minWindow = isWeight ? 2.5 : 4.0;
+      final effectiveRange = range < minWindow ? minWindow : range;
+      final midVal = (maxVal + minVal) / 2;
+      paddedMin = midVal - (effectiveRange / 2) * 1.25;
+      paddedRange = effectiveRange * 1.25;
+    }
 
     final spacing = size.width / (values.length - 1);
 
@@ -470,7 +524,7 @@ class _MiniChartPainter extends CustomPainter {
       canvas.drawLine(Offset(0, y), Offset(size.width, y), gridPaint);
     }
 
-    // Map values to points
+    // Map values to canvas points
     final points = <Offset>[];
     for (int i = 0; i < values.length; i++) {
       final x = spacing * i;
@@ -531,11 +585,9 @@ class _MiniChartPainter extends CustomPainter {
 
     // Draw nodes
     for (int i = 0; i < points.length; i++) {
-      // Larger node for the last point (current value)
       final isLast = i == points.length - 1;
       final radius = isLast ? 4.0 : 2.5;
 
-      // Outer glow for last point
       if (isLast) {
         final glowNodePaint = Paint()
           ..color = accentColor.withValues(alpha: 0.3)
@@ -543,13 +595,11 @@ class _MiniChartPainter extends CustomPainter {
         canvas.drawCircle(points[i], 8, glowNodePaint);
       }
 
-      // White fill
       final nodeFill = Paint()
         ..color = isDark ? const Color(0xFF1A1A1A) : Colors.white
         ..style = PaintingStyle.fill;
       canvas.drawCircle(points[i], radius, nodeFill);
 
-      // Accent border
       final nodeBorder = Paint()
         ..color = accentColor
         ..strokeWidth = isLast ? 2.5 : 1.5

@@ -30,7 +30,7 @@ class _MusicCommandCenterScreenState extends ConsumerState<MusicCommandCenterScr
     final playlistState = ref.watch(playlistsControllerProvider);
 
     return Scaffold(
-      backgroundColor: context.colors.surface,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,

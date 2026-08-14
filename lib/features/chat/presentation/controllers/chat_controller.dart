@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import '../../../../core/constants/api_constants.dart';
 import 'package:http/http.dart' as http;
 import '../../../../core/providers/firebase_providers.dart';
 import '../../../nutrition/data/services/nutrition_api_service.dart';
@@ -93,8 +94,7 @@ class ChatNotifier extends Notifier<ChatState> {
   void _connect() {
     state = state.copyWith(isConnecting: true, error: null);
     try {
-      // Hardcode base url or read from config
-      String wsUrl = 'ws://10.252.42.49:8000/ws/chat/$_userId';
+      String wsUrl = '${ApiConstants.wsBaseUrl}/ws/chat/$_userId';
       if (state.conversationId != null) {
         wsUrl += '?conversation_id=${state.conversationId}';
       }
@@ -200,7 +200,7 @@ class ChatNotifier extends Notifier<ChatState> {
 
   Future<void> fetchSessions() async {
     try {
-      final response = await http.get(Uri.parse('http://10.252.42.49:8000/api/v1/chat/sessions/$_userId'));
+      final response = await http.get(Uri.parse('${ApiConstants.apiV1}/chat/sessions/$_userId'));
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
         final sessions = data.map((s) => ChatSession(

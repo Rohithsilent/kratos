@@ -7,6 +7,7 @@ import 'package:kratos/core/theme/theme_ext.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../controllers/nutrition_workflow_controller.dart';
 import '../../../daily_planner/presentation/controllers/nutrition_controller.dart';
+import '../../../../core/widgets/shimmer_effect.dart';
 
 class NutritionScoreSection extends ConsumerWidget {
   const NutritionScoreSection({super.key});
@@ -19,8 +20,8 @@ class NutritionScoreSection extends ConsumerWidget {
 
     return scoreAsync.when(
       data: (score) => _buildScoreCard(context, score, nutritionState, isDark),
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (err, stack) => Center(child: Text('Error loading score')),
+      loading: () => _NutritionScoreSkeleton(isDark: isDark),
+      error: (err, stack) => const Center(child: Text('Error loading score')),
     );
   }
 
@@ -351,3 +352,103 @@ class _ScoreRingPainter extends CustomPainter {
   bool shouldRepaint(covariant _ScoreRingPainter old) =>
       old.progress != progress || old.color != color;
 }
+
+// ── Skeleton Loader ───────────────────────────────────────────────────────────
+
+class _NutritionScoreSkeleton extends StatelessWidget {
+  final bool isDark;
+
+  const _NutritionScoreSkeleton({required this.isDark});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: isDark
+            ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.03)
+            : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.02),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05),
+        ),
+      ),
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Left Side: Score
+            Expanded(
+              flex: 4,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const ShimmerEffect(width: 80, height: 12),
+                  const SizedBox(height: 16),
+                  const ShimmerEffect(width: 100, height: 100, shape: BoxShape.circle),
+                  const SizedBox(height: 12),
+                  const ShimmerEffect(width: 50, height: 16, borderRadius: BorderRadius.all(Radius.circular(12))),
+                  const SizedBox(height: 8),
+                  const ShimmerEffect(width: 90, height: 10),
+                ],
+              ),
+            ),
+
+            // Divider
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: VerticalDivider(
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05),
+                thickness: 1,
+                width: 1,
+              ),
+            ),
+
+            // Right Side: Macros
+            Expanded(
+              flex: 6,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: List.generate(4, (index) => _buildSkeletonMacroBar()),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSkeletonMacroBar() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const ShimmerEffect(width: 26, height: 26, borderRadius: BorderRadius.all(Radius.circular(8))),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const ShimmerEffect(width: 40, height: 8),
+                const SizedBox(height: 4),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    ShimmerEffect(width: 50, height: 12),
+                    ShimmerEffect(width: 20, height: 10),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                const ShimmerEffect(width: double.infinity, height: 4),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+

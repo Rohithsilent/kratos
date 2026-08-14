@@ -80,7 +80,7 @@ class _ManualMealSheetState extends ConsumerState<ManualMealSheet> {
       constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.85),
       padding: EdgeInsets.only(left: 24, right: 24, top: 16, bottom: bottomPad + 24),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF0F0F0F) : Colors.white,
+        color: isDark ? const Color(0xFF0F0F0F) : Theme.of(context).scaffoldBackgroundColor,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
         border: Border(top: BorderSide(color: context.colors.onSurface.withValues(alpha: 0.06))),
       ),

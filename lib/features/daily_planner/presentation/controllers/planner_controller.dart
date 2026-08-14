@@ -277,6 +277,23 @@ class PlannerNotifier extends AsyncNotifier<List<PlannerItem>> {
       return repository.fetchPlannerItems();
     });
   }
+
+  void updateItemOptimistically(PlannerItem updatedItem) {
+    if (state.value != null) {
+      final currentList = List<PlannerItem>.from(state.value!);
+      final index = currentList.indexWhere((item) => 
+          item.id == updatedItem.id || item.date == updatedItem.date);
+      
+      if (index >= 0) {
+        currentList[index] = updatedItem;
+      } else {
+        currentList.add(updatedItem);
+      }
+      
+      // Update the state immediately
+      state = AsyncValue.data(currentList);
+    }
+  }
 }
 
 final plannerListProvider = AsyncNotifierProvider<PlannerNotifier, List<PlannerItem>>(

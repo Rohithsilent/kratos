@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../../../../core/providers/firebase_providers.dart';
+import '../../../../core/constants/api_constants.dart';
 import '../../../daily_planner/presentation/controllers/nutrition_controller.dart';
 import '../../../daily_planner/presentation/controllers/hydration_controller.dart';
 import '../../../daily_planner/utils/planner_helpers.dart';
@@ -58,8 +59,7 @@ class NutritionWsNotifier extends Notifier<NutritionWsState> {
     if (_channel != null) return; // Already connected
 
     try {
-      const wsHost = '10.252.42.49:8000';
-      final wsUrl = 'ws://$wsHost/ws/nutrition/$_userId';
+      final wsUrl = '${ApiConstants.wsBaseUrl}/ws/nutrition/$_userId';
       debugPrint('[NutritionWS] Connecting to $wsUrl');
 
       _channel = WebSocketChannel.connect(Uri.parse(wsUrl));

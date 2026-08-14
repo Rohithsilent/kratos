@@ -63,7 +63,7 @@ class _FoodScannerSheetState extends ConsumerState<FoodScannerSheet> {
     return Container(
       constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.88),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF0F0F0F) : Colors.white,
+        color: isDark ? const Color(0xFF0F0F0F) : Theme.of(context).scaffoldBackgroundColor,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
         border: Border(top: BorderSide(color: context.colors.onSurface.withValues(alpha: 0.06))),
       ),

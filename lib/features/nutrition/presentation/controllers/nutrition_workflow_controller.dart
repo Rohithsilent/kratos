@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../auth/presentation/providers/auth_state_provider.dart';
 import '../../data/repositories/meal_repository.dart';
 import '../../data/services/nutrition_api_service.dart';
 import '../../domain/enums/meal_type.dart';
@@ -182,6 +183,7 @@ class MealScanNotifier extends Notifier<MealScanState> {
 
     // Invalidate the meal list so UI updates immediately from local cache
     ref.invalidate(todayMealsProvider);
+    ref.invalidate(weeklyMealsProvider);
 
     // Reset scanner
     state = const MealScanState();
@@ -198,6 +200,7 @@ final mealScanProvider = NotifierProvider<MealScanNotifier, MealScanState>(
 // ── 4. Meal History Providers ─────────────────────────────────────────────────
 
 final todayMealsProvider = FutureProvider<List<MealEntry>>((ref) async {
+  ref.watch(authStateProvider); // Re-fetch when auth state resolves
   final today = PlannerHelpers.formatDate(DateTime.now());
   return ref.watch(mealRepositoryProvider).fetchMeals(date: today);
 });
@@ -212,6 +215,7 @@ final groupedMealsProvider = FutureProvider<Map<MealType, List<MealEntry>>>((ref
 });
 
 final weeklyMealsProvider = FutureProvider<List<MealEntry>>((ref) async {
+  ref.watch(authStateProvider); // Re-fetch when auth state resolves
   final now = DateTime.now();
   final start = now.subtract(const Duration(days: 6));
   return ref.read(mealRepositoryProvider).fetchMealsForDateRange(
@@ -258,6 +262,7 @@ class ManualMealNotifier extends Notifier<void> {
         );
 
     ref.invalidate(todayMealsProvider);
+    ref.invalidate(weeklyMealsProvider);
   }
 
   Future<void> deleteMeal(MealEntry meal) async {
@@ -272,6 +277,7 @@ class ManualMealNotifier extends Notifier<void> {
         );
 
     ref.invalidate(todayMealsProvider);
+    ref.invalidate(weeklyMealsProvider);
   }
 }
 

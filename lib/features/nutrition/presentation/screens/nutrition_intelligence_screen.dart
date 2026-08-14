@@ -8,6 +8,7 @@ import '../widgets/nutrition_score_section.dart';
 import '../widgets/hydration_intelligence_section.dart';
 import '../widgets/ai_coach_section.dart';
 import '../widgets/meal_history_section.dart';
+import '../widgets/weekly_meal_report_section.dart';
 
 import '../widgets/log_meal_sheet.dart';
 
@@ -214,6 +215,13 @@ class _NutritionIntelligenceScreenState
                 // ──── Section 4: Meal History ────
                 const SliverToBoxAdapter(
                   child: MealHistorySection(),
+                ),
+
+                const SliverToBoxAdapter(child: SizedBox(height: 24)),
+
+                // ──── Section 5: Weekly Report ────
+                const SliverToBoxAdapter(
+                  child: WeeklyMealReportSection(),
                 ),
 
                 // Bottom safe space for FAB

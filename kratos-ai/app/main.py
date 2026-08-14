@@ -11,9 +11,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.config import settings
 from app.core.logging import setup_logging
 
-# Routers
 from app.api.chat import router as chat_router
 from app.api.nutrition import router as nutrition_router
+from app.api.v1.routes.meals import router as meals_router
 
 # WebSocket handler
 from app.websocket.chat_socket import chat_socket_handler
@@ -93,6 +93,7 @@ def create_application() -> FastAPI:
     PREFIX = settings.API_V1_PREFIX
     app.include_router(chat_router, prefix=PREFIX)
     app.include_router(nutrition_router, prefix=PREFIX)
+    app.include_router(meals_router, prefix=PREFIX)
 
     # ── WebSocket ─────────────────────────────────────────────────────────────
     @app.websocket("/ws/chat/{user_id}")

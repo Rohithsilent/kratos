@@ -2,14 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/constants/api_constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
 class NutritionApiService {
   // Use local network IP for physical device testing
-  String get _baseUrl {
-    return 'http://10.252.42.49:8000/api/v1';
-  }
+  String get _baseUrl => ApiConstants.apiV1;
 
   /// Analyze a food image by uploading it to the Python backend.
   Future<Map<String, dynamic>?> analyzeFoodImage(Uint8List imageBytes) async {

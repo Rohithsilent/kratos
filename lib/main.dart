@@ -12,6 +12,9 @@ import 'firebase_options.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'core/notifications/notification_service.dart';
 
+// podman-compose up -d postgres redis
+// uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
 void main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
@@ -22,8 +25,11 @@ void main() async {
     await NotificationService.instance.initialize();
     final sharedPreferences = await SharedPreferences.getInstance();
     await GoogleSignIn.instance.initialize(
-      clientId: '382194592458-m3kc7gj121a5lkk9clohpob0hf5elvlr.apps.googleusercontent.com',
-      serverClientId: kIsWeb ? null : '382194592458-m3kc7gj121a5lkk9clohpob0hf5elvlr.apps.googleusercontent.com',
+      clientId:
+          '382194592458-m3kc7gj121a5lkk9clohpob0hf5elvlr.apps.googleusercontent.com',
+      serverClientId: kIsWeb
+          ? null
+          : '382194592458-m3kc7gj121a5lkk9clohpob0hf5elvlr.apps.googleusercontent.com',
     );
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(

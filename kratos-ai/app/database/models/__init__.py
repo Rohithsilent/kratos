@@ -13,11 +13,12 @@ from app.database.models.ai_conversation import AIConversation # noqa: F401
 from app.database.models.recovery_metric import RecoveryMetric # noqa: F401
 from app.database.models.recommendation_log import RecommendationLog  # noqa: F401
 from app.database.models.ai_request_log import AIRequestLog   # noqa: F401
-
+from app.database.models.meal_entry import MealEntryModel     # noqa: F401
 __all__ = [
     "AIInsight",
     "AIConversation",
     "RecoveryMetric",
     "RecommendationLog",
     "AIRequestLog",
+    "MealEntryModel",
 ]

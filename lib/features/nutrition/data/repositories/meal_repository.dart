@@ -37,13 +37,13 @@ class MealRepositoryImpl implements MealRepository {
     try {
       final meals =
           await _ref.read(mealRemoteDataSourceProvider).getMeals(uid, date: date);
-      debugPrint('[MealRepo] Fetched ${meals.length} meals from Firestore (date=$date)');
+      debugPrint('[MealRepo] Fetched ${meals.length} meals from PostgreSQL (date=$date)');
       for (var m in meals) {
         _localCache[m.id] = m;
       }
       return meals;
     } catch (e) {
-      debugPrint('[MealRepo] Firestore fetch failed: $e — falling back to cache');
+      debugPrint('[MealRepo] PostgreSQL fetch failed: $e — falling back to cache');
       final cached = _localCache.values.toList();
       if (date != null) return cached.where((m) => m.date == date).toList();
       return cached;
@@ -57,9 +57,9 @@ class MealRepositoryImpl implements MealRepository {
     if (uid != null) {
       try {
         await _ref.read(mealRemoteDataSourceProvider).saveMeal(uid, meal);
-        debugPrint('[MealRepo] Meal saved to Firestore: ${meal.foodName}');
+        debugPrint('[MealRepo] Meal saved to PostgreSQL: ${meal.foodName}');
       } catch (e) {
-        debugPrint('[MealRepo] Failed to save meal to Firestore: $e');
+        debugPrint('[MealRepo] Failed to save meal to PostgreSQL: $e');
         // Meal is still in local cache, will sync later
       }
     }
@@ -72,9 +72,9 @@ class MealRepositoryImpl implements MealRepository {
     if (uid != null) {
       try {
         await _ref.read(mealRemoteDataSourceProvider).deleteMeal(uid, mealId);
-        debugPrint('[MealRepo] Meal deleted from Firestore: $mealId');
+        debugPrint('[MealRepo] Meal deleted from PostgreSQL: $mealId');
       } catch (e) {
-        debugPrint('[MealRepo] Failed to delete meal from Firestore: $e');
+        debugPrint('[MealRepo] Failed to delete meal from PostgreSQL: $e');
       }
     }
   }

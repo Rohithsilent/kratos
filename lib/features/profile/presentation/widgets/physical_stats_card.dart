@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_decorations.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../data/services/body_metric_history_service.dart';
 
 class PhysicalStatsCard extends StatelessWidget {
   final String height;
@@ -347,13 +348,22 @@ class PhysicalStatsCard extends StatelessWidget {
                     const SizedBox(height: 24),
                     // Save button
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
+                        final navigator = Navigator.of(ctx);
                         final val = controller.text.trim();
                         if (val.isNotEmpty) {
                           final unit = isCm ? 'cm' : 'ft';
                           onHeightChanged('$val $unit');
+                          final numVal = double.tryParse(val) ?? 0;
+                          if (numVal > 0) {
+                            await BodyMetricHistoryService.saveLog(
+                              metric: 'height',
+                              value: numVal,
+                              unit: unit,
+                            );
+                          }
                         }
-                        Navigator.pop(ctx);
+                        navigator.pop();
                       },
                       child: Container(
                         width: double.infinity,
@@ -488,13 +498,22 @@ class PhysicalStatsCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 24),
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
+                        final navigator = Navigator.of(ctx);
                         final val = controller.text.trim();
                         if (val.isNotEmpty) {
                           final unit = isKg ? 'kg' : 'lbs';
                           onWeightChanged('$val $unit');
+                          final numVal = double.tryParse(val) ?? 0;
+                          if (numVal > 0) {
+                            await BodyMetricHistoryService.saveLog(
+                              metric: 'weight',
+                              value: numVal,
+                              unit: unit,
+                            );
+                          }
                         }
-                        Navigator.pop(ctx);
+                        navigator.pop();
                       },
                       child: Container(
                         width: double.infinity,
