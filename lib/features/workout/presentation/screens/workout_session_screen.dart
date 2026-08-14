@@ -491,7 +491,7 @@ class _WorkoutSessionScreenState extends ConsumerState<WorkoutSessionScreen> {
                                   activeExIdx < sessionState.exercises.length - 1
                                       ? 'NEXT EXERCISE'
                                       : 'FINISH WORKOUT',
-                                  style: TextStyle(color: context.colors.onSurface,
+                                  style: TextStyle(color: context.colors.onPrimary,
                                     fontSize: 12,
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: 1.1,

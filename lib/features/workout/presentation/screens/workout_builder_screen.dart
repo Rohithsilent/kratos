@@ -596,7 +596,7 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                   child: Center(
                     child: Text(
                       'SAVE WORKOUT ROUTINE',
-                      style: TextStyle(color: context.colors.onSurface,
+                      style: TextStyle(color: context.colors.onPrimary,
                         fontSize: 13,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 1.2,
@@ -764,7 +764,7 @@ class _WorkoutBuilderScreenState extends ConsumerState<WorkoutBuilderScreen> {
                         height: 48,
                         decoration: AppDecorations.primaryButton(context, borderRadius: 14),
                         child: Center(
-                          child: Text('CONFIRM CHANGES', style: TextStyle(color: context.colors.onSurface, fontWeight: FontWeight.bold)),
+                          child: Text('CONFIRM CHANGES', style: TextStyle(color: context.colors.onPrimary, fontWeight: FontWeight.bold)),
                         ),
                       ),
                     ),
@@ -973,7 +973,7 @@ class _AddExercisesPickerModalState extends ConsumerState<_AddExercisesPickerMod
                     label: Text(
                       category.toUpperCase(),
                       style: TextStyle(
-                        color: isSelected ? context.colors.onSurface : context.colors.onSurface.withOpacity(0.38),
+                        color: isSelected ? context.colors.onPrimary : context.colors.onSurface.withOpacity(0.38),
                         fontSize: 9,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 0.6,

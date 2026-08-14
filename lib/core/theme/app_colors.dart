@@ -94,10 +94,10 @@ class AppColors {
 
   // ─── Super Saiyan Orange (Dragon Ball inspired)
   // Background tuned to warm orange/white; primary (icons/accents) are blue.
-  static const Color ssScaffold = Color(0xFFFFF3E0); // pale orange / near-white
+  static const Color ssScaffold = Color(0xFFFFF8F0); // light cream background for light theme
   static const Color ssPrimary = Color(0xFF0D47A1); // deep blue for icons/accents
   static const Color ssSecondary = Color(0xFFFF5722); // energetic orange
-  static const Color ssSurface = Color(0xFFFFFFFF); // white surface for cards
+  static const Color ssSurface = Color(0xFFFFF8F0); // light cream surface for cards
 
   // ─── Cyberpunk Iron (Neon / Charcoal) ───
   static const Color cpScaffold = Color(0xFF0F0F12);

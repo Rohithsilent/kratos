@@ -74,7 +74,7 @@ class _ExerciseDetailScreenState extends ConsumerState<ExerciseDetailScreen> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Colors.black.withOpacity(0.4),
+                        context.colors.surface,
                         context.colors.surface.withOpacity(0.9),
                         context.colors.surface,
                       ],
@@ -144,13 +144,13 @@ class _ExerciseDetailScreenState extends ConsumerState<ExerciseDetailScreen> {
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Icon(Icons.add_rounded, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                                      Icon(Icons.add_rounded, color: context.colors.onPrimary,
                                         size: 16,
                                       ),
                                       SizedBox(width: 4),
                                       Text(
                                         'ADD TO WORKOUT',
-                                        style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                                        style: TextStyle(color: context.colors.onPrimary,
                                           fontSize: 11,
                                           fontWeight: FontWeight.w900,
                                           letterSpacing: 0.5,
@@ -386,7 +386,7 @@ class _ExerciseDetailScreenState extends ConsumerState<ExerciseDetailScreen> {
                                       child: Center(
                                         child: Text(
                                           '${index + 1}',
-                                          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900,
+                                          style: TextStyle(color: context.colors.onPrimary,
                                             fontWeight: FontWeight.w900,
                                             fontSize: 12,
                                           ),

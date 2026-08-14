@@ -136,7 +136,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
           top: 10,
         ),
         decoration: BoxDecoration(
-          color: Color(0xFF0C0C0C).withOpacity(0.92),
+          color: Theme.of(context).brightness == Brightness.dark ? Color(0xFF0C0C0C).withOpacity(0.92) : context.colors.surface,
           borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
           border: Border.all(color: context.colors.onSurface.withValues(alpha: 0.08), width: 1.5),
         ),
@@ -209,7 +209,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                                 child: Center(
                                   child: Text(
                                     'CREATE NEW WORKOUT',
-                                    style: TextStyle(color: context.colors.onSurface, fontWeight: FontWeight.bold),
+                                    style: TextStyle(color: context.colors.onPrimary, fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
@@ -389,7 +389,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                           label: Text(
                             range,
                             style: TextStyle(
-                              color: isSelected ? context.colors.onSurface : context.colors.onSurface.withValues(alpha: 0.60),
+                              color: isSelected ? context.colors.onPrimary : context.colors.onSurface.withValues(alpha: 0.60),
                               fontWeight: isSelected ? FontWeight.w900 : FontWeight.w500,
                             ),
                           ),
@@ -435,7 +435,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                                   label: Text(
                                     '$sec sec',
                                     style: TextStyle(
-                                      color: isSelected ? context.colors.onSurface : context.colors.onSurface.withValues(alpha: 0.60),
+                                      color: isSelected ? context.colors.onPrimary : context.colors.onSurface.withValues(alpha: 0.60),
                                       fontWeight: isSelected ? FontWeight.w900 : FontWeight.w500,
                                     ),
                                   ),
@@ -464,7 +464,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                               label: Text(
                                 _isCreatingCustomRest ? '${_restSeconds}s (Custom)' : 'Custom',
                                 style: TextStyle(
-                                  color: _isCreatingCustomRest ? context.colors.onSurface : context.colors.onSurface.withValues(alpha: 0.60),
+                                  color: _isCreatingCustomRest ? context.colors.onPrimary : context.colors.onSurface.withValues(alpha: 0.60),
                                   fontWeight: _isCreatingCustomRest ? FontWeight.w900 : FontWeight.w500,
                                 ),
                               ),
@@ -694,7 +694,7 @@ class _AddToWorkoutBottomSheetState extends ConsumerState<AddToWorkoutBottomShee
                                 child: Text(
                                   'CREATE NEW ROUTINE',
                                   maxLines: 1,
-                                  style: TextStyle(color: context.colors.onSurface,
+                                  style: TextStyle(color: context.colors.onPrimary,
                                     fontSize: 11,
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: 0.5,

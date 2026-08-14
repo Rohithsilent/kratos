@@ -81,7 +81,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                 Text(
                   'KRATOS AI',
                   style: AppTypography.labelBold.copyWith(
-                    color: isDark ? Colors.white : context.customColors.grey900,
+                    color: context.colors.onPrimary,
                     letterSpacing: 1.5,
                   ),
                 ),

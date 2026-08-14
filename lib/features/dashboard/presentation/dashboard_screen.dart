@@ -107,7 +107,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   icon: const Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 20),
                   label: Text(
                     'Kratos AI',
-                    style: AppTypography.labelBold.copyWith(color: Colors.white),
+                    style: AppTypography.labelBold.copyWith(color: context.colors.onPrimary),
                   ),
                 ),
               ),

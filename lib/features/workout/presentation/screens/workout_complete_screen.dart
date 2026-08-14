@@ -251,7 +251,7 @@ class WorkoutCompleteScreen extends StatelessWidget {
                       child: Center(
                         child: Text(
                           'RETURN TO DASHBOARD',
-                          style: TextStyle(color: context.colors.onSurface,
+                          style: TextStyle(color: context.colors.onPrimary,
                             fontSize: 13,
                             fontWeight: FontWeight.w900,
                             letterSpacing: 1.2,
