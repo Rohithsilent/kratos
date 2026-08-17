@@ -12,10 +12,12 @@ class WeeklyMealReportSection extends ConsumerStatefulWidget {
   const WeeklyMealReportSection({super.key});
 
   @override
-  ConsumerState<WeeklyMealReportSection> createState() => _WeeklyMealReportSectionState();
+  ConsumerState<WeeklyMealReportSection> createState() =>
+      _WeeklyMealReportSectionState();
 }
 
-class _WeeklyMealReportSectionState extends ConsumerState<WeeklyMealReportSection> {
+class _WeeklyMealReportSectionState
+    extends ConsumerState<WeeklyMealReportSection> {
   int _selectedIndex = 6; // Default to today (index 6 out of 0..6)
 
   @override
@@ -45,11 +47,17 @@ class _WeeklyMealReportSectionState extends ConsumerState<WeeklyMealReportSectio
                 decoration: BoxDecoration(
                   color: const Color(0xFF60A5FA).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: const Color(0xFF60A5FA).withValues(alpha: 0.2)),
+                  border: Border.all(
+                    color: const Color(0xFF60A5FA).withValues(alpha: 0.2),
+                  ),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.history_rounded, color: Color(0xFF60A5FA), size: 12),
+                    const Icon(
+                      Icons.history_rounded,
+                      color: Color(0xFF60A5FA),
+                      size: 12,
+                    ),
                     const SizedBox(width: 4),
                     Text(
                       '7-DAY HISTORY',
@@ -78,7 +86,11 @@ class _WeeklyMealReportSectionState extends ConsumerState<WeeklyMealReportSectio
     );
   }
 
-  Widget _buildHubContent(BuildContext context, List<MealEntry> allMeals, bool isDark) {
+  Widget _buildHubContent(
+    BuildContext context,
+    List<MealEntry> allMeals,
+    bool isDark,
+  ) {
     // 1. Generate the last 7 days (ending today)
     final now = DateTime.now();
     final List<DateTime> last7Days = List.generate(
@@ -134,10 +146,18 @@ class _WeeklyMealReportSectionState extends ConsumerState<WeeklyMealReportSectio
 
     // Selected day's meals
     final selectedDayMeals = mealsByDate[selectedDateStr] ?? [];
-    final selectedDayCals = selectedDayMeals.fold<double>(0, (s, m) => s + m.calories).round();
-    final selectedDayProt = selectedDayMeals.fold<double>(0, (s, m) => s + m.protein).round();
-    final selectedDayCarbs = selectedDayMeals.fold<double>(0, (s, m) => s + m.carbs).round();
-    final selectedDayFats = selectedDayMeals.fold<double>(0, (s, m) => s + m.fats).round();
+    final selectedDayCals = selectedDayMeals
+        .fold<double>(0, (s, m) => s + m.calories)
+        .round();
+    final selectedDayProt = selectedDayMeals
+        .fold<double>(0, (s, m) => s + m.protein)
+        .round();
+    final selectedDayCarbs = selectedDayMeals
+        .fold<double>(0, (s, m) => s + m.carbs)
+        .round();
+    final selectedDayFats = selectedDayMeals
+        .fold<double>(0, (s, m) => s + m.fats)
+        .round();
 
     final isSelectedToday = _selectedIndex == 6;
 
@@ -168,7 +188,9 @@ class _WeeklyMealReportSectionState extends ConsumerState<WeeklyMealReportSectio
                       Text(
                         '7-DAY AVERAGE',
                         style: TextStyle(
-                          color: context.colors.onSurface.withValues(alpha: 0.4),
+                          color: context.colors.onSurface.withValues(
+                            alpha: 0.4,
+                          ),
                           fontSize: 10,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 1.2,
@@ -192,7 +214,9 @@ class _WeeklyMealReportSectionState extends ConsumerState<WeeklyMealReportSectio
                           Text(
                             'kcal/day',
                             style: TextStyle(
-                              color: context.colors.onSurface.withValues(alpha: 0.4),
+                              color: context.colors.onSurface.withValues(
+                                alpha: 0.4,
+                              ),
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
                             ),
@@ -242,7 +266,10 @@ class _WeeklyMealReportSectionState extends ConsumerState<WeeklyMealReportSectio
                     final isToday = index == 6;
                     final isSelected = index == _selectedIndex;
                     final calories = dailyCalories[index];
-                    final heightRatio = (calories / maxCalories).clamp(0.0, 1.0);
+                    final heightRatio = (calories / maxCalories).clamp(
+                      0.0,
+                      1.0,
+                    );
                     final dayDate = last7Days[index];
 
                     return Expanded(
@@ -303,8 +330,12 @@ class _WeeklyMealReportSectionState extends ConsumerState<WeeklyMealReportSectio
                     ),
                     child: Center(
                       child: Icon(
-                        isSelectedToday ? Icons.today_rounded : Icons.calendar_month_rounded,
-                        color: isSelectedToday ? context.colors.primary : context.colors.onSurface.withValues(alpha: 0.6),
+                        isSelectedToday
+                            ? Icons.today_rounded
+                            : Icons.calendar_month_rounded,
+                        color: isSelectedToday
+                            ? context.colors.primary
+                            : context.colors.onSurface.withValues(alpha: 0.6),
                         size: 16,
                       ),
                     ),
@@ -328,7 +359,9 @@ class _WeeklyMealReportSectionState extends ConsumerState<WeeklyMealReportSectio
                         Text(
                           '${selectedDayMeals.length} logged items • $selectedDayCals kcal',
                           style: TextStyle(
-                            color: context.colors.onSurface.withValues(alpha: 0.4),
+                            color: context.colors.onSurface.withValues(
+                              alpha: 0.4,
+                            ),
                             fontSize: 10,
                             fontWeight: FontWeight.w600,
                           ),
@@ -338,7 +371,10 @@ class _WeeklyMealReportSectionState extends ConsumerState<WeeklyMealReportSectio
                   ),
                   if (selectedDayMeals.isNotEmpty)
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: context.colors.onSurface.withValues(alpha: 0.04),
                         borderRadius: BorderRadius.circular(10),
@@ -346,7 +382,9 @@ class _WeeklyMealReportSectionState extends ConsumerState<WeeklyMealReportSectio
                       child: Text(
                         'P:${selectedDayProt}g C:${selectedDayCarbs}g F:${selectedDayFats}g',
                         style: TextStyle(
-                          color: context.colors.onSurface.withValues(alpha: 0.6),
+                          color: context.colors.onSurface.withValues(
+                            alpha: 0.6,
+                          ),
                           fontSize: 9,
                           fontWeight: FontWeight.w700,
                         ),
@@ -374,7 +412,9 @@ class _WeeklyMealReportSectionState extends ConsumerState<WeeklyMealReportSectio
                             content: Text('${meal.foodName} removed'),
                             backgroundColor: const Color(0xFFEF4444),
                             behavior: SnackBarBehavior.floating,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                             duration: const Duration(seconds: 2),
                           ),
                         );
@@ -495,7 +535,11 @@ class _WeeklyMealReportSectionState extends ConsumerState<WeeklyMealReportSectio
       ),
       child: Row(
         children: [
-          const Icon(Icons.error_outline_rounded, color: Color(0xFFEF4444), size: 18),
+          const Icon(
+            Icons.error_outline_rounded,
+            color: Color(0xFFEF4444),
+            size: 18,
+          ),
           const SizedBox(width: 10),
           Text(
             'Failed to load weekly report.',
@@ -581,8 +625,8 @@ class _BarChartColumn extends StatelessWidget {
     final barColor = isSelected
         ? context.colors.primary
         : (isToday
-            ? context.colors.primary.withValues(alpha: 0.5)
-            : context.colors.onSurface.withValues(alpha: 0.12));
+              ? context.colors.primary.withValues(alpha: 0.5)
+              : context.colors.onSurface.withValues(alpha: 0.12));
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -611,7 +655,10 @@ class _BarChartColumn extends StatelessWidget {
                   : context.colors.onSurface.withValues(alpha: 0.03),
               borderRadius: BorderRadius.circular(10),
               border: isSelected
-                  ? Border.all(color: context.colors.primary.withValues(alpha: 0.4), width: 1.5)
+                  ? Border.all(
+                      color: context.colors.primary.withValues(alpha: 0.4),
+                      width: 1.5,
+                    )
                   : null,
             ),
             child: FractionallySizedBox(
@@ -628,7 +675,9 @@ class _BarChartColumn extends StatelessWidget {
                   boxShadow: isSelected
                       ? [
                           BoxShadow(
-                            color: context.colors.primary.withValues(alpha: 0.35),
+                            color: context.colors.primary.withValues(
+                              alpha: 0.35,
+                            ),
                             blurRadius: 8,
                             spreadRadius: 1,
                           ),
@@ -648,10 +697,12 @@ class _BarChartColumn extends StatelessWidget {
             color: isSelected
                 ? context.colors.primary
                 : (isToday
-                    ? context.colors.onSurface
-                    : context.colors.onSurface.withValues(alpha: 0.4)),
+                      ? context.colors.onSurface
+                      : context.colors.onSurface.withValues(alpha: 0.4)),
             fontSize: 10,
-            fontWeight: isSelected || isToday ? FontWeight.w900 : FontWeight.w600,
+            fontWeight: isSelected || isToday
+                ? FontWeight.w900
+                : FontWeight.w600,
           ),
         ),
       ],
@@ -663,10 +714,7 @@ class _HistoryMealTile extends StatelessWidget {
   final MealEntry meal;
   final VoidCallback onDelete;
 
-  const _HistoryMealTile({
-    required this.meal,
-    required this.onDelete,
-  });
+  const _HistoryMealTile({required this.meal, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -684,7 +732,11 @@ class _HistoryMealTile extends StatelessWidget {
           color: const Color(0xFFEF4444).withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(14),
         ),
-        child: const Icon(Icons.delete_outline_rounded, color: Color(0xFFEF4444), size: 20),
+        child: const Icon(
+          Icons.delete_outline_rounded,
+          color: Color(0xFFEF4444),
+          size: 20,
+        ),
       ),
       child: Container(
         margin: const EdgeInsets.only(bottom: 8),
@@ -710,8 +762,12 @@ class _HistoryMealTile extends StatelessWidget {
               ),
               child: Center(
                 child: Icon(
-                  isAiScan ? Icons.camera_alt_rounded : Icons.restaurant_rounded,
-                  color: isAiScan ? const Color(0xFF8B5CF6) : context.colors.primary,
+                  isAiScan
+                      ? Icons.camera_alt_rounded
+                      : Icons.restaurant_rounded,
+                  color: isAiScan
+                      ? const Color(0xFF8B5CF6)
+                      : context.colors.primary,
                   size: 16,
                 ),
               ),
@@ -741,7 +797,9 @@ class _HistoryMealTile extends StatelessWidget {
                       Text(
                         timeStr,
                         style: TextStyle(
-                          color: context.colors.onSurface.withValues(alpha: 0.3),
+                          color: context.colors.onSurface.withValues(
+                            alpha: 0.3,
+                          ),
                           fontSize: 9,
                           fontWeight: FontWeight.w600,
                         ),
