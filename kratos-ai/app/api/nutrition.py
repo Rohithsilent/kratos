@@ -88,10 +88,11 @@ async def calculate_nutrition_score(body: NutritionScoreRequest):
 @router.post("/coach")
 async def generate_coach_insight(body: NutritionCoachRequest):
     """Generate conversational AI coach insight based on today's intake and save to Postgres."""
-    logger.info("POST /nutrition/coach")
+    user_id = body.intake.get("user_id", "anonymous")
+    logger.info("POST /nutrition/coach | user={}", user_id)
     agent = NutritionAgent(llm=gemini)
     try:
-        result = await agent.generate_coach_insight(intake=body.intake, targets=body.targets)
+        result = await agent.generate_coach_insight(intake=body.intake, targets=body.targets, user_id=user_id)
         
         # Save to Postgres
         from app.database.postgres import AsyncSessionLocal

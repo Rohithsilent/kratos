@@ -8,7 +8,7 @@ class ApiConstants {
   /// PERMANENT FIX ADVICE:
   /// To stop this IP from changing every day, log into your Wi-Fi router's 
   /// admin panel and assign a "Static IP" or "DHCP Reservation" to your computer.
-  static const String localIp = '10.26.214.49';
+  static const String localIp = '10.52.15.49';
 
   /// The base HTTP URL for the FastAPI backend.
   static const String baseUrl = 'http://$localIp:8000';

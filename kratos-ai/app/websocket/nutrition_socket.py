@@ -105,6 +105,7 @@ async def _handle_analyze(user_id: str, websocket: WebSocket, payload: dict) -> 
             contents=contents,
             model=GeminiModel.FLASH,
             system_instruction=system_instruction,
+            user_id=user_id,
         ):
             full_response += chunk
             await websocket.send_text(json.dumps({
@@ -231,6 +232,7 @@ async def _handle_meal_logged(user_id: str, websocket: WebSocket, payload: dict)
             contents=contents,
             model=GeminiModel.FLASH,
             system_instruction=system_instruction,
+            user_id=user_id,
         ):
             full_response += chunk
             await websocket.send_text(json.dumps({

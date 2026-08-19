@@ -169,6 +169,7 @@ async def chat_socket_handler(user_id: str, websocket: WebSocket) -> None:
                     contents=contents,
                     model=GeminiModel.FLASH,
                     system_instruction=system_instruction,
+                    user_id=user_id,
                 ):
                     full_response += chunk
                     await websocket.send_text(json.dumps({

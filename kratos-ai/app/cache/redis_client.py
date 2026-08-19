@@ -10,6 +10,7 @@ Provides:
 from __future__ import annotations
 
 import json
+import time
 from typing import Any
 
 import redis.asyncio as aioredis
@@ -92,4 +93,62 @@ async def get_cached_recovery(user_id: str) -> dict | None:
 async def set_cached_recovery(user_id: str, data: dict, ttl: int = 43200) -> None:
     """Cache recovery score for 12 hours."""
     await cache_set(recovery_key(user_id), data, ttl)
+
+
+# ── Redis Sliding-Window Rate Limiter ─────────────────────────────────────────
+
+async def check_redis_rate_limit(
+    key: str,
+    limit: int = 20,
+    window_seconds: int = 60,
+) -> tuple[bool, int]:
+    """
+    Check if a rate limit is exceeded using Redis Sorted Set sliding window.
+
+    Returns:
+        (allowed: bool, current_count: int)
+    """
+    try:
+        r = await get_redis()
+        now = time.time()
+        cutoff = now - window_seconds
+        pipe = r.pipeline()
+        pipe.zremrangebyscore(key, 0, cutoff)
+        pipe.zcard(key)
+        pipe.zadd(key, {f"{now}": now})
+        pipe.expire(key, window_seconds + 10)
+        results = await pipe.execute()
+        count = results[1]
+        if count >= limit:
+            return False, count
+        return True, count + 1
+    except Exception as exc:
+        logger.warning("Redis rate limit check failed (falling back to allowed): {}", exc)
+        return True, 0
+
+
+# ── AI Response Cache Helpers ──────────────────────────────────────────────────
+
+def ai_cache_key(prompt_hash: str) -> str:
+    return f"kratos:ai_cache:{prompt_hash}"
+
+
+async def get_ai_response_cache(prompt_hash: str) -> Any | None:
+    try:
+        return await cache_get(ai_cache_key(prompt_hash))
+    except Exception as exc:
+        logger.warning("Failed to fetch AI response cache: {}", exc)
+        return None
+
+
+async def set_ai_response_cache(
+    prompt_hash: str,
+    data: Any,
+    ttl: int = settings.AI_CACHE_TTL_SECONDS,
+) -> None:
+    try:
+        await cache_set(ai_cache_key(prompt_hash), data, ttl_seconds=ttl)
+    except Exception as exc:
+        logger.warning("Failed to set AI response cache: {}", exc)
+
 

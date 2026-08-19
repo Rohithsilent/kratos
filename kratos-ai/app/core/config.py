@@ -41,7 +41,8 @@ class Settings(BaseSettings):
     REDIS_URL: str = "redis://localhost:6379/0"
 
     # ── Gemini AI — Gemini 2.5 models ────────────────────────────────────────
-    GEMINI_API_KEY: str = Field(..., description="Google Gemini API key")
+    GEMINI_API_KEY: str = Field(default="", description="Single Google Gemini API key")
+    GEMINI_API_KEYS: str = Field(default="", description="Comma-separated pool of Gemini API keys")
 
     # Fast responses (sub-second reasoning, high quota)
     GEMINI_FLASH_MODEL: str = "models/gemini-2.5-flash"
@@ -52,9 +53,24 @@ class Settings(BaseSettings):
     # Embeddings (vector store indexing)
     GEMINI_EMBEDDING_MODEL: str = "models/text-embedding-004"
 
-    # ── Rate limiting ─────────────────────────────────────────────────────────
-    GEMINI_RPM_LIMIT: int = 60          # requests per minute
-    GEMINI_TPM_LIMIT: int = 1_000_000   # tokens per minute
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def get_gemini_api_keys(self) -> list[str]:
+        """Consolidate single and multiple GEMINI_API_KEYS into a deduplicated list."""
+        keys: list[str] = []
+        if self.GEMINI_API_KEYS:
+            keys.extend([k.strip() for k in self.GEMINI_API_KEYS.split(",") if k.strip()])
+        if self.GEMINI_API_KEY and self.GEMINI_API_KEY.strip():
+            k = self.GEMINI_API_KEY.strip()
+            if k not in keys:
+                keys.append(k)
+        return keys
+
+    # ── Caching & Rate limiting ───────────────────────────────────────────────
+    GEMINI_RPM_LIMIT: int = 60          # requests per minute global
+    GEMINI_TPM_LIMIT: int = 1_000_000   # tokens per minute global
+    USER_RPM_LIMIT: int = 20            # per-user requests per minute limit
+    AI_CACHE_TTL_SECONDS: int = 86400   # 24 hours default AI response cache TTL
 
     # ── Observability ────────────────────────────────────────────────────────
     SENTRY_DSN: str = ""

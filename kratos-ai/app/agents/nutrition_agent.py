@@ -55,9 +55,9 @@ class NutritionAgent:
             "fat_g": fat_g
         }
 
-    async def analyze_food_image(self, image_bytes: bytes, mime_type: str) -> dict:
+    async def analyze_food_image(self, image_bytes: bytes, mime_type: str, user_id: str | None = None) -> dict:
         """Uses Gemini Vision to estimate macros from a food image."""
-        logger.debug("NutritionAgent.analyze_food_image called")
+        logger.debug("NutritionAgent.analyze_food_image called | user={}", user_id)
         from app.ai.schemas import FoodAnalysisOutput
         
         prompt = (
@@ -71,6 +71,7 @@ class NutritionAgent:
             prompt=prompt,
             schema=FoodAnalysisOutput,
             mime_type=mime_type,
+            user_id=user_id,
         )
         return result.model_dump()
 
@@ -99,9 +100,9 @@ class NutritionAgent:
             "insight": insight
         }
 
-    async def generate_coach_insight(self, intake: dict, targets: dict) -> dict:
+    async def generate_coach_insight(self, intake: dict, targets: dict, user_id: str | None = None) -> dict:
         """Uses Gemini Flash to provide a personalized conversational coaching insight."""
-        logger.debug("NutritionAgent.generate_coach_insight called")
+        logger.debug("NutritionAgent.generate_coach_insight called | user={}", user_id)
         from app.ai.schemas import NutritionCoachOutput
         from app.ai.gateway.gemini_gateway import GeminiModel
         
@@ -117,6 +118,7 @@ class NutritionAgent:
         result = await self.llm.generate_structured(
             prompt=prompt,
             schema=NutritionCoachOutput,
-            model=GeminiModel.FLASH
+            model=GeminiModel.FLASH,
+            user_id=user_id,
         )
         return result.model_dump()
