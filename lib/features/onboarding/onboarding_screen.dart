@@ -5,11 +5,11 @@ import '../../core/utils/validators.dart';
 import 'widgets/step_progress_bar.dart';
 import 'steps/name_step.dart';
 import 'steps/dob_step.dart';
+import 'steps/sex_step.dart';
 import 'steps/height_step.dart';
 import 'steps/weight_step.dart';
 import 'steps/phone_step.dart';
 import 'steps/email_step.dart';
-import 'steps/sex_step.dart';
 import 'steps/password_step.dart';
 import 'steps/complete_step.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -65,17 +65,17 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       case 1:
         return true; // DOB always has a default selection
       case 2:
-        return true; // height always has default
+        return _sex != null;
       case 3:
-        return true; // weight always has default
+        return true; // height always has default
       case 4:
+        return true; // weight always has default
+      case 5:
         // 10-digit phone validation (digits only)
         final digits = _phoneController.text.replaceAll(RegExp(r'\D'), '');
         return digits.length == 10;
-      case 5:
-        return Validators.isEmailValid(_emailController.text);
       case 6:
-        return _sex != null;
+        return Validators.isEmailValid(_emailController.text);
       case 7:
         return _passwordController.text.length >= 8 &&
             _passwordController.text == _confirmPasswordController.text;
@@ -268,6 +268,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     DobStep(
                       onChanged: (date) => setState(() => _dob = date),
                     ),
+                    SexStep(
+                      selectedValue: _sex,
+                      onSelected: (v) => setState(() => _sex = v),
+                    ),
                     HeightStep(
                       onChanged: (h) => setState(() => _height = h),
                     ),
@@ -282,10 +286,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       controller: _emailController,
                       onChanged: (_) => setState(() {}),
                       onGoogleSignUp: _handleGoogleSignUp,
-                    ),
-                    SexStep(
-                      selectedValue: _sex,
-                      onSelected: (v) => setState(() => _sex = v),
                     ),
                     PasswordStep(
                       controller: _passwordController,

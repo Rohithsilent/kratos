@@ -52,27 +52,27 @@ class AppStrings {
   static String dobTitle = 'When were\nyou born?';
   static String dobMicrocopy = 'This helps us personalize your training.';
 
-  // Step 3: Height
+  // Step 3: Sex
+  static String sexTitle = 'How do you\nidentify?';
+  static String sexMicrocopy = 'This optimizes your workout recommendations.';
+
+  // Step 4: Height
   static String heightTitle = 'How tall\nare you?';
   static String heightMicrocopy = 'We use this for accurate fitness calculations.';
 
-  // Step 4: Weight
+  // Step 5: Weight
   static String weightTitle = "What's your\ncurrent weight?";
   static String weightMicrocopy = 'Track your transformation from day one.';
 
-  // Step 5: Phone
+  // Step 6: Phone
   static String phoneTitle = 'Your phone\nnumber';
   static String phoneHint = 'Phone number';
   static String phoneMicrocopy = 'For account security and recovery.';
 
-  // Step 6: Email
+  // Step 7: Email
   static String emailTitle = 'Your email\naddress';
   static String emailHint = 'Enter your email';
   static String emailMicrocopy = 'We\'ll send you workout insights and progress reports.';
-
-  // Step 7: Sex
-  static String sexTitle = 'How do you\nidentify?';
-  static String sexMicrocopy = 'This optimizes your workout recommendations.';
 
   // Step 8: Password
   static String passwordTitle = 'Create a\nstrong password';
