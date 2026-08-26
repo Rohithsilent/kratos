@@ -63,7 +63,7 @@ lib/
 *   **State Management**: Riverpod (`flutter_riverpod`) for declarative state handling and DI.
 *   **Routing**: GoRouter (`go_router`) for declarative navigation and route parsing.
 *   **Storage**: `shared_preferences` (theme state, basic settings) & `flutter_secure_storage` (auth tokens, secure credentials).
-*   **Backend & DB**: Firebase Core, Auth, and Cloud Firestore.
+*   **Backend & DB**: Fast API, Postgresql, Firebase Core, Auth, and Cloud Firestore.
 
 ---
 
