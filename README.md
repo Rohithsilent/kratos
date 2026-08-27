@@ -22,7 +22,7 @@ The app features a meticulously crafted dark theme designed to offer an immersiv
 ### 📊 2. Premium Dashboard & Daily Planner
 *   **Unified Dashboard**: High-fidelity landing interface showing daily highlights, workout streaks, quick actions, and physical stats.
 *   **Daily Planner**: Custom calendar-based scheduling system. Log schedules, view daily training agendas, and track historical completed workouts.
-*   **Historical Viewer**: View completed workout session details, including precise start/end timestamps and set-by-set stats.
+
 
 ### 🏋️ 3. Workout Tracker & Exercise Library
 *   **Real-time Workout Logging**: Perform workouts with an active timer, log sets, reps, and weights, and review training metrics.
