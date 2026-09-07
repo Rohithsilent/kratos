@@ -146,8 +146,3 @@ The resulting APK will be generated under:
 
 ---
 
-## 🛡️ Firestore Rules
-
-To protect user data and ensure privacy, the database is locked using the following security policy defined in `firestore.rules`:
-*   **User Profiles**: Reading and writing are only permitted to authenticated owners (`request.auth.uid == userId`).
-*   **Workout Logs / Sessions**: Data is restricted to the specific creator to prevent cross-account modifications.
