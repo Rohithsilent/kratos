@@ -144,5 +144,4 @@ flutter build apk --release
 The resulting APK will be generated under:
 `build/app/outputs/flutter-apk/app-release.apk`
 
----
 
