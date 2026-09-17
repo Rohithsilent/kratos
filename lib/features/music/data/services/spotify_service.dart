@@ -96,25 +96,9 @@ class SpotifyService {
   // Generic helper for fetching and parsing playlists
   Future<List<WorkoutPlaylist>> _fetchPlaylists(String url, {bool isNested = false}) async {
     try {
-      var token = await _authRepository.getValidToken();
-      if (token == null) {
-        _logger.w('No valid token, attempting to get access token...');
-        try {
-          token = await SpotifySdk.getAccessToken(
-            clientId: _clientId,
-            redirectUrl: _redirectUrl,
-            scope: 'app-remote-control, user-modify-playback-state, playlist-read-private, playlist-read-collaborative, user-read-recently-played',
-          );
-          if (token != null && token.isNotEmpty) {
-            await _authRepository.saveToken(token);
-          }
-        } catch (e) {
-          _logger.e('Failed to get access token: $e');
-        }
-      }
-      
+      final token = await _authRepository.getValidToken();
       if (token == null || token.isEmpty) {
-        _logger.w('Cannot fetch playlists: No valid token available.');
+        _logger.d('Cannot fetch playlists: No valid Spotify token available.');
         return [];
       }
 

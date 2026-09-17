@@ -79,25 +79,40 @@ class NutritionAgent:
         """Deterministically calculate a 0-100 score based on macro adherence."""
         logger.debug("NutritionAgent.calculate_nutrition_score called")
         
-        cal_pct = min(1.0, intake.get("calories", 0) / max(1, targets.get("calories", 1)))
-        pro_pct = min(1.0, intake.get("protein_g", 0) / max(1, targets.get("protein_g", 1)))
+        cal_pct = min(1.0, float(intake.get("calories", 0)) / max(1.0, float(targets.get("calories", 1))))
+        pro_pct = min(1.0, float(intake.get("protein_g", 0)) / max(1.0, float(targets.get("protein_g", 1))))
+        water_pct = min(1.0, float(intake.get("water_ml", 0)) / max(1.0, float(targets.get("water_ml", 3000))))
         
-        # Simple weighted score: 60% protein adherence, 40% calorie adherence
-        score_val = int((pro_pct * 60) + (cal_pct * 40))
+        # Weighted score: 40% calories, 35% protein, 25% hydration
+        score_val = int((cal_pct * 40) + (pro_pct * 35) + (water_pct * 25))
         
         # Provide deterministic insights to save LLM latency
         if score_val < 30:
             insight = "Off track. Time to eat right."
+            grade = "F"
+        elif score_val < 60:
+            insight = "Below target. Log more meals."
+            grade = "D"
         elif score_val < 70:
             insight = "Making progress, but you need more protein."
-        elif score_val < 90:
-            insight = "Great day! Almost hit all targets."
+            grade = "C"
+        elif score_val < 85:
+            insight = "Solid day. Almost hit all targets."
+            grade = "B"
+        elif score_val < 95:
+            insight = "Great day! Keep pushing."
+            grade = "A"
         else:
-            insight = "Perfectly balanced. Keep it up!"
+            insight = "Perfectly balanced. Outstanding nutrition today!"
+            grade = "A+"
             
         return {
             "score": score_val,
-            "insight": insight
+            "calorie_adherence": cal_pct,
+            "protein_adherence": pro_pct,
+            "hydration_adherence": water_pct,
+            "grade": grade,
+            "insight": insight,
         }
 
     async def generate_coach_insight(self, intake: dict, targets: dict, user_id: str | None = None) -> dict:

@@ -65,37 +65,42 @@ async def chat_socket_handler(user_id: str, websocket: WebSocket) -> None:
     try:
         # 1. Setup Session
         conversation_id_str = websocket.query_params.get("conversation_id")
+        history_payload = []
+        turn_index = 0
+
         if conversation_id_str:
-            conversation_id = uuid.UUID(conversation_id_str)
+            try:
+                candidate_cid = uuid.UUID(conversation_id_str)
+                # Verify ownership: check if conversation has turns for this user
+                async with AsyncSessionLocal() as session:
+                    repo = AIConversationRepository(session)
+                    db_history = await repo.list_by_conversation(candidate_cid, firebase_uid=user_id)
+                
+                if db_history:
+                    conversation_id = candidate_cid
+                    for turn in db_history:
+                        history_payload.append({"role": "user", "content": turn.user_message})
+                        history_payload.append({"role": "assistant", "content": turn.ai_response})
+                        turn_index = max(turn_index, turn.turn_index + 1)
+                else:
+                    # Not found for this user — avoid leaking other accounts' sessions
+                    conversation_id = uuid.uuid4()
+            except ValueError:
+                conversation_id = uuid.uuid4()
         else:
             conversation_id = uuid.uuid4()
-            
-        turn_index = 0
-        cache_key = active_session_key(str(conversation_id))
 
-        # Check active session buffer in Redis
-        cached_history = await cache_get(cache_key)
-        history_payload = []
+        cache_key = active_session_key(user_id, str(conversation_id))
 
-        if cached_history is not None:
-            # Cache Hit
-            history_payload = cached_history
-            turn_index = len(history_payload) // 2
-            logger.info("Session buffer hit | conv={}", conversation_id)
-        else:
-            # Cache Miss: Fetch from Postgres and populate Redis
-            logger.info("Session buffer miss, loading from DB | conv={}", conversation_id)
-            async with AsyncSessionLocal() as session:
-                repo = AIConversationRepository(session)
-                db_history = await repo.list_by_conversation(conversation_id)
-                
-                for turn in db_history:
-                    history_payload.append({"role": "user", "content": turn.user_message})
-                    history_payload.append({"role": "assistant", "content": turn.ai_response})
-                    turn_index = max(turn_index, turn.turn_index + 1)
-            
-            # Store in Redis with 1 hour TTL
+        # Check active session buffer in Redis if not already loaded from DB
+        if history_payload:
             await cache_set(cache_key, history_payload, ttl_seconds=3600)
+        else:
+            cached_history = await cache_get(cache_key)
+            if cached_history is not None:
+                history_payload = cached_history
+                turn_index = len(history_payload) // 2
+                logger.info("Session buffer hit | user={} conv={}", user_id, conversation_id)
                 
         await websocket.send_text(json.dumps({
             "type": "history",

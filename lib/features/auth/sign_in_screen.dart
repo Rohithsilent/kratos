@@ -80,9 +80,9 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
                     delay: 0.0,
                     child: IconButton(
                       onPressed: () => context.pop(),
-                      icon: Icon(Icons.arrow_back_rounded),
+                      icon: Icon(Icons.arrow_back_rounded, color: context.colors.onSurface),
                       style: IconButton.styleFrom(
-                        backgroundColor: Colors.white.withOpacity(0.06),
+                        backgroundColor: context.subtleHighlight,
                         padding: EdgeInsets.all(12),
                       ),
                     ),
@@ -96,7 +96,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
                     child: Text(
                       AppStrings.welcomeBack,
                       style: AppTypography.display.copyWith(
-                        color: Colors.white,
+                        color: context.colors.onSurface,
                         fontSize: 42,
                       ),
                     ),
@@ -189,15 +189,15 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
                                       : null,
                                 ),
                                 SizedBox(width: 8),
-                                Flexible(
-                                  child: Text(
-                                    AppStrings.rememberMe,
-                                    style: AppTypography.bodySmall.copyWith(
-                                      color: context.customColors.grey400,
+                                  Flexible(
+                                    child: Text(
+                                      AppStrings.rememberMe,
+                                      style: AppTypography.bodySmall.copyWith(
+                                        color: context.mutedText,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                ),
                               ],
                             ),
                           ),
@@ -270,19 +270,19 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
                     child: Row(
                       children: [
                         Expanded(
-                          child: Divider(color: Colors.white.withOpacity(0.08)),
+                          child: Divider(color: context.subtleBorder),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16),
                           child: Text(
                             'or',
                             style: AppTypography.bodySmall.copyWith(
-                              color: context.customColors.grey500,
+                              color: context.mutedText,
                             ),
                           ),
                         ),
                         Expanded(
-                          child: Divider(color: Colors.white.withOpacity(0.08)),
+                          child: Divider(color: context.subtleBorder),
                         ),
                       ],
                     ),
@@ -322,7 +322,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
                           text: TextSpan(
                             text: AppStrings.noAccount,
                             style: AppTypography.bodySmall.copyWith(
-                              color: context.customColors.grey400,
+                              color: context.mutedText,
                             ),
                             children: [
                               TextSpan(
@@ -383,14 +383,14 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: Text(
             'Enter OTP',
-            style: AppTypography.headlineSmall.copyWith(color: Colors.white),
+            style: AppTypography.headlineSmall.copyWith(color: context.colors.onSurface),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 'Please enter the 6-digit code sent to your phone.',
-                style: AppTypography.bodyMedium.copyWith(color: context.customColors.grey400),
+                style: AppTypography.bodyMedium.copyWith(color: context.mutedText),
               ),
               SizedBox(height: 16),
               GlassTextField(
@@ -405,7 +405,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen>
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel', style: TextStyle(color: context.customColors.grey400)),
+              child: Text('Cancel', style: TextStyle(color: context.mutedText)),
             ),
             TextButton(
               onPressed: () {

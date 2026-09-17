@@ -245,7 +245,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     final bottomPad = MediaQuery.of(context).padding.bottom;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF050505),
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       body: AnimatedBuilder(
         animation: Listenable.merge([
           _heroController,
@@ -259,8 +259,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
           return Stack(
             children: [
-              // ── Layer 0: Deep background ──
-              Container(color: const Color(0xFF050505)),
+              // ── Layer 0: Theme background ──
+              Container(color: context.theme.scaffoldBackgroundColor),
 
               // ── Layer 1: Warrior silhouette atmosphere ──
               Positioned.fill(
@@ -464,7 +464,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                               child: _buildShimmerText(
                                 AppStrings.appName,
                                 AppTypography.display.copyWith(
-                                  color: Colors.white,
+                                  color: context.colors.onSurface,
                                   fontSize: isCompact ? 48 : 56,
                                   letterSpacing: 8,
                                   fontWeight: FontWeight.w900,
@@ -542,7 +542,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                               'AI-powered workouts · Elite tracking\nPersonalized transformation plans',
                               textAlign: TextAlign.center,
                               style: AppTypography.caption.copyWith(
-                                color: Colors.white.withOpacity(0.22),
+                                color: context.mutedText,
                                 fontSize: 10,
                                 letterSpacing: 0.5,
                                 height: 1.7,
@@ -559,7 +559,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                               AppStrings.trustStatement,
                               textAlign: TextAlign.center,
                               style: AppTypography.caption.copyWith(
-                                color: Colors.white.withOpacity(0.35),
+                                color: context.mutedText,
                                 fontSize: 11,
                                 letterSpacing: 1.5,
                                 height: 1.6,
@@ -596,7 +596,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                 text: TextSpan(
                                   text: AppStrings.alreadyHaveAccount,
                                   style: AppTypography.bodySmall.copyWith(
-                                    color: Colors.white.withOpacity(0.35),
+                                    color: context.mutedText,
                                     fontSize: 13,
                                   ),
                                   children: [
@@ -645,13 +645,14 @@ class _WelcomeScreenState extends State<WelcomeScreen>
         return ShaderMask(
           shaderCallback: (bounds) {
             final shimmerPosition = _shimmerController.value * 3 - 1;
+            final baseColor = context.colors.onSurface;
             return LinearGradient(
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
               colors: [
-                Colors.white,
+                baseColor,
                 context.colors.primary.withOpacity(0.9),
-                Colors.white,
+                baseColor,
               ],
               stops: [
                 (shimmerPosition - 0.3).clamp(0.0, 1.0),
@@ -685,10 +686,10 @@ class _WelcomeScreenState extends State<WelcomeScreen>
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.04),
+            color: context.subtleCard,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: Colors.white.withOpacity(0.07),
+              color: context.subtleBorder,
               width: 0.5,
             ),
           ),
@@ -704,7 +705,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               Text(
                 chip.$2,
                 style: AppTypography.caption.copyWith(
-                  color: Colors.white.withOpacity(0.50),
+                  color: context.colors.onSurface.withOpacity(0.75),
                   fontSize: 10,
                   letterSpacing: 0.8,
                   fontWeight: FontWeight.w600,
@@ -739,7 +740,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   Container(
                     width: 0.5,
                     margin: const EdgeInsets.symmetric(vertical: 4),
-                    color: Colors.white.withOpacity(0.06),
+                    color: context.subtleBorder,
                   ),
                 Expanded(
                   child: Column(
@@ -758,7 +759,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                       Text(
                         stat.$2.toUpperCase(),
                         style: AppTypography.caption.copyWith(
-                          color: Colors.white.withOpacity(0.30),
+                          color: context.mutedText,
                           fontSize: 9,
                           letterSpacing: 1.5,
                           fontWeight: FontWeight.w600,

@@ -30,9 +30,9 @@ class _HeightStepState extends State<HeightStep> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: 24),
-                Text(AppStrings.heightTitle, style: AppTypography.display.copyWith(color: Colors.white, fontSize: 40)),
+                Text(AppStrings.heightTitle, style: AppTypography.display.copyWith(color: context.colors.onSurface, fontSize: 40)),
                 SizedBox(height: 12),
-                Text(AppStrings.heightMicrocopy, style: AppTypography.bodyMedium.copyWith(color: context.customColors.grey400)),
+                Text(AppStrings.heightMicrocopy, style: AppTypography.bodyMedium.copyWith(color: context.mutedText)),
                 SizedBox(height: 20),
 
                 // CM / FT toggle
@@ -40,8 +40,9 @@ class _HeightStepState extends State<HeightStep> {
                   child: Container(
                     padding: EdgeInsets.all(3),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.06),
+                      color: context.subtleCard,
                       borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: context.subtleBorder),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -83,7 +84,7 @@ class _ToggleChip extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Text(label, style: AppTypography.labelBold.copyWith(
-          color: isActive ? Colors.white : context.customColors.grey500,
+          color: isActive ? context.colors.onPrimary : context.mutedText,
           fontSize: 13,
         )),
       ),

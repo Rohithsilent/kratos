@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:kratos/core/theme/theme_ext.dart';
-import '../../core/theme/app_colors.dart';
 
 class AnimatedGradientBackground extends StatefulWidget {
   final Widget child;
@@ -60,10 +59,11 @@ class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>
 
   @override
   Widget build(BuildContext context) {
+    final isDark = context.isDark;
     return Stack(
       children: [
-        // Base dark background
-        Container(color: context.colors.surface),
+        // Base background matching theme
+        Container(color: context.theme.scaffoldBackgroundColor),
 
         // Animated red orbs
         AnimatedBuilder(
@@ -74,6 +74,7 @@ class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>
               painter: _OrbPainter(
                 progress: _orbController.value,
                 primaryColor: context.colors.primary,
+                isDark: isDark,
               ),
             );
           },
@@ -90,6 +91,7 @@ class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>
                   particles: _particles,
                   progress: _particleController.value,
                   primaryColor: context.colors.primary,
+                  isDark: isDark,
                 ),
               );
             },
@@ -105,43 +107,46 @@ class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>
 class _OrbPainter extends CustomPainter {
   final double progress;
   final Color primaryColor;
+  final bool isDark;
 
-  _OrbPainter({required this.progress, required this.primaryColor});
+  _OrbPainter({required this.progress, required this.primaryColor, required this.isDark});
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()..maskFilter = MaskFilter.blur(BlurStyle.normal, 80);
+    final factor = isDark ? 1.0 : 0.6;
 
-    // Large red orb - top right, slowly drifting
+    // Large orb - top right, slowly drifting
     final orb1X = size.width * 0.75 + sin(progress * 2 * pi) * 40;
     final orb1Y = size.height * 0.15 + cos(progress * 2 * pi) * 30;
-    paint.color = primaryColor.withOpacity(0.12);
+    paint.color = primaryColor.withOpacity(0.12 * factor);
     canvas.drawCircle(Offset(orb1X, orb1Y), 120, paint);
 
-    // Medium red orb - bottom left
+    // Medium orb - bottom left
     final orb2X = size.width * 0.2 + cos(progress * 2 * pi + 1) * 50;
     final orb2Y = size.height * 0.7 + sin(progress * 2 * pi + 1) * 40;
-    paint.color = primaryColor.withOpacity(0.08);
+    paint.color = primaryColor.withOpacity(0.08 * factor);
     canvas.drawCircle(Offset(orb2X, orb2Y), 90, paint);
 
     // Small accent orb - center
     final orb3X = size.width * 0.5 + sin(progress * 2 * pi + 2.5) * 60;
     final orb3Y = size.height * 0.45 + cos(progress * 2 * pi + 2.5) * 35;
-    paint.color = primaryColor.withOpacity(0.06);
+    paint.color = primaryColor.withOpacity(0.06 * factor);
     canvas.drawCircle(Offset(orb3X, orb3Y), 70, paint);
   }
 
   @override
   bool shouldRepaint(covariant _OrbPainter oldDelegate) =>
-      oldDelegate.progress != progress;
+      oldDelegate.progress != progress || oldDelegate.isDark != isDark;
 }
 
 class _ParticlePainter extends CustomPainter {
   final List<_Particle> particles;
   final double progress;
   final Color primaryColor;
+  final bool isDark;
 
-  _ParticlePainter({required this.particles, required this.progress, required this.primaryColor});
+  _ParticlePainter({required this.particles, required this.progress, required this.primaryColor, required this.isDark});
 
   @override
   void paint(Canvas canvas, Size size) {

@@ -37,12 +37,12 @@ final nutritionScoreProvider = FutureProvider<NutritionScore>((ref) async {
 
     if (result != null) {
       return NutritionScore(
-        calorieAdherence: (result['calorie_adherence'] as num).toDouble(),
-        proteinAdherence: (result['protein_adherence'] as num).toDouble(),
-        hydrationAdherence: (result['hydration_adherence'] as num).toDouble(),
-        score: (result['score'] as num).toInt(),
-        customGrade: result['grade'],
-        customMessage: result['insight'],
+        calorieAdherence: (result['calorie_adherence'] as num?)?.toDouble() ?? 0.0,
+        proteinAdherence: (result['protein_adherence'] as num?)?.toDouble() ?? 0.0,
+        hydrationAdherence: (result['hydration_adherence'] as num?)?.toDouble() ?? 0.0,
+        score: (result['score'] as num?)?.toInt() ?? 0,
+        customGrade: result['grade'] as String?,
+        customMessage: result['insight'] as String?,
       );
     }
   } catch (e) {
@@ -76,7 +76,10 @@ class AiCoachState {
 
 class AiCoachNotifier extends Notifier<AiCoachState> {
   @override
-  AiCoachState build() => const AiCoachState();
+  AiCoachState build() {
+    ref.watch(authStateProvider);
+    return const AiCoachState();
+  }
 
   Future<void> generateInsight() async {
     state = const AiCoachState(isLoading: true);
@@ -200,7 +203,8 @@ final mealScanProvider = NotifierProvider<MealScanNotifier, MealScanState>(
 // ── 4. Meal History Providers ─────────────────────────────────────────────────
 
 final todayMealsProvider = FutureProvider<List<MealEntry>>((ref) async {
-  ref.watch(authStateProvider); // Re-fetch when auth state resolves
+  final authUser = ref.watch(authStateProvider).value;
+  if (authUser == null) return [];
   final today = PlannerHelpers.formatDate(DateTime.now());
   return ref.watch(mealRepositoryProvider).fetchMeals(date: today);
 });
@@ -215,10 +219,11 @@ final groupedMealsProvider = FutureProvider<Map<MealType, List<MealEntry>>>((ref
 });
 
 final weeklyMealsProvider = FutureProvider<List<MealEntry>>((ref) async {
-  ref.watch(authStateProvider); // Re-fetch when auth state resolves
+  final authUser = ref.watch(authStateProvider).value;
+  if (authUser == null) return [];
   final now = DateTime.now();
   final start = now.subtract(const Duration(days: 6));
-  return ref.read(mealRepositoryProvider).fetchMealsForDateRange(
+  return ref.watch(mealRepositoryProvider).fetchMealsForDateRange(
         PlannerHelpers.formatDate(start),
         PlannerHelpers.formatDate(now),
       );

@@ -245,7 +245,7 @@ class GeminiGateway:
             max_output_tokens=max_output_tokens,
             system_instruction=system_instruction,
             response_mime_type="application/json",
-            response_schema=schema.model_json_schema(),
+            response_schema=schema,
         )
 
         attempts = 0
@@ -264,7 +264,7 @@ class GeminiGateway:
                 )
 
                 self._extract_usage(response, model_name)
-                parsed_result = self._parse_structured(response.text, schema)
+                parsed_result = self._parse_structured(response.text or "{}", schema)
 
                 # Store in Redis Cache
                 if use_cache:
@@ -275,9 +275,10 @@ class GeminiGateway:
             except Exception as exc:
                 last_exc = exc
                 exc_str = str(exc)
-                if "429" in exc_str or "RESOURCE_EXHAUSTED" in exc_str or "Quota" in exc_str:
+                if any(code in exc_str for code in ["429", "RESOURCE_EXHAUSTED", "Quota", "503", "UNAVAILABLE", "500", "502", "401", "UNAUTHENTICATED"]):
                     self._mark_key_cooldown(key_idx, cooldown_seconds=60)
-                    logger.warning("Rotating to next key in pool after 429 error (attempt {})...", attempts)
+                    logger.warning("Rotating to next key in pool after {} error (attempt {})...", type(exc).__name__, attempts)
+                    await asyncio.sleep(0.5)
                     continue
                 else:
                     logger.error("GeminiGateway API error: {}", exc)
@@ -346,7 +347,7 @@ class GeminiGateway:
                 )
 
                 self._extract_usage(response, model_name)
-                text_result = response.text
+                text_result = response.text or ""
 
                 if use_cache and text_result:
                     await set_ai_response_cache(cache_hash, text_result)
@@ -356,8 +357,10 @@ class GeminiGateway:
             except Exception as exc:
                 last_exc = exc
                 exc_str = str(exc)
-                if "429" in exc_str or "RESOURCE_EXHAUSTED" in exc_str or "Quota" in exc_str:
+                if any(code in exc_str for code in ["429", "RESOURCE_EXHAUSTED", "Quota", "503", "UNAVAILABLE", "500", "502", "401", "UNAUTHENTICATED"]):
                     self._mark_key_cooldown(key_idx, cooldown_seconds=60)
+                    logger.warning("Rotating to next key in pool after {} error (attempt {})...", type(exc).__name__, attempts)
+                    await asyncio.sleep(0.5)
                     continue
                 else:
                     raise GeminiAPIError(str(exc)) from exc
@@ -384,24 +387,37 @@ class GeminiGateway:
 
         config = genai_types.GenerateContentConfig(
             response_mime_type="application/json",
-            response_schema=schema.model_json_schema(),
+            response_schema=schema,
         )
 
-        client, key_idx = self._get_client()
+        attempts = 0
+        last_exc: Exception | None = None
 
-        try:
-            response = await asyncio.to_thread(
-                client.models.generate_content,
-                model=model_name,
-                contents=[image_part, text_part],
-                config=config,
-            )
-        except Exception as exc:
-            if "429" in str(exc):
-                self._mark_key_cooldown(key_idx)
-            raise GeminiAPIError(str(exc)) from exc
+        while attempts < max(3, len(self._clients)):
+            attempts += 1
+            client, key_idx = self._get_client()
 
-        return self._parse_structured(response.text, schema)
+            try:
+                response = await asyncio.to_thread(
+                    client.models.generate_content,
+                    model=model_name,
+                    contents=[image_part, text_part],
+                    config=config,
+                )
+                self._extract_usage(response, model_name)
+                return self._parse_structured(response.text or "{}", schema)
+            except Exception as exc:
+                last_exc = exc
+                exc_str = str(exc)
+                if any(code in exc_str for code in ["429", "RESOURCE_EXHAUSTED", "Quota", "503", "UNAVAILABLE", "500", "502", "401", "UNAUTHENTICATED"]):
+                    self._mark_key_cooldown(key_idx, cooldown_seconds=60)
+                    logger.warning("Rotating to next key in pool after vision error (attempt {})...", attempts)
+                    await asyncio.sleep(0.5)
+                    continue
+                else:
+                    raise GeminiAPIError(str(exc)) from exc
+
+        raise GeminiAPIError(f"All API key pool attempts failed for image analysis: {last_exc}")
 
     # ── Streaming (WebSocket real-time) ─────────────────────────────────────────
 
@@ -485,7 +501,7 @@ class GeminiGateway:
                 max_output_tokens=10,
                 use_cache=False,
             )
-            logger.info("GeminiGateway health check ✅ | response={}", result.strip())
+            logger.info("GeminiGateway health check ✅ | response={}", result.strip() if result else "ok")
             return True
         except Exception as exc:
             logger.error("GeminiGateway health check ❌ | error={}", exc)

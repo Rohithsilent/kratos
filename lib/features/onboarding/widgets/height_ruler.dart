@@ -93,14 +93,14 @@ class _HeightRulerState extends State<HeightRuler>
                           '$_selectedHeight',
                           key: ValueKey('cm-$_selectedHeight'),
                           style: AppTypography.metric.copyWith(
-                            color: Colors.white,
+                            color: context.colors.onSurface,
                           ),
                         )
                       : Text(
                           _cmToFtIn(_selectedHeight),
                           key: ValueKey('ft-$_selectedHeight'),
                           style: AppTypography.metric.copyWith(
-                            color: Colors.white,
+                            color: context.colors.onSurface,
                             fontSize: 42,
                           ),
                         ),
@@ -111,7 +111,7 @@ class _HeightRulerState extends State<HeightRuler>
                     widget.useCm ? 'cm' : 'ft / in',
                     key: ValueKey(widget.useCm ? 'unit-cm' : 'unit-ft'),
                     style: AppTypography.metricUnit.copyWith(
-                      color: context.customColors.grey400,
+                      color: context.mutedText,
                     ),
                   ),
                 ),
@@ -262,7 +262,7 @@ class _RulerTick extends StatelessWidget {
               style: TextStyle(
                 color: isSelected
                     ? context.colors.primary
-                    : (isDark ? context.customColors.grey500 : context.customColors.grey400),
+                    : context.mutedText,
                 fontSize: 11,
                 fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
               ),

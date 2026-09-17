@@ -137,9 +137,9 @@ class SuperSaiyanPalette implements AppColorsPalette {
 
   @override Color get glassCard => AppColors.glassBlue;
   @override Color get glassBorder => AppColors.glassBlueBorder;
-  @override Color get glassInput => AppColors.white.withOpacity(0.10);
+  @override Color get glassInput => AppColors.white.withOpacity(0.70);
   @override Color get glassInputBorder => AppColors.glassBlueBorder;
-  @override Color get glassInputFocused => AppColors.white.withOpacity(0.16);
+  @override Color get glassInputFocused => AppColors.white;
   @override Color get glassInputFocusedBorder => AppColors.ssPrimary.withOpacity(0.6);
 
   @override Color get redGlow => AppColors.ssPrimary.withOpacity(0.35);

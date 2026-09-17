@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/services/spotify_service.dart';
 import '../../domain/models/workout_playlist.dart';
-import '../../data/datasources/curated_music_library.dart';
 import '../../data/repositories/local_playlist_repository.dart';
+import '../../data/repositories/spotify_auth_repository.dart';
 
 class PlaylistsState {
   final List<WorkoutPlaylist> userPlaylists;
@@ -43,11 +43,13 @@ final playlistsControllerProvider = NotifierProvider<PlaylistsController, Playli
 class PlaylistsController extends Notifier<PlaylistsState> {
   late final SpotifyService _spotifyService;
   late final LocalPlaylistRepository _localPlaylistRepository;
+  late final SpotifyAuthRepository _spotifyAuthRepository;
 
   @override
   PlaylistsState build() {
     _spotifyService = ref.watch(spotifyServiceProvider);
     _localPlaylistRepository = ref.watch(localPlaylistRepositoryProvider);
+    _spotifyAuthRepository = ref.watch(spotifyAuthRepositoryProvider);
     
     return PlaylistsState();
   }
@@ -57,8 +59,18 @@ class PlaylistsController extends Notifier<PlaylistsState> {
     try {
       final categorizedMixes = await _localPlaylistRepository.getAllCategorizedPlaylists();
       
-      final userPlaylists = await _spotifyService.getUserPlaylists();
-      final featuredPlaylists = await _spotifyService.getFeaturedPlaylists();
+      final token = await _spotifyAuthRepository.getValidToken();
+      List<WorkoutPlaylist> userPlaylists = [];
+      List<WorkoutPlaylist> featuredPlaylists = [];
+
+      if (token != null && token.isNotEmpty) {
+        try {
+          userPlaylists = await _spotifyService.getUserPlaylists();
+          featuredPlaylists = await _spotifyService.getFeaturedPlaylists();
+        } catch (_) {
+          // If remote Spotify fetch fails, proceed with local mixes
+        }
+      }
       
       state = state.copyWith(
         userPlaylists: userPlaylists,
@@ -67,7 +79,7 @@ class PlaylistsController extends Notifier<PlaylistsState> {
         isLoading: false,
       );
     } catch (e) {
-      // Even if Spotify fails, load the local ones
+      // Even if error occurs, load the local ones
       final categorizedMixes = await _localPlaylistRepository.getAllCategorizedPlaylists();
       state = state.copyWith(
         isLoading: false,

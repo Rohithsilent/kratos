@@ -61,7 +61,10 @@ class _ContinueButtonState extends State<ContinueButton>
               gradient: widget.isEnabled
                   ? context.customColors.primaryGradient
                   : LinearGradient(
-                      colors: [context.customColors.grey700, context.customColors.grey800],
+                      colors: [
+                        context.customColors.grey700,
+                        context.customColors.grey800,
+                      ],
                     ),
               borderRadius: BorderRadius.circular(16),
               boxShadow: widget.isEnabled
@@ -104,7 +107,15 @@ class _ContinueButtonState extends State<ContinueButton>
                             ),
                             if (widget.icon != null) ...[
                               SizedBox(width: 8),
-                              Icon(widget.icon, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : context.customColors.grey900, size: 20),
+                              Icon(
+                                widget.icon,
+                                color:
+                                    Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Colors.white
+                                    : context.customColors.grey900,
+                                size: 20,
+                              ),
                             ],
                           ],
                         ),

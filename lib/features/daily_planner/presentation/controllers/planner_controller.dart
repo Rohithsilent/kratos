@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../auth/presentation/providers/auth_state_provider.dart';
 import '../../domain/models/planner_item_model.dart';
 import '../../domain/enums/planner_status.dart';
 import '../../data/repositories/planner_repository.dart';
@@ -14,6 +15,11 @@ import '../../../../core/notifications/notification_service.dart';
 class PlannerNotifier extends AsyncNotifier<List<PlannerItem>> {
   @override
   FutureOr<List<PlannerItem>> build() async {
+    final authUser = ref.watch(authStateProvider).value;
+    if (authUser == null) {
+      return [];
+    }
+
     // 1. Listen to repository stream and keep state synchronized
     final repository = ref.watch(plannerRepositoryProvider);
     

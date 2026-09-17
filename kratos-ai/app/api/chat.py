@@ -1,4 +1,5 @@
 """Chat API — REST endpoints for AI assistant interactions."""
+# pyrefly: ignore [missing-import]
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel, Field
 from loguru import logger

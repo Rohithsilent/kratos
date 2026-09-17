@@ -81,9 +81,9 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
                     delay: 0.0,
                     child: IconButton(
                       onPressed: () => context.pop(),
-                      icon: Icon(Icons.arrow_back_rounded),
+                      icon: Icon(Icons.arrow_back_rounded, color: context.colors.onSurface),
                       style: IconButton.styleFrom(
-                        backgroundColor: Colors.white.withOpacity(0.06),
+                        backgroundColor: context.subtleHighlight,
                         padding: EdgeInsets.all(12),
                       ),
                     ),
@@ -97,7 +97,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
                     child: Text(
                       'Reset Password',
                       style: AppTypography.display.copyWith(
-                        color: Colors.white,
+                        color: context.colors.onSurface,
                         fontSize: 42,
                       ),
                     ),
@@ -110,7 +110,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
                     child: Text(
                       'Enter your email address to receive a password reset link.',
                       style: AppTypography.bodyLarge.copyWith(
-                        color: context.customColors.grey400,
+                        color: context.mutedText,
                       ),
                     ),
                   ),

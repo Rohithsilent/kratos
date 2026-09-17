@@ -59,9 +59,9 @@ class _PhoneStepState extends State<PhoneStep> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: 24),
-                Text(AppStrings.phoneTitle, style: AppTypography.display.copyWith(color: Colors.white, fontSize: 40)),
+                Text(AppStrings.phoneTitle, style: AppTypography.display.copyWith(color: context.colors.onSurface, fontSize: 40)),
                 SizedBox(height: 12),
-                Text(AppStrings.phoneMicrocopy, style: AppTypography.bodyMedium.copyWith(color: context.customColors.grey400)),
+                Text(AppStrings.phoneMicrocopy, style: AppTypography.bodyMedium.copyWith(color: context.mutedText)),
                 SizedBox(height: 40),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,16 +72,16 @@ class _PhoneStepState extends State<PhoneStep> {
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 14, vertical: 17),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.04),
+                          color: context.subtleCard,
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: Colors.white.withOpacity(0.08)),
+                          border: Border.all(color: context.subtleBorder),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(_selectedFlag, style: TextStyle(fontSize: 20)),
                             SizedBox(width: 6),
-                            Text(_selectedCode, style: AppTypography.bodyMedium.copyWith(color: Colors.white, fontWeight: FontWeight.w600)),
+                            Text(_selectedCode, style: AppTypography.bodyMedium.copyWith(color: context.colors.onSurface, fontWeight: FontWeight.w600)),
                             SizedBox(width: 2),
                             Icon(
                               _showPicker ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
@@ -146,9 +146,16 @@ class _PhoneStepState extends State<PhoneStep> {
                     margin: EdgeInsets.only(top: 12),
                     constraints: BoxConstraints(maxHeight: 200),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.06),
+                      color: context.theme.colorScheme.surface,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.white.withOpacity(0.08)),
+                      border: Border.all(color: context.subtleBorder),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(context.isDark ? 0.3 : 0.08),
+                          blurRadius: 16,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(16),
@@ -175,12 +182,12 @@ class _PhoneStepState extends State<PhoneStep> {
                                   Text(country['flag']!, style: TextStyle(fontSize: 18)),
                                   SizedBox(width: 10),
                                   Text(country['code']!, style: TextStyle(
-                                    color: isSelected ? context.colors.primary : Colors.white,
+                                    color: isSelected ? context.colors.primary : context.colors.onSurface,
                                     fontWeight: FontWeight.w600, fontSize: 14,
                                   )),
                                   SizedBox(width: 10),
                                   Expanded(child: Text(country['name']!, style: TextStyle(
-                                    color: context.customColors.grey400, fontSize: 13,
+                                    color: context.mutedText, fontSize: 13,
                                   ))),
                                   if (isSelected) Icon(Icons.check_rounded, color: context.colors.primary, size: 18),
                                 ],

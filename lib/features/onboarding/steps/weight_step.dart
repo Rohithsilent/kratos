@@ -30,14 +30,18 @@ class _WeightStepState extends State<WeightStep> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: 24),
-                Text(AppStrings.weightTitle, style: AppTypography.display.copyWith(color: Colors.white, fontSize: 40)),
+                Text(AppStrings.weightTitle, style: AppTypography.display.copyWith(color: context.colors.onSurface, fontSize: 40)),
                 SizedBox(height: 12),
-                Text(AppStrings.weightMicrocopy, style: AppTypography.bodyMedium.copyWith(color: context.customColors.grey400)),
+                Text(AppStrings.weightMicrocopy, style: AppTypography.bodyMedium.copyWith(color: context.mutedText)),
                 SizedBox(height: 20),
                 Center(
                   child: Container(
                     padding: EdgeInsets.all(3),
-                    decoration: BoxDecoration(color: Colors.white.withOpacity(0.06), borderRadius: BorderRadius.circular(12)),
+                    decoration: BoxDecoration(
+                      color: context.subtleCard,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: context.subtleBorder),
+                    ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -73,7 +77,7 @@ class _ToggleChip extends StatelessWidget {
         duration: Duration(milliseconds: 250),
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 10),
         decoration: BoxDecoration(color: isActive ? context.colors.primary : Colors.transparent, borderRadius: BorderRadius.circular(10)),
-        child: Text(label, style: AppTypography.labelBold.copyWith(color: isActive ? Colors.white : context.customColors.grey500, fontSize: 13)),
+        child: Text(label, style: AppTypography.labelBold.copyWith(color: isActive ? context.colors.onPrimary : context.mutedText, fontSize: 13)),
       ),
     );
   }

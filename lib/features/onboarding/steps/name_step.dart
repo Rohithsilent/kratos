@@ -24,9 +24,9 @@ class NameStep extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: 24),
-                Text(AppStrings.nameTitle, style: AppTypography.display.copyWith(color: Colors.white, fontSize: 40)),
+                Text(AppStrings.nameTitle, style: AppTypography.display.copyWith(color: context.colors.onSurface, fontSize: 40)),
                 SizedBox(height: 12),
-                Text(AppStrings.nameMicrocopy, style: AppTypography.bodyMedium.copyWith(color: context.customColors.grey400)),
+                Text(AppStrings.nameMicrocopy, style: AppTypography.bodyMedium.copyWith(color: context.mutedText)),
                 SizedBox(height: 40),
                 GlassTextField(
                   hintText: AppStrings.nameHint,

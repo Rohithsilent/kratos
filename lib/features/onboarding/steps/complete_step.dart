@@ -96,13 +96,13 @@ class _CompleteStepState extends State<CompleteStep>
                   Text(
                     AppStrings.completeTitle,
                     textAlign: TextAlign.center,
-                    style: AppTypography.display.copyWith(color: Colors.white, fontSize: 36),
+                    style: AppTypography.display.copyWith(color: context.colors.onSurface, fontSize: 36),
                   ),
                   SizedBox(height: 16),
                   Text(
                     AppStrings.completeSubtitle,
                     textAlign: TextAlign.center,
-                    style: AppTypography.bodyMedium.copyWith(color: context.customColors.grey400, height: 1.7),
+                    style: AppTypography.bodyMedium.copyWith(color: context.mutedText, height: 1.7),
                   ),
                 ],
               ),

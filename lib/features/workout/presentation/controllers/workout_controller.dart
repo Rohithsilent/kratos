@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../auth/presentation/providers/auth_state_provider.dart';
 import '../../domain/models/workout_model.dart';
 import '../../data/repositories/workout_repository.dart';
 import '../../../music/presentation/controllers/music_controller.dart';
@@ -18,7 +19,9 @@ String generateUniqueId() {
 class WorkoutListNotifier extends AsyncNotifier<List<Workout>> {
   @override
   FutureOr<List<Workout>> build() async {
-    return ref.read(workoutRepositoryProvider).getWorkouts();
+    final authUser = ref.watch(authStateProvider).value;
+    if (authUser == null) return [];
+    return ref.watch(workoutRepositoryProvider).getWorkouts();
   }
 
   Future<void> addOrUpdateWorkout(Workout workout) async {
@@ -558,5 +561,7 @@ final activeSessionProvider = NotifierProvider.family<WorkoutSessionNotifier, Wo
 );
 
 final workoutHistoryProvider = FutureProvider<List<WorkoutSession>>((ref) {
+  final authUser = ref.watch(authStateProvider).value;
+  if (authUser == null) return [];
   return ref.watch(workoutRepositoryProvider).getSessions();
 });

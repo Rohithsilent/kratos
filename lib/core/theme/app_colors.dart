@@ -66,9 +66,9 @@ class AppColors {
     end: Alignment.bottomRight,
   );
 
-  // Super Saiyan gradient (orange → white) for warm background accents
+  // Super Saiyan gradient (radiant orange → deep fiery orange)
   static const LinearGradient ssPrimaryGradient = LinearGradient(
-    colors: [Color(0xFFFF5722), Color(0xFFFFFFFF)],
+    colors: [Color(0xFFFF7A00), Color(0xFFFF3D00)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );

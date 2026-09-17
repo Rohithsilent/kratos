@@ -52,9 +52,9 @@ class _EmailStepState extends State<EmailStep> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: 24),
-                Text(AppStrings.emailTitle, style: AppTypography.display.copyWith(color: Colors.white, fontSize: 40)),
+                Text(AppStrings.emailTitle, style: AppTypography.display.copyWith(color: context.colors.onSurface, fontSize: 40)),
                 SizedBox(height: 12),
-                Text(AppStrings.emailMicrocopy, style: AppTypography.bodyMedium.copyWith(color: context.customColors.grey400)),
+                Text(AppStrings.emailMicrocopy, style: AppTypography.bodyMedium.copyWith(color: context.mutedText)),
                 SizedBox(height: 40),
                 GlassTextField(
                   hintText: AppStrings.emailHint,
@@ -90,12 +90,12 @@ class _EmailStepState extends State<EmailStep> {
                 SizedBox(height: 28),
                 Row(
                   children: [
-                    Expanded(child: Divider(color: Colors.white.withOpacity(0.08))),
+                    Expanded(child: Divider(color: context.subtleBorder)),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: Text('or', style: AppTypography.bodySmall.copyWith(color: context.customColors.grey500)),
+                      child: Text('or', style: AppTypography.bodySmall.copyWith(color: context.mutedText)),
                     ),
-                    Expanded(child: Divider(color: Colors.white.withOpacity(0.08))),
+                    Expanded(child: Divider(color: context.subtleBorder)),
                   ],
                 ),
                 SizedBox(height: 28),

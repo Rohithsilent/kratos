@@ -141,7 +141,7 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen>
                   child: Text(
                     'Verify your email',
                     style: AppTypography.display.copyWith(
-                      color: Colors.white,
+                      color: context.colors.onSurface,
                       fontSize: 32,
                     ),
                     textAlign: TextAlign.center,
@@ -155,7 +155,7 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen>
                   child: Text(
                     'We\'ve sent a verification link to your email address. Please verify your email to access your account.',
                     style: AppTypography.bodyLarge.copyWith(
-                      color: context.customColors.grey400,
+                      color: context.mutedText,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -222,7 +222,7 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen>
                     child: Text(
                       'Sign Out',
                       style: AppTypography.bodyMedium.copyWith(
-                        color: context.customColors.grey500,
+                        color: context.mutedText,
                       ),
                     ),
                   ),

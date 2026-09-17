@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/theme_ext.dart';
 import '../../shared/widgets/animated_gradient_bg.dart';
 import '../../shared/widgets/continue_button.dart';
 import '../../core/utils/validators.dart';
@@ -238,9 +239,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     children: [
                       IconButton(
                         onPressed: _prevStep,
-                        icon: Icon(Icons.arrow_back_rounded),
+                        icon: Icon(Icons.arrow_back_rounded, color: context.colors.onSurface),
                         style: IconButton.styleFrom(
-                          backgroundColor: Colors.white.withOpacity(0.06),
+                          backgroundColor: context.subtleHighlight,
                           padding: EdgeInsets.all(12),
                         ),
                       ),

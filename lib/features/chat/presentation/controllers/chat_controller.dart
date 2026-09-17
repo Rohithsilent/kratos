@@ -4,7 +4,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import '../../../../core/constants/api_constants.dart';
 import 'package:http/http.dart' as http;
 import '../../../../core/providers/firebase_providers.dart';
-import '../../../nutrition/data/services/nutrition_api_service.dart';
+import '../../../auth/presentation/providers/auth_state_provider.dart';
 
 class ChatSession {
   final String id;
@@ -77,24 +77,49 @@ class ChatNotifier extends Notifier<ChatState> {
   WebSocketChannel? _channel;
   String _currentAiMessageId = '';
 
-  String get _userId {
-    return ref.read(firebaseAuthProvider).currentUser?.uid ?? 'guest';
+  String? get _userId {
+    return ref.read(firebaseAuthProvider).currentUser?.uid;
   }
 
   @override
   ChatState build() {
+    final authUser = ref.watch(authStateProvider).value;
+
     ref.onDispose(() {
-      _channel?.sink.close();
+      _closeChannel();
     });
 
-    Future.microtask(_connect);
+    _closeChannel();
+    _currentAiMessageId = '';
+
+    if (authUser == null) {
+      return ChatState(isConnecting: false);
+    }
+
+    Future.microtask(() {
+      fetchSessions();
+      _connect();
+    });
     return ChatState(isConnecting: true);
   }
 
+  void _closeChannel() {
+    try {
+      _channel?.sink.close();
+    } catch (_) {}
+    _channel = null;
+  }
+
   void _connect() {
+    final uid = _userId;
+    if (uid == null) {
+      state = state.copyWith(isConnecting: false);
+      return;
+    }
+
     state = state.copyWith(isConnecting: true, error: null);
     try {
-      String wsUrl = '${ApiConstants.wsBaseUrl}/ws/chat/$_userId';
+      String wsUrl = '${ApiConstants.wsBaseUrl}/ws/chat/$uid';
       if (state.conversationId != null) {
         wsUrl += '?conversation_id=${state.conversationId}';
       }
@@ -123,7 +148,7 @@ class ChatNotifier extends Notifier<ChatState> {
 
   void _reconnect() {
     Future.delayed(const Duration(seconds: 3), () {
-      // Notifier's state access throws if disposed, but we can check if it has listeners or simply catch it.
+      if (_userId == null) return;
       try {
         _connect();
       } catch (_) {}
@@ -178,7 +203,8 @@ class ChatNotifier extends Notifier<ChatState> {
   }
 
   void sendMessage(String text) {
-    if (text.trim().isEmpty || _channel == null || state.isGenerating) return;
+    final uid = _userId;
+    if (uid == null || text.trim().isEmpty || _channel == null || state.isGenerating) return;
 
     // Add user message locally immediately
     final userMsg = ChatMessage(
@@ -199,8 +225,13 @@ class ChatNotifier extends Notifier<ChatState> {
   }
 
   Future<void> fetchSessions() async {
+    final uid = _userId;
+    if (uid == null) {
+      state = state.copyWith(sessions: []);
+      return;
+    }
     try {
-      final response = await http.get(Uri.parse('${ApiConstants.apiV1}/chat/sessions/$_userId'));
+      final response = await http.get(Uri.parse('${ApiConstants.apiV1}/chat/sessions/$uid'));
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
         final sessions = data.map((s) => ChatSession(
@@ -216,9 +247,7 @@ class ChatNotifier extends Notifier<ChatState> {
   }
 
   void startNewChat() {
-    final oldChannel = _channel;
-    _channel = null;
-    oldChannel?.sink.close();
+    _closeChannel();
     
     state = ChatState(
       messages: [],
@@ -234,9 +263,7 @@ class ChatNotifier extends Notifier<ChatState> {
   void loadSession(String conversationId) {
     if (state.conversationId == conversationId) return;
     
-    final oldChannel = _channel;
-    _channel = null;
-    oldChannel?.sink.close();
+    _closeChannel();
     
     state = ChatState(
       messages: [],
@@ -247,6 +274,12 @@ class ChatNotifier extends Notifier<ChatState> {
       error: null,
     );
     _connect();
+  }
+
+  void reset() {
+    _closeChannel();
+    _currentAiMessageId = '';
+    state = ChatState(isConnecting: false);
   }
 }
 

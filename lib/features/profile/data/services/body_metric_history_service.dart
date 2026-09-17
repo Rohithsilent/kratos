@@ -1,21 +1,28 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Manages historical body metric entries (height/weight) in local storage
 /// and computes clean, realistic 7-day trends for visualization.
 class BodyMetricHistoryService {
+  static String _getKey(String metric, {String? userId}) {
+    final uid = userId ?? FirebaseAuth.instance.currentUser?.uid ?? 'guest';
+    return 'kratos_${uid}_metric_history_${metric.toLowerCase()}';
+  }
+
   /// Saves a metric entry for a specific date (defaults to today).
   static Future<void> saveLog({
     required String metric,
     required double value,
     required String unit,
     DateTime? date,
+    String? userId,
   }) async {
     if (value <= 0) return;
     try {
       final prefs = await SharedPreferences.getInstance();
-      final key = 'kratos_metric_history_${metric.toLowerCase()}';
+      final key = _getKey(metric, userId: userId);
       final rawJson = prefs.getString(key);
       List<dynamic> list = rawJson != null ? jsonDecode(rawJson) : [];
 
@@ -47,6 +54,7 @@ class BodyMetricHistoryService {
     required String metric,
     required double currentValue,
     required String unit,
+    String? userId,
   }) async {
     if (currentValue <= 0) {
       return List.filled(7, 0.0);
@@ -58,7 +66,7 @@ class BodyMetricHistoryService {
 
     try {
       final prefs = await SharedPreferences.getInstance();
-      final key = 'kratos_metric_history_${metric.toLowerCase()}';
+      final key = _getKey(metric, userId: userId);
       final rawJson = prefs.getString(key);
       if (rawJson != null) {
         List<dynamic> list = jsonDecode(rawJson);

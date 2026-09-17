@@ -102,7 +102,7 @@ class _WeightWheelState extends State<WeightWheel> {
                 : _displayValue.round().toString(),
             key: ValueKey('${widget.useKg}-$_selectedWeight'),
             style: AppTypography.metric.copyWith(
-              color: Colors.white,
+              color: context.colors.onSurface,
               fontSize: 72,
             ),
           ),
@@ -113,7 +113,7 @@ class _WeightWheelState extends State<WeightWheel> {
             widget.useKg ? 'kg' : 'lbs',
             key: ValueKey(widget.useKg ? 'u-kg' : 'u-lbs'),
             style: AppTypography.metricUnit.copyWith(
-              color: context.customColors.grey400,
+              color: context.mutedText,
             ),
           ),
         ),

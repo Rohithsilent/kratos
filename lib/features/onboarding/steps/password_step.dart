@@ -29,9 +29,9 @@ class _PasswordStepState extends State<PasswordStep> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 20),
-            Text(AppStrings.passwordTitle, style: AppTypography.display.copyWith(color: Colors.white, fontSize: 40)),
+            Text(AppStrings.passwordTitle, style: AppTypography.display.copyWith(color: context.colors.onSurface, fontSize: 40)),
             SizedBox(height: 12),
-            Text(AppStrings.passwordMicrocopy, style: AppTypography.bodyMedium.copyWith(color: context.customColors.grey400)),
+            Text(AppStrings.passwordMicrocopy, style: AppTypography.bodyMedium.copyWith(color: context.mutedText)),
             SizedBox(height: 36),
             GlassTextField(
               hintText: AppStrings.passwordHint,

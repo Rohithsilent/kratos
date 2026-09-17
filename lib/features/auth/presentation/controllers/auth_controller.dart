@@ -1,6 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/auth_repository.dart';
 import '../../domain/models/user_model.dart';
+import '../../../chat/presentation/controllers/chat_controller.dart';
+import '../../../daily_planner/presentation/controllers/planner_controller.dart';
+import '../../../daily_planner/presentation/controllers/nutrition_controller.dart';
+import '../../../daily_planner/presentation/controllers/hydration_controller.dart';
+import '../../../daily_planner/data/repositories/planner_repository.dart';
+import '../../../nutrition/data/repositories/meal_repository.dart';
+import '../../../nutrition/presentation/controllers/nutrition_workflow_controller.dart';
+import '../../../nutrition/presentation/controllers/nutrition_ws_controller.dart';
+import '../../../workout/presentation/controllers/workout_controller.dart';
+import '../../../profile/presentation/controllers/profile_controller.dart';
 
 final authControllerProvider = AsyncNotifierProvider.autoDispose<AuthController, void>(
   AuthController.new,
@@ -95,7 +105,27 @@ class AuthController extends AsyncNotifier<void> {
 
   Future<void> signOut() async {
     state = AsyncValue.loading();
-    final result = await AsyncValue.guard(() => ref.read(authRepositoryProvider).signOut());
+    final result = await AsyncValue.guard(() async {
+      await ref.read(authRepositoryProvider).signOut();
+
+      // Clean up and invalidate in-memory user-specific state
+      ref.read(chatNotifierProvider.notifier).reset();
+      ref.invalidate(chatNotifierProvider);
+      ref.invalidate(plannerListProvider);
+      ref.invalidate(mealRepositoryProvider);
+      ref.invalidate(plannerRepositoryProvider);
+      ref.invalidate(todayMealsProvider);
+      ref.invalidate(weeklyMealsProvider);
+      ref.invalidate(groupedMealsProvider);
+      ref.invalidate(todayNutritionProvider);
+      ref.invalidate(todayHydrationProvider);
+      ref.invalidate(workoutListProvider);
+      ref.invalidate(workoutHistoryProvider);
+      ref.invalidate(profileControllerProvider);
+      ref.invalidate(nutritionWsProvider);
+      ref.invalidate(aiCoachProvider);
+      ref.invalidate(mealScanProvider);
+    });
     if (!ref.mounted) return;
     state = result;
   }

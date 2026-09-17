@@ -6,6 +6,8 @@ import '../../domain/entities/spotify_track.dart';
 import '../../data/services/spotify_service.dart';
 import 'package:spotify_sdk/spotify_sdk.dart';
 
+import 'playlists_controller.dart';
+
 final musicControllerProvider = NotifierProvider<MusicController, MusicPlaybackState>(() {
   return MusicController();
 });
@@ -18,7 +20,6 @@ class MusicController extends Notifier<MusicPlaybackState> {
   @override
   MusicPlaybackState build() {
     _spotifyService = ref.watch(spotifyServiceProvider);
-    _initConnection();
     
     ref.onDispose(() {
       _playerStateSubscription?.cancel();
@@ -29,21 +30,12 @@ class MusicController extends Notifier<MusicPlaybackState> {
     return const MusicPlaybackState();
   }
 
-  Future<void> _initConnection() async {
-    final isConnected = await _spotifyService.connectToSpotify();
-    if (isConnected) {
-      state = state.copyWith(isConnected: true, clearError: true);
-      _subscribeToStreams();
-    } else {
-      state = state.copyWith(isConnected: false, error: 'Failed to connect to Spotify');
-    }
-  }
-
   Future<void> connectWithAuth() async {
     final isConnected = await _spotifyService.connectToSpotifyWithAuth();
     if (isConnected) {
       state = state.copyWith(isConnected: true, clearError: true);
       _subscribeToStreams();
+      ref.read(playlistsControllerProvider.notifier).fetchPlaylists();
     } else {
       state = state.copyWith(isConnected: false, error: 'Failed to authenticate with Spotify');
     }
@@ -95,12 +87,27 @@ class MusicController extends Notifier<MusicPlaybackState> {
     if (!state.isConnected) {
       await connectWithAuth();
     }
-    state = state.copyWith(currentPlaylistUri: uri);
-    await _spotifyService.play(spotifyUri: uri);
+    if (state.isConnected) {
+      state = state.copyWith(currentPlaylistUri: uri);
+      await _spotifyService.play(spotifyUri: uri);
+    }
   }
 
   Future<void> play() async {
-    await _spotifyService.resume();
+    if (!state.isConnected) {
+      await connectWithAuth();
+    }
+    if (state.isConnected) {
+      await _spotifyService.resume();
+    }
+  }
+
+  Future<void> disconnect() async {
+    _playerStateSubscription?.cancel();
+    _connectionSubscription?.cancel();
+    await _spotifyService.disconnect();
+    state = const MusicPlaybackState();
+    ref.read(playlistsControllerProvider.notifier).fetchPlaylists();
   }
 
   Future<void> pause() async {

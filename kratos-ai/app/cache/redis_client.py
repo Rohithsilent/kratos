@@ -79,9 +79,9 @@ def plan_key(user_id: str) -> str:
 def chat_session_key(user_id: str) -> str:
     return f"kratos:chat:{user_id}"
 
-def active_session_key(conversation_id: str) -> str:
-    """Key for caching the active conversation history."""
-    return f"kratos:session_buffer:{conversation_id}"
+def active_session_key(user_id: str, conversation_id: str) -> str:
+    """Key for caching the active conversation history scoped to user."""
+    return f"kratos:session_buffer:{user_id}:{conversation_id}"
 
 def session_list_key(user_id: str) -> str:
     return f"kratos:sessions:{user_id}"

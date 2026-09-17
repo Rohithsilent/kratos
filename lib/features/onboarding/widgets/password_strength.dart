@@ -23,7 +23,7 @@ class PasswordStrengthIndicator extends StatelessWidget {
             height: 4,
             child: Stack(
               children: [
-                Container(width: double.infinity, color: Colors.white.withOpacity(0.06)),
+                Container(width: double.infinity, color: context.subtleHighlight),
                 AnimatedFractionallySizedBox(
                   alignment: Alignment.centerLeft,
                   widthFactor: strength,
@@ -83,14 +83,14 @@ class _Requirement extends StatelessWidget {
             width: 16, height: 16,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: met ? context.customColors.success.withOpacity(0.15) : Colors.white.withOpacity(0.04),
-              border: Border.all(color: met ? context.customColors.success : Colors.white.withOpacity(0.12)),
+              color: met ? context.customColors.success.withOpacity(0.15) : context.subtleCard,
+              border: Border.all(color: met ? context.customColors.success : context.subtleBorder),
             ),
             child: met ? Icon(Icons.check, size: 10, color: context.customColors.success) : null,
           ),
           SizedBox(width: 8),
           Text(text, style: TextStyle(
-            color: met ? context.customColors.success.withOpacity(0.9) : Colors.white.withOpacity(0.4),
+            color: met ? context.customColors.success : context.mutedText,
             fontSize: 12, fontWeight: FontWeight.w500,
           )),
         ],

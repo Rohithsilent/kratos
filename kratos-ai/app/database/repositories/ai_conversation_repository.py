@@ -18,15 +18,17 @@ class AIConversationRepository(BaseRepository[AIConversation]):
     async def list_by_conversation(
         self,
         conversation_id: uuid.UUID,
+        firebase_uid: str | None = None,
         *,
         limit: int = 100,
     ) -> Sequence[AIConversation]:
         stmt = (
             select(AIConversation)
             .where(AIConversation.conversation_id == conversation_id)
-            .order_by(AIConversation.turn_index.asc())
-            .limit(limit)
         )
+        if firebase_uid:
+            stmt = stmt.where(AIConversation.firebase_uid == firebase_uid)
+        stmt = stmt.order_by(AIConversation.turn_index.asc()).limit(limit)
         result = await self._session.execute(stmt)
         return result.scalars().all()
 

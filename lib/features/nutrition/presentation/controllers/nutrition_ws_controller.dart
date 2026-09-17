@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../../../../core/providers/firebase_providers.dart';
 import '../../../../core/constants/api_constants.dart';
+import '../../../auth/presentation/providers/auth_state_provider.dart';
 import '../../../daily_planner/presentation/controllers/nutrition_controller.dart';
 import '../../../daily_planner/presentation/controllers/hydration_controller.dart';
 import '../../../daily_planner/utils/planner_helpers.dart';
@@ -43,23 +44,38 @@ class NutritionWsState {
 class NutritionWsNotifier extends Notifier<NutritionWsState> {
   WebSocketChannel? _channel;
 
-  String get _userId {
-    return ref.read(firebaseAuthProvider).currentUser?.uid ?? 'guest';
+  String? get _userId {
+    return ref.read(firebaseAuthProvider).currentUser?.uid;
   }
 
   @override
   NutritionWsState build() {
+    final authUser = ref.watch(authStateProvider).value;
     ref.onDispose(() {
-      _channel?.sink.close();
+      _disconnectInternal();
     });
+
+    _disconnectInternal();
+    if (authUser == null) {
+      return const NutritionWsState();
+    }
     return const NutritionWsState();
+  }
+
+  void _disconnectInternal() {
+    try {
+      _channel?.sink.close();
+    } catch (_) {}
+    _channel = null;
   }
 
   void connect() {
     if (_channel != null) return; // Already connected
+    final uid = _userId;
+    if (uid == null) return; // Refuse unauthenticated connections
 
     try {
-      final wsUrl = '${ApiConstants.wsBaseUrl}/ws/nutrition/$_userId';
+      final wsUrl = '${ApiConstants.wsBaseUrl}/ws/nutrition/$uid';
       debugPrint('[NutritionWS] Connecting to $wsUrl');
 
       _channel = WebSocketChannel.connect(Uri.parse(wsUrl));
