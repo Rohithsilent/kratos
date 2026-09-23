@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kratos/core/theme/theme_ext.dart';
-import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 
 class SocialAuthButton extends StatelessWidget {
@@ -24,16 +23,14 @@ class SocialAuthButton extends StatelessWidget {
       width: double.infinity,
       height: 56,
       decoration: BoxDecoration(
-        color: isDark
-            ? Colors.white.withOpacity(0.04)
-            : Colors.black.withOpacity(0.03),
+        color: context.glassmorphism.inputColor,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark
-              ? Colors.white.withOpacity(0.10)
-              : Colors.black.withOpacity(0.08),
-          width: 1,
-        ),
+        border: isDark
+            ? Border.all(
+                color: context.glassmorphism.inputBorderColor,
+                width: 1,
+              )
+            : null,
       ),
       child: Material(
         color: Colors.transparent,
@@ -47,14 +44,13 @@ class SocialAuthButton extends StatelessWidget {
               Icon(
                 icon,
                 size: 22,
-                color: iconColor ??
-                    (isDark ? Colors.white : context.customColors.grey800),
+                color: iconColor ?? context.colors.onSurface,
               ),
               SizedBox(width: 12),
               Text(
                 label,
                 style: AppTypography.labelMedium.copyWith(
-                  color: isDark ? Colors.white : context.customColors.grey800,
+                  color: context.colors.onSurface,
                 ),
               ),
             ],

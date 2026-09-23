@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:kratos/core/theme/theme_ext.dart';
 import 'app_theme_extensions.dart';
-import 'app_colors.dart';
 
 class AppDecorations {
   AppDecorations._();
@@ -25,33 +24,39 @@ class AppDecorations {
 
   static BoxDecoration glassInput(BuildContext context) {
     final glassExt = Theme.of(context).extension<GlassmorphismExtension>();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return BoxDecoration(
       color: glassExt?.inputColor ?? Colors.white.withOpacity(0.04),
       borderRadius: BorderRadius.circular(16),
-      border: Border.all(
-        color: glassExt?.inputBorderColor ?? Colors.white.withOpacity(0.08),
-        width: 1,
-      ),
+      border: isDark
+          ? Border.all(
+              color: glassExt?.inputBorderColor ?? Colors.white.withOpacity(0.08),
+              width: 1,
+            )
+          : null,
     );
   }
 
   static BoxDecoration glassInputFocused(BuildContext context) {
     final glassExt = Theme.of(context).extension<GlassmorphismExtension>();
     final glowExt = Theme.of(context).extension<GlowExtension>();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return BoxDecoration(
       color: glassExt?.inputFocusedColor ?? Colors.white.withOpacity(0.06),
       borderRadius: BorderRadius.circular(16),
       border: Border.all(
         color: glassExt?.inputFocusedBorderColor ?? context.colors.primary.withOpacity(0.6),
-        width: 1.5,
+        width: isDark ? 1.5 : 1,
       ),
-      boxShadow: [
-        BoxShadow(
-          color: glowExt?.redGlowSubtle ?? context.glow.redGlowSubtle,
-          blurRadius: 20,
-          spreadRadius: 0,
-        ),
-      ],
+      boxShadow: isDark
+          ? [
+              BoxShadow(
+                color: glowExt?.redGlowSubtle ?? context.glow.redGlowSubtle,
+                blurRadius: 20,
+                spreadRadius: 0,
+              ),
+            ]
+          : null,
     );
   }
 

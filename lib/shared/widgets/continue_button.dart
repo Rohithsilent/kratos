@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kratos/core/theme/theme_ext.dart';
-import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 
 class ContinueButton extends StatefulWidget {
@@ -109,11 +108,7 @@ class _ContinueButtonState extends State<ContinueButton>
                               SizedBox(width: 8),
                               Icon(
                                 widget.icon,
-                                color:
-                                    Theme.of(context).brightness ==
-                                        Brightness.dark
-                                    ? Colors.white
-                                    : context.customColors.grey900,
+                                color: Colors.white,
                                 size: 20,
                               ),
                             ],

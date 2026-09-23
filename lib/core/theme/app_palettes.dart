@@ -88,10 +88,10 @@ class LightPalette implements AppColorsPalette {
 
   @override Color get glassCard => AppColors.glassLight;
   @override Color get glassBorder => AppColors.glassBorderLight;
-  @override Color get glassInput => AppColors.black.withOpacity(0.03);
-  @override Color get glassInputBorder => AppColors.black.withOpacity(0.06);
+  @override Color get glassInput => AppColors.black.withOpacity(0.04);
+  @override Color get glassInputBorder => Colors.transparent;
   @override Color get glassInputFocused => AppColors.white;
-  @override Color get glassInputFocusedBorder => AppColors.primary.withOpacity(0.6);
+  @override Color get glassInputFocusedBorder => AppColors.primary.withOpacity(0.4);
 
   @override Color get redGlow => AppColors.redGlow.withOpacity(0.15);
   @override Color get redGlowSubtle => AppColors.redGlowSubtle.withOpacity(0.05);
@@ -138,9 +138,9 @@ class SuperSaiyanPalette implements AppColorsPalette {
   @override Color get glassCard => AppColors.glassBlue;
   @override Color get glassBorder => AppColors.glassBlueBorder;
   @override Color get glassInput => AppColors.white.withOpacity(0.70);
-  @override Color get glassInputBorder => AppColors.glassBlueBorder;
+  @override Color get glassInputBorder => AppColors.black.withOpacity(0.06);
   @override Color get glassInputFocused => AppColors.white;
-  @override Color get glassInputFocusedBorder => AppColors.ssPrimary.withOpacity(0.6);
+  @override Color get glassInputFocusedBorder => AppColors.ssPrimary.withOpacity(0.4);
 
   @override Color get redGlow => AppColors.ssPrimary.withOpacity(0.35);
   @override Color get redGlowSubtle => AppColors.ssPrimary.withOpacity(0.15);

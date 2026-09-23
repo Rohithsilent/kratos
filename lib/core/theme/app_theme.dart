@@ -34,15 +34,22 @@ class AppThemeFactory {
         fillColor: palette.glassInput,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: palette.glassInputBorder),
+          borderSide: brightness == Brightness.dark
+              ? BorderSide(color: palette.glassInputBorder)
+              : BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: palette.glassInputBorder),
+          borderSide: brightness == Brightness.dark
+              ? BorderSide(color: palette.glassInputBorder)
+              : BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: palette.glassInputFocusedBorder, width: 1.5),
+          borderSide: BorderSide(
+            color: palette.glassInputFocusedBorder,
+            width: brightness == Brightness.dark ? 1.5 : 1,
+          ),
         ),
         hintStyle: GoogleFonts.montserrat(
           color: palette.grey400,
