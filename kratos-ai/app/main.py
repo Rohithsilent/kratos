@@ -1,7 +1,6 @@
 """KRATOS AI — Production FastAPI application with full AI stack wired in."""
 from contextlib import asynccontextmanager
 
-import sentry_sdk
 from fastapi import FastAPI, WebSocket, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from loguru import logger
@@ -27,7 +26,11 @@ from app.cache.redis_client import get_redis, close_redis
 
 # ── Sentry (optional — only if DSN provided) ──────────────────────────────────
 if hasattr(settings, "SENTRY_DSN") and settings.SENTRY_DSN:
-    sentry_sdk.init(dsn=settings.SENTRY_DSN, traces_sample_rate=0.2)
+    try:
+        import sentry_sdk
+        sentry_sdk.init(dsn=settings.SENTRY_DSN, traces_sample_rate=0.2)
+    except ImportError:
+        logger.warning("SENTRY_DSN configured but 'sentry_sdk' is not installed.")
     logger.info("Sentry initialised")
 
 
