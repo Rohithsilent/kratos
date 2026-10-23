@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.security import AuthenticatedUser, get_current_user
 from app.database.session import get_db
 from app.database.models.meal_entry import MealEntryModel
 from app.schemas.nutrition import MealEntryCreate, MealEntryResponse
@@ -18,8 +19,12 @@ async def get_meals(
     start_date: Optional[str] = None,
     end_date: Optional[str] = None,
     db: AsyncSession = Depends(get_db),
+    user: AuthenticatedUser = Depends(get_current_user),
 ):
     """Get meal history for a user, with optional date filtering."""
+    if user.uid != firebase_uid:
+        raise HTTPException(status_code=403, detail="Access denied.")
+
     query = select(MealEntryModel).where(MealEntryModel.firebase_uid == firebase_uid)
 
     if date:
@@ -43,11 +48,17 @@ async def log_meal(
     firebase_uid: str,
     meal: MealEntryCreate,
     db: AsyncSession = Depends(get_db),
+    user: AuthenticatedUser = Depends(get_current_user),
 ):
     """Log a new meal or update an existing one (using its provided ID)."""
+    if user.uid != firebase_uid:
+        raise HTTPException(status_code=403, detail="Access denied.")
+
     # Check if meal with this ID already exists
     existing = await db.get(MealEntryModel, meal.id)
     if existing:
+        if existing.firebase_uid != firebase_uid:
+            raise HTTPException(status_code=403, detail="Access denied.")
         # Update existing
         for key, value in meal.model_dump(by_alias=True).items():
             if hasattr(existing, key) and key != "id":
@@ -82,8 +93,12 @@ async def delete_meal(
     firebase_uid: str,
     meal_id: str,
     db: AsyncSession = Depends(get_db),
+    user: AuthenticatedUser = Depends(get_current_user),
 ):
     """Delete a logged meal."""
+    if user.uid != firebase_uid:
+        raise HTTPException(status_code=403, detail="Access denied.")
+
     meal = await db.get(MealEntryModel, meal_id)
     if not meal or meal.firebase_uid != firebase_uid:
         raise HTTPException(status_code=404, detail="Meal not found")

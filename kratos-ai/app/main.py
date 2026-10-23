@@ -1,8 +1,10 @@
 """KRATOS AI — Production FastAPI application with full AI stack wired in."""
 from contextlib import asynccontextmanager
+import uuid
 
-from fastapi import FastAPI, WebSocket, Depends
+from fastapi import FastAPI, Request, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from loguru import logger
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -71,6 +73,10 @@ async def lifespan(app: FastAPI):
 
 # ── App factory ───────────────────────────────────────────────────────────────
 def create_application() -> FastAPI:
+    # Disable interactive docs in production to reduce attack surface
+    _docs_url = "/docs" if settings.DEBUG else None
+    _redoc_url = "/redoc" if settings.DEBUG else None
+
     app = FastAPI(
         title=settings.APP_NAME,
         version=settings.APP_VERSION,
@@ -78,8 +84,8 @@ def create_application() -> FastAPI:
             "AI-native fitness intelligence backend for KRATOS. "
             "Powered by Gemini, LangGraph, Pinecone & PostgreSQL."
         ),
-        docs_url="/docs",
-        redoc_url="/redoc",
+        docs_url=_docs_url,
+        redoc_url=_redoc_url,
         lifespan=lifespan,
     )
 
@@ -87,10 +93,28 @@ def create_application() -> FastAPI:
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.ALLOWED_ORIGINS,
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
+        # credentials=True is only safe when origins are explicit (not "*")
+        allow_credentials=settings.ALLOWED_ORIGINS != ["*"],
+        allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allow_headers=["Authorization", "Content-Type", "X-Request-ID"],
     )
+
+    # ── Request ID middleware ─────────────────────────────────────────────────
+    @app.middleware("http")
+    async def add_request_id(request: Request, call_next):
+        request_id = request.headers.get("X-Request-ID", str(uuid.uuid4()))
+        response = await call_next(request)
+        response.headers["X-Request-ID"] = request_id
+        return response
+
+    # ── Global exception handler ──────────────────────────────────────────────
+    @app.exception_handler(Exception)
+    async def global_exception_handler(request: Request, exc: Exception):
+        logger.exception("Unhandled exception | path={} error={}", request.url.path, exc)
+        return JSONResponse(
+            status_code=500,
+            content={"detail": "An internal server error occurred. Please try again."},
+        )
 
     # ── REST routers ─────────────────────────────────────────────────────────
     PREFIX = settings.API_V1_PREFIX
@@ -137,7 +161,8 @@ def create_application() -> FastAPI:
                 result.scalar_one()
             checks["postgres"] = "healthy"
         except Exception as exc:
-            checks["postgres"] = f"unhealthy: {exc}"
+            logger.error("Health check DB error: {}", exc)
+            checks["postgres"] = "unhealthy"  # Never expose raw exc to callers
 
         # Redis check
         try:
@@ -145,7 +170,8 @@ def create_application() -> FastAPI:
             await redis.ping()
             checks["redis"] = "healthy"
         except Exception as exc:
-            checks["redis"] = f"unhealthy: {exc}"
+            logger.error("Health check Redis error: {}", exc)
+            checks["redis"] = "unhealthy"  # Never expose raw exc to callers
 
         all_healthy = all(
             v == "healthy" for k, v in checks.items() if k not in ("app", "version")

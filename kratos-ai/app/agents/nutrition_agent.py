@@ -28,14 +28,24 @@ class NutritionAgent:
         age = profile.get("age", 25)
         gender = profile.get("gender", "male")
         goal = profile.get("goal", "maintain")
+        activity_level = profile.get("activity_level", "moderate")
 
-        # Mifflin-St Jeor
+        # Mifflin-St Jeor BMR
         if gender == "male":
             bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
         else:
             bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
 
-        tdee = bmr * 1.55  # Moderate activity default
+        # Activity multiplier (Harris-Benedict scale)
+        activity_multipliers = {
+            "sedentary":   1.2,    # desk job, no exercise
+            "light":       1.375,  # 1-3 days/week light exercise
+            "moderate":    1.55,   # 3-5 days/week moderate exercise
+            "active":      1.725,  # 6-7 days/week hard exercise
+            "very_active": 1.9,    # physical job + hard exercise
+        }
+        multiplier = activity_multipliers.get(activity_level, 1.55)
+        tdee = bmr * multiplier
 
         if goal == "bulk":
             calories = int(tdee + 500)
@@ -59,13 +69,14 @@ class NutritionAgent:
         """Uses Gemini Vision to estimate macros from a food image."""
         logger.debug("NutritionAgent.analyze_food_image called | user={}", user_id)
         from app.ai.schemas import FoodAnalysisOutput
-        
+
         prompt = (
-            "Analyze this image of food. Identify what it is, and provide a realistic "
-            "estimation of its nutritional content including total calories, protein, "
-            "carbohydrates, and fats. Be as accurate as possible for standard portion sizes."
+            "Identify the food in this image and estimate its nutritional content "
+            "for a standard single serving. Return only the JSON with: "
+            "food_name, calories (kcal), protein_g, carbs_g, fats_g, confidence (0-1). "
+            "Be concise and accurate."
         )
-        
+
         result = await self.llm.analyse_image(
             image_bytes=image_bytes,
             prompt=prompt,
@@ -74,6 +85,7 @@ class NutritionAgent:
             user_id=user_id,
         )
         return result.model_dump()
+
 
     def calculate_nutrition_score(self, intake: dict, targets: dict) -> dict:
         """Deterministically calculate a 0-100 score based on macro adherence."""

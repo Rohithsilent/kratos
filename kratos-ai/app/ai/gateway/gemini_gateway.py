@@ -378,7 +378,12 @@ class GeminiGateway:
         mime_type: str = "image/jpeg",
         user_id: str | None = None,
     ) -> T:
-        """Analyse an image with a structured output schema."""
+        """Analyse an image with a structured output schema.
+
+        Uses the native async SDK (client.aio.models) instead of
+        asyncio.to_thread to avoid blocking a thread-pool slot for the
+        full round-trip, cutting median latency significantly.
+        """
         await self._rate_limiter.check(user_id=user_id)
         model_name = self._resolve_model(GeminiModel.VISION)
 
@@ -386,6 +391,8 @@ class GeminiGateway:
         text_part = genai_types.Part.from_text(text=prompt)
 
         config = genai_types.GenerateContentConfig(
+            temperature=0.1,           # Low temp → fast, deterministic macro output
+            max_output_tokens=512,     # Structured macro response needs very few tokens
             response_mime_type="application/json",
             response_schema=schema,
         )
@@ -398,8 +405,8 @@ class GeminiGateway:
             client, key_idx = self._get_client()
 
             try:
-                response = await asyncio.to_thread(
-                    client.models.generate_content,
+                # Use the native async interface — no thread overhead
+                response = await client.aio.models.generate_content(
                     model=model_name,
                     contents=[image_part, text_part],
                     config=config,

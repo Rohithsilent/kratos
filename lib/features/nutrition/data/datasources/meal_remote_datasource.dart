@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/api_constants.dart';
-import 'package:http/http.dart' as http;
+import '../../../../core/utils/auth_http_client.dart';
 import '../../domain/models/meal_entry_model.dart';
 
 abstract class MealRemoteDataSource {
@@ -17,6 +17,9 @@ abstract class MealRemoteDataSource {
 
 class MealRemoteDataSourceImpl implements MealRemoteDataSource {
   final String _baseUrl = ApiConstants.apiV1;
+  final AuthHttpClient _client;
+
+  MealRemoteDataSourceImpl(this._client);
 
   @override
   Future<List<MealEntry>> getMeals(String uid, {String? date}) async {
@@ -25,9 +28,9 @@ class MealRemoteDataSourceImpl implements MealRemoteDataSource {
       if (date != null) {
         uri = uri.replace(queryParameters: {'date': date});
       }
-      
-      final response = await http.get(uri);
-      
+
+      final response = await _client.get(uri);
+
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
         debugPrint('[MealDataSource] getMeals uid=$uid date=$date → ${data.length} docs');
@@ -45,9 +48,8 @@ class MealRemoteDataSourceImpl implements MealRemoteDataSource {
   Future<void> saveMeal(String uid, MealEntry meal) async {
     try {
       final uri = Uri.parse('$_baseUrl/meals/$uid');
-      final response = await http.post(
+      final response = await _client.post(
         uri,
-        headers: {'Content-Type': 'application/json'},
         body: jsonEncode(meal.toJson()),
       );
 
@@ -66,7 +68,7 @@ class MealRemoteDataSourceImpl implements MealRemoteDataSource {
   Future<void> deleteMeal(String uid, String mealId) async {
     try {
       final uri = Uri.parse('$_baseUrl/meals/$uid/$mealId');
-      final response = await http.delete(uri);
+      final response = await _client.delete(uri);
 
       if (response.statusCode == 204 || response.statusCode == 200) {
         debugPrint('[MealDataSource] deleteMeal OK: $mealId');
@@ -89,9 +91,9 @@ class MealRemoteDataSourceImpl implements MealRemoteDataSource {
           'end_date': endDate,
         },
       );
-      
-      final response = await http.get(uri);
-      
+
+      final response = await _client.get(uri);
+
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
         debugPrint('[MealDataSource] getMealsForDateRange $startDate→$endDate: ${data.length} docs');
@@ -107,5 +109,5 @@ class MealRemoteDataSourceImpl implements MealRemoteDataSource {
 }
 
 final mealRemoteDataSourceProvider = Provider<MealRemoteDataSource>((ref) {
-  return MealRemoteDataSourceImpl();
+  return MealRemoteDataSourceImpl(ref.watch(authHttpClientProvider));
 });

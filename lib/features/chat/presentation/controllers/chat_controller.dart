@@ -110,7 +110,7 @@ class ChatNotifier extends Notifier<ChatState> {
     _channel = null;
   }
 
-  void _connect() {
+  Future<void> _connect() async {
     final uid = _userId;
     if (uid == null) {
       state = state.copyWith(isConnecting: false);
@@ -119,23 +119,37 @@ class ChatNotifier extends Notifier<ChatState> {
 
     state = state.copyWith(isConnecting: true, error: null);
     try {
-      String wsUrl = '${ApiConstants.wsBaseUrl}/ws/chat/$uid';
-      if (state.conversationId != null) {
-        wsUrl += '?conversation_id=${state.conversationId}';
+      // Get a fresh Firebase ID token to authenticate the WebSocket connection
+      final token = await ref
+          .read(firebaseAuthProvider)
+          .currentUser
+          ?.getIdToken();
+
+      if (token == null) {
+        state = state.copyWith(isConnecting: false, error: 'Not authenticated.');
+        return;
       }
-      final currentChannel = WebSocketChannel.connect(Uri.parse(wsUrl));
+
+      final params = <String, String>{'token': token};
+      if (state.conversationId != null) {
+        params['conversation_id'] = state.conversationId!;
+      }
+      final uri = Uri.parse('${ApiConstants.wsBaseUrl}/ws/chat/$uid')
+          .replace(queryParameters: params);
+
+      final currentChannel = WebSocketChannel.connect(uri);
       _channel = currentChannel;
-      
+
       currentChannel.stream.listen(
         (data) => _handleMessage(data),
         onError: (err) {
           if (_channel != currentChannel) return; // Ignore if we intentionally reconnected
-          state = state.copyWith(isConnecting: false, error: "Connection lost.");
+          state = state.copyWith(isConnecting: false, error: 'Connection lost.');
           _reconnect();
         },
         onDone: () {
           if (_channel != currentChannel) return; // Ignore if we intentionally reconnected
-          state = state.copyWith(isConnecting: false, error: "Disconnected.");
+          state = state.copyWith(isConnecting: false, error: 'Disconnected.');
           _reconnect();
         },
       );
@@ -147,10 +161,10 @@ class ChatNotifier extends Notifier<ChatState> {
   }
 
   void _reconnect() {
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () async {
       if (_userId == null) return;
       try {
-        _connect();
+        await _connect();
       } catch (_) {}
     });
   }
@@ -231,7 +245,17 @@ class ChatNotifier extends Notifier<ChatState> {
       return;
     }
     try {
-      final response = await http.get(Uri.parse('${ApiConstants.apiV1}/chat/sessions/$uid'));
+      final token = await ref
+          .read(firebaseAuthProvider)
+          .currentUser
+          ?.getIdToken();
+
+      if (token == null) return;
+
+      final response = await http.get(
+        Uri.parse('${ApiConstants.apiV1}/chat/sessions/$uid'),
+        headers: {'Authorization': 'Bearer $token'},
+      );
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
         final sessions = data.map((s) => ChatSession(
@@ -242,7 +266,7 @@ class ChatNotifier extends Notifier<ChatState> {
         state = state.copyWith(sessions: sessions);
       }
     } catch (e) {
-      print("Failed to fetch sessions: $e");
+      print('Failed to fetch sessions: $e');
     }
   }
 

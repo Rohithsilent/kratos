@@ -25,15 +25,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Copy installed packages from builder
 COPY --from=builder /install /usr/local
 
-# Copy application source
+# Copy application source + migrations
 COPY app/ ./app/
+COPY alembic/ ./alembic/
+COPY alembic.ini .
+COPY scripts/ ./scripts/
+
+# Create logs dir and set permissions BEFORE switching to non-root user
+RUN mkdir -p logs && chmod 755 logs
 
 # Non-root user for security
 RUN addgroup --system kratos && adduser --system --ingroup kratos kratos
+RUN chown -R kratos:kratos /app
 USER kratos
-
-# Logs directory
-RUN mkdir -p logs
 
 EXPOSE 8000
 

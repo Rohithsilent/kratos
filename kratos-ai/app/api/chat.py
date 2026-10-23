@@ -1,10 +1,11 @@
 """Chat API — REST endpoints for AI assistant interactions."""
 # pyrefly: ignore [missing-import]
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
 from loguru import logger
 
 from app.ai.safety.validation import validate_input
+from app.core.security import AuthenticatedUser, get_current_user
 from app.database.postgres import AsyncSessionLocal
 from app.database.repositories.ai_conversation_repository import AIConversationRepository
 from app.cache.redis_client import cache_get, cache_set, session_list_key
@@ -26,7 +27,10 @@ class ChatResponse(BaseModel):
 
 
 @router.post("/message", response_model=ChatResponse)
-async def send_message(body: ChatRequest):
+async def send_message(
+    body: ChatRequest,
+    user: AuthenticatedUser = Depends(get_current_user),
+):
     """
     Send a message to the KRATOS AI assistant.
 
@@ -38,14 +42,20 @@ async def send_message(body: ChatRequest):
     if not safety.is_safe:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=safety.reason)
 
-    logger.info("POST /chat/message | user={} msg_len={}", body.user_id, len(body.message))
+    logger.info("POST /chat/message | user={} msg_len={}", user.uid, len(body.message))
     # TODO Phase 2: invoke fitness_graph.ainvoke(state)
     raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail="Phase 2 — FitnessGraph not yet wired")
 
 
 @router.get("/sessions/{user_id}")
-async def get_chat_sessions(user_id: str, limit: int = 50):
+async def get_chat_sessions(
+    user_id: str,
+    limit: int = 50,
+    user: AuthenticatedUser = Depends(get_current_user),
+):
     """Retrieve all past chat sessions for a user, using Redis cache."""
+    if user.uid != user_id:
+        raise HTTPException(status_code=403, detail="Access denied.")
     logger.info("GET /chat/sessions | user={} limit={}", user_id, limit)
     
     try:
@@ -85,8 +95,14 @@ async def get_chat_sessions(user_id: str, limit: int = 50):
 
 
 @router.get("/history/{user_id}/{conversation_id}")
-async def get_session_history(user_id: str, conversation_id: str):
+async def get_session_history(
+    user_id: str,
+    conversation_id: str,
+    user: AuthenticatedUser = Depends(get_current_user),
+):
     """Retrieve full history for a specific chat session."""
+    if user.uid != user_id:
+        raise HTTPException(status_code=403, detail="Access denied.")
     logger.info("GET /chat/history | user={} conv={}", user_id, conversation_id)
     import uuid
     
@@ -94,7 +110,7 @@ async def get_session_history(user_id: str, conversation_id: str):
         cid = uuid.UUID(conversation_id)
         async with AsyncSessionLocal() as session:
             repo = AIConversationRepository(session)
-            db_history = await repo.list_by_conversation(cid)
+            db_history = await repo.list_by_conversation(cid, firebase_uid=user_id)
             
             history_payload = []
             for turn in db_history:

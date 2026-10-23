@@ -1,33 +1,36 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/api_constants.dart';
+import '../../../../core/utils/auth_http_client.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
 class NutritionApiService {
-  // Use local network IP for physical device testing
+  final AuthHttpClient _client;
+
+  NutritionApiService(this._client);
+
   String get _baseUrl => ApiConstants.apiV1;
 
   /// Analyze a food image by uploading it to the Python backend.
   Future<Map<String, dynamic>?> analyzeFoodImage(Uint8List imageBytes) async {
     try {
       final uri = Uri.parse('$_baseUrl/nutrition/analyze-image');
-      final request = http.MultipartRequest('POST', uri);
-      
-      request.files.add(http.MultipartFile.fromBytes(
-        'file',
-        imageBytes,
-        filename: 'food.jpg',
-        contentType: MediaType('image', 'jpeg'),
-      ));
+      final response = await _client.multipartPost(
+        uri,
+        files: [
+          http.MultipartFile.fromBytes(
+            'file',
+            imageBytes,
+            filename: 'food.jpg',
+            contentType: MediaType('image', 'jpeg'),
+          ),
+        ],
+      );
 
-      final response = await request.send();
       if (response.statusCode == 200) {
         final respStr = await response.stream.bytesToString();
-        // The backend returns: food_name, calories, protein_g, carbs_g, fats_g, confidence
-        // We will map it to the structure the frontend expects.
         final json = jsonDecode(respStr) as Map<String, dynamic>;
         return {
           'foodName': json['food_name'],
@@ -52,13 +55,9 @@ class NutritionApiService {
   }) async {
     try {
       final uri = Uri.parse('$_baseUrl/nutrition/score');
-      final response = await http.post(
+      final response = await _client.post(
         uri,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'intake': intake,
-          'targets': targets,
-        }),
+        body: jsonEncode({'intake': intake, 'targets': targets}),
       );
 
       if (response.statusCode == 200) {
@@ -77,13 +76,9 @@ class NutritionApiService {
   }) async {
     try {
       final uri = Uri.parse('$_baseUrl/nutrition/coach');
-      final response = await http.post(
+      final response = await _client.post(
         uri,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'intake': intake,
-          'targets': targets,
-        }),
+        body: jsonEncode({'intake': intake, 'targets': targets}),
       );
 
       if (response.statusCode == 200) {
@@ -100,5 +95,5 @@ class NutritionApiService {
 }
 
 final nutritionApiServiceProvider = Provider<NutritionApiService>((ref) {
-  return NutritionApiService();
+  return NutritionApiService(ref.watch(authHttpClientProvider));
 });

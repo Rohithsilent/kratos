@@ -2,7 +2,7 @@
 WebSocket Chat Handler — real-time AI streaming for KRATOS.
 
 Flow:
-    Flutter → WS connect (with Firebase token) → authenticate
+    Flutter → WS connect (with Firebase token as ?token= query param) → authenticate
     → receive message → safety check → FitnessGraph triage
     → stream Gemini response back token by token
 """
@@ -14,6 +14,8 @@ from fastapi import WebSocket, WebSocketDisconnect
 
 from app.ai.safety.validation import validate_input
 from app.ai.gateway.gemini_gateway import gemini, GeminiModel
+from app.core.config import settings
+from app.core.security import verify_websocket_token
 from google.genai import types as genai_types
 from app.database.postgres import AsyncSessionLocal
 from app.database.repositories.ai_conversation_repository import AIConversationRepository
@@ -55,12 +57,28 @@ async def chat_socket_handler(user_id: str, websocket: WebSocket) -> None:
     Main WebSocket handler for a single user session.
 
     Handles:
-    - Connection authentication (Phase 2: Firebase token check)
+    - Connection authentication via Firebase token (?token= query param)
     - Message receive / safety validation
     - AI response streaming
     - Graceful disconnect
     """
     await manager.connect(user_id, websocket)
+
+    # ── Authenticate WebSocket connection ──────────────────────────────
+    auth_user = await verify_websocket_token(websocket)
+    if auth_user is None:
+        await websocket.send_text(json.dumps({"type": "error", "content": "Unauthorized: missing or invalid token."}))
+        await websocket.close(code=4001)
+        manager.disconnect(user_id)
+        return
+
+    # Prevent impersonation: verify path param matches token UID
+    if auth_user.uid != user_id:
+        logger.warning("WS uid mismatch | token_uid={} path_uid={}", auth_user.uid, user_id)
+        await websocket.send_text(json.dumps({"type": "error", "content": "Unauthorized: uid mismatch."}))
+        await websocket.close(code=4003)
+        manager.disconnect(user_id)
+        return
 
     try:
         # 1. Setup Session
@@ -214,7 +232,7 @@ async def chat_socket_handler(user_id: str, websocket: WebSocket) -> None:
                         user_message=user_text,
                         ai_response=full_response,
                         agent_type="assistant",
-                        model_used="models/gemini-3.6-flash",
+                        model_used=settings.GEMINI_FLASH_MODEL,
                         latency_ms=latency
                     )
                     session.add(new_turn)
