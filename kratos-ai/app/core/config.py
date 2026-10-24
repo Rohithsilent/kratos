@@ -24,8 +24,8 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str = Field(..., description="PostgreSQL password")
 
     # Connection pool tuning
-    DB_POOL_SIZE: int = 10
-    DB_MAX_OVERFLOW: int = 20
+    DB_POOL_SIZE: int = 5
+    DB_MAX_OVERFLOW: int = 5
     DB_ECHO: bool = False
 
     @computed_field  # type: ignore[prop-decorator]
@@ -39,6 +39,7 @@ class Settings(BaseSettings):
 
     # ── Redis ────────────────────────────────────────────────────────────────
     REDIS_URL: str = "redis://localhost:6379/0"
+    IN_MEMORY_CACHE_MAX_ENTRIES: int = 1_000
 
     # ── Gemini AI — Gemini 2.5 models ────────────────────────────────────────
     GEMINI_API_KEY: str = Field(default="", description="Single Google Gemini API key")
@@ -71,6 +72,10 @@ class Settings(BaseSettings):
     GEMINI_TPM_LIMIT: int = 1_000_000   # tokens per minute global
     USER_RPM_LIMIT: int = 20            # per-user requests per minute limit
     AI_CACHE_TTL_SECONDS: int = 86400   # 24 hours default AI response cache TTL
+    GEMINI_STREAM_MAX_OUTPUT_TOKENS: int = 512
+    CHAT_MAX_MESSAGE_CHARS: int = 2_000
+    CHAT_CONTEXT_MAX_MESSAGES: int = 20
+    MAX_IMAGE_UPLOAD_BYTES: int = 5 * 1024 * 1024
 
     # ── Observability ────────────────────────────────────────────────────────
     SENTRY_DSN: str = ""

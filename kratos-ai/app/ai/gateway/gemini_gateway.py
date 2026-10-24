@@ -435,6 +435,7 @@ class GeminiGateway:
         model: GeminiModel = GeminiModel.FLASH,
         system_instruction: str | None = None,
         temperature: float = 0.7,
+        max_output_tokens: int | None = None,
         user_id: str | None = None,
     ) -> AsyncIterator[str]:
         """Stream Gemini response token-by-token for WebSocket delivery."""
@@ -443,6 +444,7 @@ class GeminiGateway:
 
         config = genai_types.GenerateContentConfig(
             temperature=temperature,
+            max_output_tokens=max_output_tokens or settings.GEMINI_STREAM_MAX_OUTPUT_TOKENS,
             system_instruction=system_instruction,
         )
 

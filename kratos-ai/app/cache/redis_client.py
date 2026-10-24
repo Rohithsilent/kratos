@@ -21,17 +21,25 @@ from app.core.config import settings
 
 # ── Singleton connection pool ─────────────────────────────────────────────────
 _redis: aioredis.Redis | None = None
+_memory_cache: dict[str, tuple[float, str]] = {}
+_memory_rate_limits: dict[str, list[float]] = {}
 
 
 async def get_redis() -> aioredis.Redis:
     """Return (or create) the global async Redis client."""
     global _redis
     if _redis is None:
-        _redis = await aioredis.from_url(
+        client = aioredis.from_url(
             settings.REDIS_URL,
             encoding="utf-8",
             decode_responses=True,
         )
+        try:
+            await client.ping()
+        except Exception:
+            await client.aclose()
+            raise
+        _redis = client
         logger.info("Redis connected → {}", settings.REDIS_URL)
     return _redis
 
@@ -47,23 +55,53 @@ async def close_redis() -> None:
 
 # ── Cache helpers ─────────────────────────────────────────────────────────────
 
+def _set_memory_cache(key: str, value: Any, ttl_seconds: int) -> None:
+    _memory_cache.pop(key, None)
+    _memory_cache[key] = (time.monotonic() + ttl_seconds, json.dumps(value))
+    while len(_memory_cache) > settings.IN_MEMORY_CACHE_MAX_ENTRIES:
+        _memory_cache.pop(next(iter(_memory_cache)))
+
+
+def _get_memory_cache(key: str) -> Any | None:
+    entry = _memory_cache.get(key)
+    if entry is None:
+        return None
+    expires_at, raw = entry
+    if time.monotonic() >= expires_at:
+        _memory_cache.pop(key, None)
+        return None
+    return json.loads(raw)
+
+
 async def cache_set(key: str, value: Any, ttl_seconds: int = 3600) -> None:
-    """Serialise and store a value in Redis with TTL."""
-    r = await get_redis()
-    await r.setex(key, ttl_seconds, json.dumps(value))
+    """Store a value in Redis, falling back to a bounded local cache."""
+    try:
+        r = await get_redis()
+        await r.setex(key, ttl_seconds, json.dumps(value))
+    except Exception as exc:
+        logger.warning("Redis cache write failed; using in-memory cache: {}", exc)
+        _set_memory_cache(key, value, ttl_seconds)
 
 
 async def cache_get(key: str) -> Any | None:
-    """Retrieve and deserialise a value from Redis. Returns None if missing."""
-    r = await get_redis()
-    raw = await r.get(key)
-    return json.loads(raw) if raw else None
+    """Retrieve a cached value, using local storage if Redis is unavailable."""
+    try:
+        r = await get_redis()
+        raw = await r.get(key)
+        return json.loads(raw) if raw else None
+    except Exception as exc:
+        logger.warning("Redis cache read failed; using in-memory cache: {}", exc)
+        return _get_memory_cache(key)
 
 
 async def cache_delete(key: str) -> None:
-    """Delete a cache key."""
-    r = await get_redis()
-    await r.delete(key)
+    """Delete a cache key from both Redis and the local fallback."""
+    _memory_cache.pop(key, None)
+    try:
+        r = await get_redis()
+        await r.delete(key)
+    except Exception as exc:
+        logger.warning("Redis cache delete failed; local cache entry removed: {}", exc)
 
 
 # ── Fitness-specific cache helpers ────────────────────────────────────────────
@@ -123,8 +161,16 @@ async def check_redis_rate_limit(
             return False, count
         return True, count + 1
     except Exception as exc:
-        logger.warning("Redis rate limit check failed (falling back to allowed): {}", exc)
-        return True, 0
+        logger.warning("Redis rate limit check failed; using in-memory limiter: {}", exc)
+        now = time.monotonic()
+        requests = _memory_rate_limits.get(key, [])
+        requests = [timestamp for timestamp in requests if now - timestamp < window_seconds]
+        if len(requests) >= limit:
+            _memory_rate_limits[key] = requests
+            return False, len(requests)
+        requests.append(now)
+        _memory_rate_limits[key] = requests
+        return True, len(requests)
 
 
 # ── AI Response Cache Helpers ──────────────────────────────────────────────────

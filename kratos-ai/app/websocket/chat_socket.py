@@ -120,6 +120,7 @@ async def chat_socket_handler(user_id: str, websocket: WebSocket) -> None:
                 turn_index = len(history_payload) // 2
                 logger.info("Session buffer hit | user={} conv={}", user_id, conversation_id)
                 
+        history_payload = history_payload[-settings.CHAT_CONTEXT_MAX_MESSAGES:]
         await websocket.send_text(json.dumps({
             "type": "history",
             "conversation_id": str(conversation_id),
@@ -128,10 +129,22 @@ async def chat_socket_handler(user_id: str, websocket: WebSocket) -> None:
 
         while True:
             raw = await websocket.receive_text()
+            if len(raw) > settings.CHAT_MAX_MESSAGE_CHARS * 2:
+                await websocket.send_text(json.dumps({
+                    "type": "error",
+                    "content": "Message is too large.",
+                }))
+                continue
             payload = json.loads(raw)
             message = payload.get("message", "")
 
-            if not message.strip():
+            if not isinstance(message, str) or not message.strip():
+                continue
+            if len(message) > settings.CHAT_MAX_MESSAGE_CHARS:
+                await websocket.send_text(json.dumps({
+                    "type": "error",
+                    "content": f"Messages are limited to {settings.CHAT_MAX_MESSAGE_CHARS} characters.",
+                }))
                 continue
 
             # Safety validation
@@ -147,7 +160,7 @@ async def chat_socket_handler(user_id: str, websocket: WebSocket) -> None:
             logger.info("WS message | user={} conv={} len={}", user_id, conversation_id, len(user_text))
 
             # 2. Build Gemini Context from Redis Active Session
-            current_history = await cache_get(cache_key) or []
+            current_history = (await cache_get(cache_key) or [])[-settings.CHAT_CONTEXT_MAX_MESSAGES:]
             
             contents = []
             for msg in current_history:
@@ -219,6 +232,7 @@ async def chat_socket_handler(user_id: str, websocket: WebSocket) -> None:
                 # Update Redis Active Buffer
                 current_history.append({"role": "user", "content": user_text})
                 current_history.append({"role": "assistant", "content": full_response})
+                current_history = current_history[-settings.CHAT_CONTEXT_MAX_MESSAGES:]
                 await cache_set(cache_key, current_history, ttl_seconds=3600)
                 
                 # Save permanent turn to Postgres

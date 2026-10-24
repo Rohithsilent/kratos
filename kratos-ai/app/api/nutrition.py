@@ -5,6 +5,7 @@ from loguru import logger
 
 from app.ai.gateway.gemini_gateway import gemini
 from app.agents.nutrition_agent import NutritionAgent
+from app.core.config import settings
 from app.core.security import AuthenticatedUser, get_current_user
 
 router = APIRouter(prefix="/nutrition", tags=["Nutrition"])
@@ -76,7 +77,9 @@ async def analyze_food_image(
     if not file.content_type or not file.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="File must be an image")
     
-    image_bytes = await file.read()
+    image_bytes = await file.read(settings.MAX_IMAGE_UPLOAD_BYTES + 1)
+    if len(image_bytes) > settings.MAX_IMAGE_UPLOAD_BYTES:
+        raise HTTPException(status_code=413, detail="Image must be 5 MB or smaller")
     agent = NutritionAgent(llm=gemini)
     
     try:

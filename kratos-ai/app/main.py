@@ -21,8 +21,7 @@ from app.websocket.chat_socket import chat_socket_handler
 from app.websocket.nutrition_socket import nutrition_socket_handler
 
 # DB + Cache
-from app.database.postgres import init_db, close_db
-from app.database.session import get_db
+from app.database.postgres import AsyncSessionLocal, close_db, init_db
 from app.cache.redis_client import get_redis, close_redis
 
 
@@ -49,12 +48,9 @@ async def lifespan(app: FastAPI):
     except Exception as exc:
         logger.warning("⚠️  Redis init skipped (not configured?): {}", exc)
 
-    # DB init — verify connectivity (tables managed by Alembic)
-    try:
-        await init_db()
-        logger.info("✅ PostgreSQL ready ({}:{})", settings.POSTGRES_HOST, settings.POSTGRES_PORT)
-    except Exception as exc:
-        logger.warning("⚠️  DB init skipped (not configured?): {}", exc)
+    # PostgreSQL is required for persisted meals, conversations, and insights.
+    await init_db()
+    logger.info("✅ PostgreSQL ready ({}:{})", settings.POSTGRES_HOST, settings.POSTGRES_PORT)
 
     logger.info("🔥 KRATOS AI — ALL SYSTEMS GO")
     yield
@@ -134,19 +130,27 @@ def create_application() -> FastAPI:
         await nutrition_socket_handler(user_id, websocket)
 
     # ── Health — deep check with DB ping ──────────────────────────────────────
+    async def check_postgres() -> bool:
+        try:
+            async with AsyncSessionLocal() as session:
+                result = await session.execute(text("SELECT 1"))
+                result.scalar_one()
+            return True
+        except Exception as exc:
+            logger.error("Health check DB error: {}", exc)
+            return False
+
     @app.get("/health", tags=["System"])
     async def health():
-        """
-        Health check endpoint.
-
-        Returns basic health without DB check for speed.
-        Use /health/deep for full infrastructure check.
-        """
-        return {
-            "status": "healthy",
+        """Readiness check for the required PostgreSQL dependency."""
+        postgres_healthy = await check_postgres()
+        body = {
+            "status": "healthy" if postgres_healthy else "unhealthy",
             "app": settings.APP_NAME,
             "version": settings.APP_VERSION,
+            "postgres": "healthy" if postgres_healthy else "unhealthy",
         }
+        return JSONResponse(status_code=200 if postgres_healthy else 503, content=body)
 
     @app.get("/health/deep", tags=["System"])
     async def health_deep():
@@ -154,15 +158,7 @@ def create_application() -> FastAPI:
         checks = {"app": settings.APP_NAME, "version": settings.APP_VERSION}
 
         # PostgreSQL check
-        try:
-            from app.database.postgres import AsyncSessionLocal
-            async with AsyncSessionLocal() as session:
-                result = await session.execute(text("SELECT 1"))
-                result.scalar_one()
-            checks["postgres"] = "healthy"
-        except Exception as exc:
-            logger.error("Health check DB error: {}", exc)
-            checks["postgres"] = "unhealthy"  # Never expose raw exc to callers
+        checks["postgres"] = "healthy" if await check_postgres() else "unhealthy"
 
         # Redis check
         try:
@@ -173,11 +169,11 @@ def create_application() -> FastAPI:
             logger.error("Health check Redis error: {}", exc)
             checks["redis"] = "unhealthy"  # Never expose raw exc to callers
 
-        all_healthy = all(
-            v == "healthy" for k, v in checks.items() if k not in ("app", "version")
+        checks["status"] = "healthy" if checks["postgres"] == "healthy" else "unhealthy"
+        return JSONResponse(
+            status_code=200 if checks["postgres"] == "healthy" else 503,
+            content=checks,
         )
-        checks["status"] = "healthy" if all_healthy else "degraded"
-        return checks
 
     @app.get("/", tags=["System"])
     async def root():
