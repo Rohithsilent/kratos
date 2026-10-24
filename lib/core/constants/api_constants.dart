@@ -1,21 +1,20 @@
 class ApiConstants {
-  /// ─────────────────────────────────────────────────────────────────
-  /// 🌐 LOCAL DEVELOPMENT IP ADDRESS
-  /// ─────────────────────────────────────────────────────────────────
-  /// If you are testing on a PHYSICAL device over Wi-Fi, put your computer's
-  /// local IP address here (e.g., 192.168.1.X or 10.X.X.X).
+  /// Override this at build time for each environment:
+  /// --dart-define=API_BASE_URL=https://your-api.example.com
   ///
-  /// PERMANENT FIX ADVICE:
-  /// To stop this IP from changing every day, log into your Wi-Fi router's
-  /// admin panel and assign a "Static IP" or "DHCP Reservation" to your computer.
-  static const String localIp = '10.41.204.177';
-
-  /// The base HTTP URL for the FastAPI backend.
-  static const String baseUrl = 'http://$localIp:8000';
+  /// The default keeps local physical-device development working.
+  static const String baseUrl = String.fromEnvironment(
+    'API_BASE_URL',
+    defaultValue: 'http://10.41.204.177:8000',
+  );
 
   /// The v1 API endpoint prefix.
   static const String apiV1 = '$baseUrl/api/v1';
 
-  /// The WebSocket base URL for the FastAPI backend.
-  static const String wsBaseUrl = 'ws://$localIp:8000';
+  /// Uses ws for local HTTP and wss for a deployed HTTPS API.
+  static String get wsBaseUrl {
+    final uri = Uri.parse(baseUrl);
+    final scheme = uri.scheme == 'https' ? 'wss' : 'ws';
+    return uri.replace(scheme: scheme).toString();
+  }
 }

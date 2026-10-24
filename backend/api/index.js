@@ -7,7 +7,13 @@ require('dotenv').config();
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json({
+  verify: (req, res, buffer) => {
+    if (req.originalUrl === '/api/webhook') {
+      req.rawBody = Buffer.from(buffer);
+    }
+  },
+}));
 
 // Simple health check for the Vercel preview window
 app.get('/', (req, res) => {
@@ -44,6 +50,28 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET || 'placeholder',
 });
 
+const allowedPlanIds = new Set([
+  process.env.PLAN_PRO_MONTHLY,
+  process.env.PLAN_PRO_YEARLY,
+  process.env.PLAN_PREMIUM_MONTHLY,
+  process.env.PLAN_PREMIUM_YEARLY,
+].filter(Boolean));
+
+const verifyWebhookSignature = (rawBody, signature, secret) => {
+  if (!rawBody || typeof signature !== 'string' || !signature) {
+    return false;
+  }
+
+  const expectedSignature = crypto
+    .createHmac('sha256', secret)
+    .update(rawBody)
+    .digest();
+  const receivedSignature = Buffer.from(signature, 'hex');
+
+  return receivedSignature.length === expectedSignature.length
+    && crypto.timingSafeEqual(receivedSignature, expectedSignature);
+};
+
 // Middleware to validate Firebase ID Token
 const validateFirebaseIdToken = async (req, res, next) => {
   if ((!req.headers.authorization || !req.headers.authorization.startsWith('Bearer '))) {
@@ -70,8 +98,8 @@ app.post('/api/create-subscription', validateFirebaseIdToken, async (req, res) =
     const { plan_id } = req.body;
     const uid = req.user.uid; // Securely obtained from token
 
-    if (!plan_id) {
-      return res.status(400).json({ error: 'plan_id is required' });
+    if (!plan_id || !allowedPlanIds.has(plan_id)) {
+      return res.status(400).json({ error: 'Invalid subscription plan' });
     }
 
     // Determine if the plan is yearly to safely calculate the maximum allowed billing cycles
@@ -96,7 +124,7 @@ app.post('/api/create-subscription', validateFirebaseIdToken, async (req, res) =
     res.status(200).json(subscription);
   } catch (error) {
     console.error('Error creating Razorpay subscription:', error);
-    res.status(500).json({ error: 'Failed to create subscription', details: error });
+    res.status(500).json({ error: 'Failed to create subscription' });
   }
 });
 
@@ -113,12 +141,7 @@ app.post('/api/webhook', async (req, res) => {
     return res.status(500).json({ error: 'Server configuration error' });
   }
 
-  const generatedSignature = crypto
-    .createHmac('sha256', webhookSecret)
-    .update(JSON.stringify(payload))
-    .digest('hex');
-
-  if (generatedSignature !== signature) {
+  if (!verifyWebhookSignature(req.rawBody, signature, webhookSecret)) {
     console.error('Invalid webhook signature!');
     return res.status(400).json({ error: 'Invalid signature' });
   }

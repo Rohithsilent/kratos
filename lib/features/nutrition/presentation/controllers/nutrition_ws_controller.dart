@@ -43,6 +43,7 @@ class NutritionWsState {
 
 class NutritionWsNotifier extends Notifier<NutritionWsState> {
   WebSocketChannel? _channel;
+  Future<void>? _connecting;
 
   String? get _userId {
     return ref.read(firebaseAuthProvider).currentUser?.uid;
@@ -69,26 +70,48 @@ class NutritionWsNotifier extends Notifier<NutritionWsState> {
     _channel = null;
   }
 
-  void connect() {
-    if (_channel != null) return; // Already connected
+  Future<void> connect() {
+    if (_channel != null) return Future.value();
+    return _connecting ??= _connect();
+  }
+
+  Future<void> _connect() async {
     final uid = _userId;
-    if (uid == null) return; // Refuse unauthenticated connections
+    if (uid == null) return;
 
     try {
-      final wsUrl = '${ApiConstants.wsBaseUrl}/ws/nutrition/$uid';
-      debugPrint('[NutritionWS] Connecting to $wsUrl');
+      final token = await ref
+          .read(firebaseAuthProvider)
+          .currentUser
+          ?.getIdToken();
+      if (token == null) {
+        state = state.copyWith(error: 'Not authenticated.');
+        return;
+      }
 
-      _channel = WebSocketChannel.connect(Uri.parse(wsUrl));
+      final uri = Uri.parse(
+        '${ApiConstants.wsBaseUrl}/ws/nutrition/$uid',
+      ).replace(queryParameters: {'token': token});
+      debugPrint('[NutritionWS] Connecting for user $uid');
+
+      final currentChannel = WebSocketChannel.connect(uri);
+      _channel = currentChannel;
       state = state.copyWith(isConnected: true, error: null);
 
-      _channel!.stream.listen(
+      currentChannel.stream.listen(
         (data) => _handleMessage(data),
         onError: (err) {
+          if (_channel != currentChannel) return;
           debugPrint('[NutritionWS] Error: $err');
-          state = state.copyWith(isConnected: false, isStreaming: false, error: 'Connection lost');
+          state = state.copyWith(
+            isConnected: false,
+            isStreaming: false,
+            error: 'Connection lost',
+          );
           _channel = null;
         },
         onDone: () {
+          if (_channel != currentChannel) return;
           debugPrint('[NutritionWS] Disconnected');
           state = state.copyWith(isConnected: false, isStreaming: false);
           _channel = null;
@@ -97,6 +120,8 @@ class NutritionWsNotifier extends Notifier<NutritionWsState> {
     } catch (e) {
       debugPrint('[NutritionWS] Connect failed: $e');
       state = state.copyWith(isConnected: false, error: e.toString());
+    } finally {
+      _connecting = null;
     }
   }
 
@@ -115,9 +140,7 @@ class NutritionWsNotifier extends Notifier<NutritionWsState> {
         state = state.copyWith(isStreaming: true, currentInsight: '');
       } else if (type == 'stream_chunk') {
         final chunk = payload['content'] as String;
-        state = state.copyWith(
-          currentInsight: state.currentInsight + chunk,
-        );
+        state = state.copyWith(currentInsight: state.currentInsight + chunk);
       } else if (type == 'stream_end') {
         state = state.copyWith(isStreaming: false);
       } else if (type == 'cached_insight') {
@@ -126,9 +149,7 @@ class NutritionWsNotifier extends Notifier<NutritionWsState> {
           isStreaming: false,
         );
       } else if (type == 'fit_check_result') {
-        state = state.copyWith(
-          fitCheckResult: payload as Map<String, dynamic>,
-        );
+        state = state.copyWith(fitCheckResult: payload as Map<String, dynamic>);
       } else if (type == 'error') {
         state = state.copyWith(error: payload['content']);
       }
@@ -138,38 +159,40 @@ class NutritionWsNotifier extends Notifier<NutritionWsState> {
   }
 
   /// Request AI coach analysis
-  void requestAnalysis({bool forceRefresh = false}) {
-    if (_channel == null) connect();
+  Future<void> requestAnalysis({bool forceRefresh = false}) async {
+    await connect();
     if (_channel == null) return;
 
     final nutrition = ref.read(todayNutritionProvider);
     final hydration = ref.read(todayHydrationProvider);
     final today = PlannerHelpers.formatDate(DateTime.now());
 
-    _channel!.sink.add(jsonEncode({
-      'type': 'analyze',
-      'date': today,
-      'force_refresh': forceRefresh,
-      'intake': {
-        'calories': nutrition.caloriesConsumed,
-        'protein_g': nutrition.proteinConsumed,
-        'carbs_g': nutrition.carbsConsumed,
-        'fats_g': nutrition.fatsConsumed,
-        'water_ml': hydration.waterConsumed,
-      },
-      'targets': {
-        'calories': nutrition.caloriesTarget,
-        'protein_g': nutrition.proteinTarget,
-        'carbs_g': nutrition.carbsTarget,
-        'fats_g': nutrition.fatsTarget,
-        'water_ml': hydration.waterTarget,
-      },
-    }));
+    _channel!.sink.add(
+      jsonEncode({
+        'type': 'analyze',
+        'date': today,
+        'force_refresh': forceRefresh,
+        'intake': {
+          'calories': nutrition.caloriesConsumed,
+          'protein_g': nutrition.proteinConsumed,
+          'carbs_g': nutrition.carbsConsumed,
+          'fats_g': nutrition.fatsConsumed,
+          'water_ml': hydration.waterConsumed,
+        },
+        'targets': {
+          'calories': nutrition.caloriesTarget,
+          'protein_g': nutrition.proteinTarget,
+          'carbs_g': nutrition.carbsTarget,
+          'fats_g': nutrition.fatsTarget,
+          'water_ml': hydration.waterTarget,
+        },
+      }),
+    );
   }
 
   /// Request fit check for a scanned food before logging
-  void requestFitCheck(Map<String, dynamic> scannedFood) {
-    if (_channel == null) connect();
+  Future<void> requestFitCheck(Map<String, dynamic> scannedFood) async {
+    await connect();
     if (_channel == null) return;
 
     // Clear previous fit check
@@ -184,53 +207,58 @@ class NutritionWsNotifier extends Notifier<NutritionWsState> {
     final nutrition = ref.read(todayNutritionProvider);
     final hydration = ref.read(todayHydrationProvider);
 
-    _channel!.sink.add(jsonEncode({
-      'type': 'fit_check',
-      'food': scannedFood,
-      'intake': {
-        'calories': nutrition.caloriesConsumed,
-        'protein_g': nutrition.proteinConsumed,
-        'carbs_g': nutrition.carbsConsumed,
-        'fats_g': nutrition.fatsConsumed,
-        'water_ml': hydration.waterConsumed,
-      },
-      'targets': {
-        'calories': nutrition.caloriesTarget,
-        'protein_g': nutrition.proteinTarget,
-        'carbs_g': nutrition.carbsTarget,
-        'fats_g': nutrition.fatsTarget,
-        'water_ml': hydration.waterTarget,
-      },
-    }));
+    _channel!.sink.add(
+      jsonEncode({
+        'type': 'fit_check',
+        'food': scannedFood,
+        'intake': {
+          'calories': nutrition.caloriesConsumed,
+          'protein_g': nutrition.proteinConsumed,
+          'carbs_g': nutrition.carbsConsumed,
+          'fats_g': nutrition.fatsConsumed,
+          'water_ml': hydration.waterConsumed,
+        },
+        'targets': {
+          'calories': nutrition.caloriesTarget,
+          'protein_g': nutrition.proteinTarget,
+          'carbs_g': nutrition.carbsTarget,
+          'fats_g': nutrition.fatsTarget,
+          'water_ml': hydration.waterTarget,
+        },
+      }),
+    );
   }
 
   /// Notify backend after a meal is logged for proactive insight
-  void notifyMealLogged(String foodName) {
+  Future<void> notifyMealLogged(String foodName) async {
+    await connect();
     if (_channel == null) return;
 
     final nutrition = ref.read(todayNutritionProvider);
     final hydration = ref.read(todayHydrationProvider);
     final today = PlannerHelpers.formatDate(DateTime.now());
 
-    _channel!.sink.add(jsonEncode({
-      'type': 'meal_logged',
-      'date': today,
-      'food_name': foodName,
-      'intake': {
-        'calories': nutrition.caloriesConsumed,
-        'protein_g': nutrition.proteinConsumed,
-        'carbs_g': nutrition.carbsConsumed,
-        'fats_g': nutrition.fatsConsumed,
-        'water_ml': hydration.waterConsumed,
-      },
-      'targets': {
-        'calories': nutrition.caloriesTarget,
-        'protein_g': nutrition.proteinTarget,
-        'carbs_g': nutrition.carbsTarget,
-        'fats_g': nutrition.fatsTarget,
-        'water_ml': hydration.waterTarget,
-      },
-    }));
+    _channel!.sink.add(
+      jsonEncode({
+        'type': 'meal_logged',
+        'date': today,
+        'food_name': foodName,
+        'intake': {
+          'calories': nutrition.caloriesConsumed,
+          'protein_g': nutrition.proteinConsumed,
+          'carbs_g': nutrition.carbsConsumed,
+          'fats_g': nutrition.fatsConsumed,
+          'water_ml': hydration.waterConsumed,
+        },
+        'targets': {
+          'calories': nutrition.caloriesTarget,
+          'protein_g': nutrition.proteinTarget,
+          'carbs_g': nutrition.carbsTarget,
+          'fats_g': nutrition.fatsTarget,
+          'water_ml': hydration.waterTarget,
+        },
+      }),
+    );
   }
 
   /// Clear fit check result
@@ -245,6 +273,7 @@ class NutritionWsNotifier extends Notifier<NutritionWsState> {
   }
 }
 
-final nutritionWsProvider = NotifierProvider<NutritionWsNotifier, NutritionWsState>(
-  NutritionWsNotifier.new,
-);
+final nutritionWsProvider =
+    NotifierProvider<NutritionWsNotifier, NutritionWsState>(
+      NutritionWsNotifier.new,
+    );

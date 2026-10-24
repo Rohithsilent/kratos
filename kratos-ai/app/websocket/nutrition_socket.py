@@ -13,6 +13,7 @@ from loguru import logger
 from fastapi import WebSocket, WebSocketDisconnect
 
 from app.ai.gateway.gemini_gateway import gemini, GeminiModel
+from app.core.security import verify_websocket_token
 from google.genai import types as genai_types
 from app.database.postgres import AsyncSessionLocal
 from app.database.models.ai_insight import AIInsight
@@ -34,6 +35,29 @@ async def nutrition_socket_handler(user_id: str, websocket: WebSocket) -> None:
     - meal_logged: Proactive insight after a meal is logged
     """
     await websocket.accept()
+
+    auth_user = await verify_websocket_token(websocket)
+    if auth_user is None:
+        await websocket.send_text(json.dumps({
+            "type": "error",
+            "content": "Unauthorized: missing or invalid token.",
+        }))
+        await websocket.close(code=4001)
+        return
+
+    if auth_user.uid != user_id:
+        logger.warning(
+            "Nutrition WS uid mismatch | token_uid={} path_uid={}",
+            auth_user.uid,
+            user_id,
+        )
+        await websocket.send_text(json.dumps({
+            "type": "error",
+            "content": "Unauthorized: uid mismatch.",
+        }))
+        await websocket.close(code=4003)
+        return
+
     logger.info("Nutrition WS connected | user={}", user_id)
 
     try:
