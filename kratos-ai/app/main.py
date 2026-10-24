@@ -78,7 +78,7 @@ def create_application() -> FastAPI:
         version=settings.APP_VERSION,
         description=(
             "AI-native fitness intelligence backend for KRATOS. "
-            "Powered by Gemini, LangGraph, Pinecone & PostgreSQL."
+            "Powered by Gemini and PostgreSQL."
         ),
         docs_url=_docs_url,
         redoc_url=_redoc_url,

@@ -8,7 +8,6 @@ All schemas are JSON-serialisable and map directly to Flutter models.
 """
 from __future__ import annotations
 
-from typing import Literal
 from pydantic import BaseModel, Field
 
 

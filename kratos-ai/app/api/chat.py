@@ -5,6 +5,8 @@ from pydantic import BaseModel, Field
 from loguru import logger
 
 from app.ai.safety.validation import validate_input
+from app.agents.assistant_agent import AssistantAgent
+from app.ai.gateway.gemini_gateway import gemini
 from app.core.security import AuthenticatedUser, get_current_user
 from app.database.postgres import AsyncSessionLocal
 from app.database.repositories.ai_conversation_repository import AIConversationRepository
@@ -34,17 +36,28 @@ async def send_message(
     """
     Send a message to the KRATOS AI assistant.
 
-    Routes through safety validation → FitnessGraph triage → Gemini.
+    Routes through safety validation → the Gemini-backed assistant.
     For real-time streaming use the WebSocket endpoint instead.
     """
     # Safety check first
     safety = validate_input(body.message)
     if not safety.is_safe:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=safety.reason)
+    if body.user_id != user.uid:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied.")
 
     logger.info("POST /chat/message | user={} msg_len={}", user.uid, len(body.message))
-    # TODO Phase 2: invoke fitness_graph.ainvoke(state)
-    raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail="Phase 2 — FitnessGraph not yet wired")
+    agent = AssistantAgent(llm=gemini)
+    result = await agent.run(
+        user_id=user.uid,
+        message=safety.sanitised_text or body.message,
+        context=body.context,
+    )
+    return ChatResponse(
+        user_id=user.uid,
+        response=result.response,
+        route_used="flash",
+    )
 
 
 @router.get("/sessions/{user_id}")

@@ -86,6 +86,33 @@ class NutritionAgent:
         )
         return result.model_dump()
 
+    async def generate_meal_plan(
+        self,
+        macros: dict,
+        dietary_restrictions: list[str],
+        meals_per_day: int,
+        user_id: str,
+    ) -> dict:
+        """Generate a structured meal plan from the user's requested macros."""
+        from app.ai.gateway.gemini_gateway import GeminiModel
+        from app.ai.schemas import MealPlanOutput
+
+        prompt = (
+            f"Create a {meals_per_day}-meal daily plan for these macro targets: {macros}. "
+            f"Dietary restrictions: {dietary_restrictions or ['none']}. "
+            "Use common foods, keep the plan practical, and make the meal totals "
+            "reasonably align with the provided targets."
+        )
+        result = await self.llm.generate_structured(
+            prompt=prompt,
+            schema=MealPlanOutput,
+            model=GeminiModel.FLASH,
+            temperature=0.3,
+            max_output_tokens=1_024,
+            user_id=user_id,
+        )
+        return result.model_dump()
+
 
     def calculate_nutrition_score(self, intake: dict, targets: dict) -> dict:
         """Deterministically calculate a 0-100 score based on macro adherence."""

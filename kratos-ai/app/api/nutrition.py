@@ -5,6 +5,7 @@ from loguru import logger
 
 from app.ai.gateway.gemini_gateway import gemini
 from app.agents.nutrition_agent import NutritionAgent
+from app.ai.schemas import MealPlanOutput
 from app.core.config import settings
 from app.core.security import AuthenticatedUser, get_current_user
 
@@ -57,14 +58,20 @@ async def calculate_macros(
     return targets
 
 
-@router.post("/meal-plan")
+@router.post("/meal-plan", response_model=MealPlanOutput)
 async def generate_meal_plan(
     body: MealPlanRequest,
     user: AuthenticatedUser = Depends(get_current_user),
 ):
     """Generate a structured daily meal plan from macro targets."""
     logger.info("POST /nutrition/meal-plan | user={}", user.uid)
-    raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail="Phase 3 — Generate meal plan pending")
+    agent = NutritionAgent(llm=gemini)
+    return await agent.generate_meal_plan(
+        macros=body.macros.model_dump(),
+        dietary_restrictions=body.dietary_restrictions,
+        meals_per_day=body.meals_per_day,
+        user_id=user.uid,
+    )
 
 
 @router.post("/analyze-image")
