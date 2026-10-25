@@ -10,6 +10,7 @@ from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
+from app.core.security import firebase_is_ready
 from app.core.logging import setup_logging
 
 from app.api.chat import router as chat_router
@@ -42,6 +43,13 @@ async def lifespan(app: FastAPI):
     logger.info("🚀 {} v{} starting …", settings.APP_NAME, settings.APP_VERSION)
 
     # Startup
+    settings.validate_production_settings()
+    if settings.is_production and not firebase_is_ready():
+        raise RuntimeError(
+            "Firebase Admin credentials are required in production. "
+            "Set FIREBASE_SERVICE_ACCOUNT_JSON as a Container Apps secret."
+        )
+
     try:
         await get_redis()
         logger.info("✅ Redis ready")

@@ -65,10 +65,15 @@ async def run_async_migrations() -> None:
     and associate a connection with the context.
 
     """
+    connect_args = {}
+    if settings.POSTGRES_SSL:
+        connect_args["ssl"] = True
+
     connectable = async_engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
+        connect_args=connect_args,
     )
 
     async with connectable.connect() as connection:

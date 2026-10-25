@@ -29,6 +29,8 @@ engine = create_async_engine(
         # asyncpg-specific: statement cache size per connection
         "statement_cache_size": 0,       # disable for pgbouncer compat
         "command_timeout": 60,
+        # Azure Database for PostgreSQL requires encrypted transport.
+        "ssl": settings.POSTGRES_SSL,
     },
 )
 

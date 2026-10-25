@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import '../../../core/constants/subscription_constants.dart';
 import '../../../core/theme/theme_ext.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../shared/widgets/glass_card.dart';
@@ -172,8 +172,8 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen>
                                   glowColor: context.glow.redGlow,
                                   onUpgrade: (isYearly) => _upgradeTier(
                                     isYearly
-                                        ? dotenv.env['RAZORPAY_PLAN_PRO_YEARLY']!
-                                        : dotenv.env['RAZORPAY_PLAN_PRO_MONTHLY']!,
+                                        ? SubscriptionConstants.proYearlyPlanId
+                                        : SubscriptionConstants.proMonthlyPlanId,
                                   ),
                                 ),
                               ),
@@ -205,8 +205,8 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen>
                                   isPremium: true,
                                   onUpgrade: (isYearly) => _upgradeTier(
                                     isYearly
-                                        ? dotenv.env['RAZORPAY_PLAN_PREMIUM_YEARLY']!
-                                        : dotenv.env['RAZORPAY_PLAN_PREMIUM_MONTHLY']!,
+                                        ? SubscriptionConstants.premiumYearlyPlanId
+                                        : SubscriptionConstants.premiumMonthlyPlanId,
                                   ),
                                 ),
                               ),

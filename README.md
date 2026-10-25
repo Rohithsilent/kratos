@@ -130,6 +130,12 @@ The core libraries used in Kratos include:
 
 ## 🛠️ Run & Build Commands
 
+### Azure production deployment
+
+The FastAPI AI backend has a low-cost Azure Container Apps deployment guide,
+including PostgreSQL, secrets, migrations, GitHub Actions, and the exact Flutter
+release build command: [Azure for Students deployment guide](docs/azure-education-deployment.md).
+
 ### Running Locally
 To launch the application in debug mode on a connected device or emulator:
 ```bash

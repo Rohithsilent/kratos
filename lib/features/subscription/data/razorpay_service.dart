@@ -1,34 +1,27 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../../../core/providers/firebase_providers.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '../../../core/constants/subscription_constants.dart';
 
 final razorpayServiceProvider = Provider((ref) {
   return RazorpayService(
-    firestore: ref.watch(firestoreProvider),
     auth: ref.watch(firebaseAuthProvider),
   );
 });
 
 class RazorpayService {
-  final FirebaseFirestore _firestore;
   final FirebaseAuth _auth;
   late Razorpay _razorpay;
 
-  // Backend URL from environment variables
-  static String get backendUrl => dotenv.env['RAZORPAY_BACKEND_URL'] ?? 'http://localhost:3000';
+  static String get backendUrl => SubscriptionConstants.backendUrl;
 
   Function(String)? onPaymentSuccessCallback;
   Function(String)? onPaymentErrorCallback;
   
-  RazorpayService({required FirebaseFirestore firestore, required FirebaseAuth auth})
-      : _firestore = firestore,
-        _auth = auth {
+  RazorpayService({required FirebaseAuth auth}) : _auth = auth {
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
@@ -42,6 +35,12 @@ class RazorpayService {
     required String email,
   }) async {
     try {
+      if (!SubscriptionConstants.isCheckoutConfigured) {
+        onPaymentErrorCallback?.call(
+          'Subscriptions are not configured in this build. Please contact support.',
+        );
+        return;
+      }
       final user = _auth.currentUser;
       if (user == null) {
         if (onPaymentErrorCallback != null) {
@@ -76,7 +75,7 @@ class RazorpayService {
 
         // 2. Open Razorpay Checkout using the subscription_id
         var options = {
-          'key': dotenv.env['RAZORPAY_KEY_ID'], 
+          'key': SubscriptionConstants.keyId,
           'subscription_id': subscriptionId,
           'name': 'Kratos',
           'description': 'Kratos Subscription',

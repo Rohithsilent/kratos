@@ -76,8 +76,13 @@ services:
     env_file:
       - .env
     environment:
-      # Override DATABASE_URL to use Docker network hostname
-      DATABASE_URL: "postgresql+asyncpg://${POSTGRES_USER:-kratos}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-kratos_ai}"
+      # Settings build the URL from granular values, so use the Docker hostname.
+      POSTGRES_HOST: "postgres"
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: "${POSTGRES_DB:-kratos_ai}"
+      POSTGRES_USER: "${POSTGRES_USER:-kratos}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_SSL: "false"
       REDIS_URL: "redis://redis:6379/0"
     depends_on:
       postgres:

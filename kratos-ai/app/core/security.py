@@ -8,6 +8,7 @@ Provides:
 """
 from __future__ import annotations
 
+import json
 import os
 from typing import Optional
 
@@ -20,16 +21,24 @@ try:
     import firebase_admin
     from firebase_admin import auth as firebase_auth, credentials
 
+    _SERVICE_ACCOUNT_JSON = os.getenv("FIREBASE_SERVICE_ACCOUNT_JSON")
     _SERVICE_ACCOUNT = os.getenv("GOOGLE_APPLICATION_CREDENTIALS") or os.getenv(
         "FIREBASE_SERVICE_ACCOUNT_PATH", "firebase-service-account.json"
     )
     _PROJECT_ID = os.getenv("GOOGLE_CLOUD_PROJECT")
 
+    _firebase_credential_ready = bool(firebase_admin._apps)
     if not firebase_admin._apps:
         try:
-            cred = credentials.Certificate(_SERVICE_ACCOUNT)
+            credential_source = (
+                json.loads(_SERVICE_ACCOUNT_JSON)
+                if _SERVICE_ACCOUNT_JSON
+                else _SERVICE_ACCOUNT
+            )
+            cred = credentials.Certificate(credential_source)
             options = {"projectId": _PROJECT_ID} if _PROJECT_ID else {}
             firebase_admin.initialize_app(cred, options)
+            _firebase_credential_ready = True
             logger.info("Firebase Admin SDK initialised from {}", _SERVICE_ACCOUNT)
         except Exception as exc:
             # Fallback: use Application Default Credentials (GCP environments)
@@ -48,6 +57,12 @@ try:
 except ImportError:
     logger.error("firebase-admin not installed. Auth is disabled.")
     _firebase_available = False
+    _firebase_credential_ready = False
+
+
+def firebase_is_ready() -> bool:
+    """Return whether Firebase Admin has explicit usable credentials."""
+    return _firebase_available and _firebase_credential_ready
 
 
 # ── Token extractor ───────────────────────────────────────────────────────────

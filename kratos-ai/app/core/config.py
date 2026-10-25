@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     APP_NAME: str = "KRATOS AI"
     APP_VERSION: str = "2.0.0"
     DEBUG: bool = False
+    ENVIRONMENT: str = "development"
     API_V1_PREFIX: str = "/api/v1"
 
     # ── PostgreSQL (AI Intelligence Database) ────────────────────────────────
@@ -22,6 +23,9 @@ class Settings(BaseSettings):
     POSTGRES_DB: str = "kratos_ai"
     POSTGRES_USER: str = "kratos"
     POSTGRES_PASSWORD: str = Field(..., description="PostgreSQL password")
+    # Azure Database for PostgreSQL requires TLS. Keep local Compose simple and
+    # turn this on explicitly in every cloud environment.
+    POSTGRES_SSL: bool = False
 
     # Connection pool tuning
     DB_POOL_SIZE: int = 5
@@ -81,7 +85,28 @@ class Settings(BaseSettings):
     SENTRY_DSN: str = ""
 
     # ── CORS ─────────────────────────────────────────────────────────────────
-    ALLOWED_ORIGINS: list[str] = ["*"]
+    # Native Flutter clients do not require CORS. Web deployments must set their
+    # exact HTTPS origin; an empty default is safer than a public wildcard.
+    ALLOWED_ORIGINS: list[str] = []
+
+    @property
+    def is_production(self) -> bool:
+        return self.ENVIRONMENT.lower() == "production"
+
+    def validate_production_settings(self) -> None:
+        """Fail early when a deployment is missing mandatory production config."""
+        if not self.is_production:
+            return
+        if not self.get_gemini_api_keys:
+            raise RuntimeError("GEMINI_API_KEY or GEMINI_API_KEYS is required in production.")
+        if not self.POSTGRES_SSL:
+            raise RuntimeError("POSTGRES_SSL=true is required in production.")
+        if "*" in self.ALLOWED_ORIGINS or any(
+            not origin.startswith("https://") for origin in self.ALLOWED_ORIGINS
+        ):
+            raise RuntimeError(
+                "ALLOWED_ORIGINS must contain only explicit HTTPS origins in production."
+            )
 
 
 settings = Settings()

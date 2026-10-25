@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/providers/firebase_providers.dart';
 import '../../auth/data/auth_repository.dart';
 import '../domain/subscription_model.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '../../../core/constants/subscription_constants.dart';
 
 final subscriptionServiceProvider = Provider((ref) {
   return SubscriptionService(
@@ -45,12 +45,12 @@ class SubscriptionService {
   }
   
   bool isPlanPro(String planId) {
-    return planId == dotenv.env['RAZORPAY_PLAN_PRO_MONTHLY'] || 
-           planId == dotenv.env['RAZORPAY_PLAN_PRO_YEARLY'];
+    return planId == SubscriptionConstants.proMonthlyPlanId ||
+           planId == SubscriptionConstants.proYearlyPlanId;
   }
 
   bool isPlanPremium(String planId) {
-    return planId == dotenv.env['RAZORPAY_PLAN_PREMIUM_MONTHLY'] || 
-           planId == dotenv.env['RAZORPAY_PLAN_PREMIUM_YEARLY'];
+    return planId == SubscriptionConstants.premiumMonthlyPlanId ||
+           planId == SubscriptionConstants.premiumYearlyPlanId;
   }
 }
