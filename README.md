@@ -17,7 +17,7 @@ The app features a meticulously crafted dark theme designed to offer an immersiv
 *   **Multi-Method Auth**: Supports traditional Email & Password, Google Sign-in, and true Firebase SMS OTP verification.
 *   **Verification Safeguards**: Integrates email verification checkpoints to ensure account validity before accessing the dashboard.
 *   **Google Sign-up Protection**: Implements data-preservation layers to prevent physical metrics loss during Google Account registration.
-*   **Onboarding Flow**: Stepped wizard that collects user goal preferences and baseline physical metrics (weight, height, target weight, activity levels) to initialize the profile.
+*   **Onboarding Flow**: Stepped wizard that collects user goal preferences and baseline physical metrics (weight, height, activity levels) to initialize the profile.
 
 ### 📊 2. Premium Dashboard & Daily Planner
 *   **Unified Dashboard**: High-fidelity landing interface showing daily highlights, workout streaks, quick actions, and physical stats.
